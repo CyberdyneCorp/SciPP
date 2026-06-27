@@ -141,7 +141,7 @@ ScyPP SHALL port `scipy.signal`: convolution/correlation (`convolve`/`fftconvolv
 ### Requirement: sparse parity (Phase 9)
 
 ScyPP SHALL port `scipy.sparse`: sparse array/matrix formats (CSR/CSC/COO/DIA/LIL/
-BSR) with construction and conversion, arithmetic and SpMV/SpMM, `sparse.linalg`
+BSR) with construction and conversion, arithmetic and SpMV, `sparse.linalg`
 (`spsolve`/`cg`/`gmres`/`eigsh`/`svds`), and `sparse.csgraph` (shortest paths,
 connected components, MST) — with GPU-accelerable CSR SpMV. (oracle: scipy/sparse)
 
@@ -179,9 +179,9 @@ with GPU-accelerable separable convolution. (oracle: scipy/ndimage)
 ### Requirement: cluster, io, and datasets parity (Phase 12)
 
 ScyPP SHALL port `scipy.cluster` (`kmeans`/`kmeans2`/`vq`, hierarchical `linkage`/
-`fcluster`/`dendrogram`), `scipy.io` (Matrix Market, WAV, ARFF, and MATLAB
-`loadmat`/`savemat`), and `scipy.datasets` (sample datasets). (oracle: scipy/cluster,
-scipy/io, scipy/datasets)
+`fcluster`/`dendrogram`), `scipy.io` (Matrix Market, WAV, ARFF), and
+`scipy.datasets` (sample datasets). MATLAB `.mat` read/write (`loadmat`/`savemat`)
+is out of scope. (oracle: scipy/cluster, scipy/io, scipy/datasets)
 
 #### Scenario: Clustering and I/O round-trip match SciPy
 - GIVEN sample data

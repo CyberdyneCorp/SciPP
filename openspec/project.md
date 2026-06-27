@@ -40,7 +40,7 @@ ported into the `scypp::<name>` namespace:
 | fftpack | `scipy/fftpack` | Legacy FFT API |
 | integrate | `scipy/integrate` | Quadrature, ODE (`solve_ivp`), BVP |
 | interpolate | `scipy/interpolate` | 1-D/N-D interpolation and splines |
-| io | `scipy/io` | File I/O (MATLAB, WAV, Matrix Market, ARFF, NetCDF) |
+| io | `scipy/io` | File I/O (Matrix Market, WAV, ARFF); MATLAB `.mat` out of scope |
 | linalg | `scipy/linalg` | Dense linear algebra, decompositions, matrix functions (BLAS/LAPACK + GPU) |
 | ndimage | `scipy/ndimage` | N-dimensional image processing (filters, morphology, measurements) |
 | optimize | `scipy/optimize` | Minimization, root finding, least squares, linear/MILP |

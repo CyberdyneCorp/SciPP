@@ -28,8 +28,8 @@ is strictly additive.
 
 ## Dependency model: ScyPP on NumPP
 
-NumPP is consumed as a first-class CMake dependency (Conan/vcpkg package, or
-`add_subdirectory` for a vendored checkout). The contract:
+NumPP is consumed as a **pinned Conan/vcpkg release dependency** (decided — see
+below), resolved via `find_package`, not vendored. The contract:
 
 - ScyPP public APIs take and return `numpp::ndarray`. There is **no** ScyPP array
   type. `scypp::linalg::lu(A)` accepts a `numpp::ndarray` and returns
@@ -133,12 +133,17 @@ come next as the most acceleration-sensitive and most widely depended-upon
 numerical kernels. The remaining subpackages follow roughly in dependency order,
 with `io`/`datasets`/`cluster` last as the least entangled.
 
-## Open questions
+## Resolved decisions
 
-- **NumPP packaging**: consume NumPP via Conan/vcpkg release vs. vendored
-  `add_subdirectory`? Default to a pinned Conan dependency; revisit if the GPU
-  flag propagation needs a monorepo build.
-- **Sparse on GPU**: start with CSR SpMV only; defer cuSPARSE/clSPARSE-class
-  coverage to a dedicated later change.
-- **`io.matlab`**: porting the full MAT v4/v5/v7.3 reader is large; may be split
-  out of the Phase 12 `io` change into its own.
+- **NumPP packaging** → **pinned Conan/vcpkg release dependency.** NumPP is
+  consumed as a versioned package (not a vendored `add_subdirectory`); ScyPP pins
+  an exact NumPP version and resolves it via `find_package`. GPU flag propagation
+  (`SCYPP_WITH_<GPU>` → `NUMPP_WITH_<GPU>`) is honored by requiring a NumPP
+  package variant/option built with the matching backend; configuration fails
+  fast if the resolved NumPP package lacks the requested backend.
+- **Sparse on GPU** → **CSR SpMV only** in the first `sparse` change. SpMM,
+  sparse factorizations, and cuSPARSE/clSPARSE-class coverage are deferred to a
+  dedicated later change.
+- **`io.matlab`** → **out of scope.** The Phase 12 `io` change ports Matrix
+  Market, WAV, and ARFF only. MATLAB `.mat` (v4/v5/v7.3) read/write is dropped
+  from the roadmap; if wanted later it is a separate, standalone change.

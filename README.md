@@ -85,7 +85,7 @@ namespace. See [`openspec/project.md`](openspec/project.md) for the full map.
 | `sparse` | CSR/CSC/COO formats, `sparse.linalg`, `csgraph` (GPU SpMV) |
 | `spatial` | KD-trees, distances, ConvexHull/Delaunay/Voronoi, rotations |
 | `ndimage` | Filters, morphology, measurements (GPU separable convolution) |
-| `cluster` · `io` · `datasets` | k-means/hierarchical, MAT/WAV/MM I/O, sample datasets |
+| `cluster` · `io` · `datasets` | k-means/hierarchical, Matrix Market/WAV/ARFF I/O, sample datasets |
 
 ## Project status
 

@@ -5,7 +5,8 @@
 ### Project skeleton & build
 - [ ] CMake ≥ 3.25 / C++20 project; `include/scypp/` + `src/<subpackage>/` layout with reserved subpackage dirs
 - [ ] Generated `config.hpp` with `SCYPP_WITH_{BLAS,LAPACK,CUDA,OPENCL,METAL}` flags (default OFF)
-- [ ] NumPP wired as a dependency (Conan `conanfile.py` + `vcpkg.json`), umbrella `scypp/scypp.hpp`, `version.hpp.in`
+- [ ] NumPP wired as a **pinned Conan/vcpkg release dependency** resolved via `find_package` (not vendored), umbrella `scypp/scypp.hpp`, `version.hpp.in`
+- [ ] Configure-time check: requested GPU flag requires a NumPP package variant built with the matching `NUMPP_WITH_<GPU>`; fail fast otherwise
 - [ ] GPU flag propagation: `SCYPP_WITH_<GPU>` enables the matching `NUMPP_WITH_<GPU>`
 - [ ] CPU-only build verified green (all backend flags OFF); iOS/Android cross-compile contract documented
 
@@ -40,4 +41,4 @@
 - [ ] **Phase 9** — `sparse` (CSR/CSC/COO/DIA/LIL/BSR, sparse.linalg spsolve/cg/gmres/eigsh/svds, csgraph; GPU SpMV)
 - [ ] **Phase 10** — `spatial` (KDTree, cdist/pdist/squareform, ConvexHull/Delaunay/Voronoi, transform.Rotation; GPU distances)
 - [ ] **Phase 11** — `ndimage` (gaussian/uniform/median filters, morphology, label/measurements, zoom/rotate/affine; GPU separable convolution)
-- [ ] **Phase 12** — `cluster` (kmeans/vq, hierarchical linkage), `io` (mmread/wavfile/arff/loadmat/savemat), `datasets`; hardening, docs, v1.0 packaging
+- [ ] **Phase 12** — `cluster` (kmeans/vq, hierarchical linkage), `io` (mmread/wavfile/arff; MATLAB `.mat` out of scope), `datasets`; hardening, docs, v1.0 packaging
