@@ -17,7 +17,10 @@ add_library(scypp
   optimize/roots_scalar.cpp
   optimize/minimize_scalar.cpp
   optimize/minimize.cpp
-  optimize/least_squares.cpp)
+  optimize/least_squares.cpp
+  integrate/quadrature.cpp
+  integrate/solve_ivp.cpp
+  integrate/differentiate.cpp)
 
 add_library(scypp::scypp ALIAS scypp)
 

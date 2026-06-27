@@ -38,9 +38,9 @@ auto [P, L, U] = scypp::linalg::lu(Asq);      // explicit P·L·U
 ndarray E      = scypp::linalg::expm(Asq);    // matrix exponential
 ```
 
-> Phases 1–4 (`special`, `constants`, `linalg`, `fft`, `optimize`) are
-> implemented. The APIs for `integrate`, `interpolate`, `stats`, … are on the
-> roadmap.
+> Phases 1–5 (`special`, `constants`, `linalg`, `fft`, `optimize`, `integrate`,
+> `differentiate`) are implemented. The APIs for `interpolate`, `stats`,
+> `signal`, … are on the roadmap.
 
 ## Why ScyPP
 
@@ -102,7 +102,7 @@ namespace. See [`openspec/project.md`](openspec/project.md) for the full map.
 
 ## Project status
 
-**Phases 1–4 shipped** (built on NumPP, validated against SciPy 1.15 — **955
+**Phases 1–5 shipped** (built on NumPP, validated against SciPy 1.15 — **1029
 oracle checks, 0 divergences**):
 
 - **Phase 1** — `scypp::special` (gamma/erf/Bessel/exponential integrals/
@@ -120,6 +120,9 @@ oracle checks, 0 divergences**):
 - **Phase 4** — `scypp::optimize`: scalar root finders (`brentq`/`bisect`/`newton`),
   `minimize_scalar` (brent/bounded), `minimize` (Nelder–Mead/BFGS), and nonlinear
   least squares (`least_squares`/`curve_fit`/`fsolve`).
+- **Phase 5** — `scypp::integrate` + `scypp::differentiate`: fixed-sample and
+  adaptive quadrature (`trapezoid`/`simpson`/`quad`/`fixed_quad`), explicit ODE
+  solvers (`solve_ivp` RK45/RK23), and `derivative`/`jacobian`/`hessian`.
 
 The architecture, CUDA/OpenCL/Metal backend strategy, and the full parity roadmap
 are specified with **OpenSpec** under [`openspec/`](openspec/). Each remaining

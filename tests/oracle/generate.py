@@ -15,6 +15,7 @@ import scipy.constants as spc
 import scipy.linalg as sla
 import scipy.fft as spf
 import scipy.optimize as spo
+import scipy.integrate as spi
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 ROOT = os.path.abspath(os.path.join(HERE, "..", ".."))
@@ -256,6 +257,20 @@ def main():
     # fsolve: x^2+y^2-4=0, x-y=0  -> (sqrt2, sqrt2)
     fs = spo.fsolve(lambda v: [v[0] ** 2 + v[1] ** 2 - 4.0, v[0] - v[1]], [1.0, 1.0])
     emit_mat(out, "opt_fsolve", np.asarray(fs).reshape(-1, 1))
+
+    # ---- integrate ----
+    # fixed-sample quadrature on an odd-length grid (even #intervals)
+    ig_x = np.linspace(0.0, np.pi, 21)
+    ig_y = np.sin(ig_x)
+    emit_vec("ig_x", ig_x)
+    emit_vec("ig_y", ig_y)
+    emit_scalar(out, "ig_trapz", spi.trapezoid(ig_y, ig_x))
+    emit_scalar(out, "ig_simpson", spi.simpson(ig_y, x=ig_x))
+    emit_vec("ig_cumtrapz", spi.cumulative_trapezoid(ig_y, ig_x, initial=0.0))
+    # adaptive quad: ∫_0^1 4/(1+x^2) dx = pi ; ∫_0^2 x^3 dx = 4
+    emit_scalar(out, "ig_quad_pi", spi.quad(lambda x: 4.0 / (1.0 + x * x), 0.0, 1.0)[0])
+    emit_scalar(out, "ig_quad_exp", spi.quad(lambda x: np.exp(-x * x), 0.0, 2.0)[0])
+    emit_scalar(out, "ig_fixed_quad", spi.fixed_quad(lambda x: x**3, 0.0, 2.0, n=5)[0])
 
     out.append("}  // namespace golden")
     os.makedirs(os.path.dirname(GOLDEN), exist_ok=True)
