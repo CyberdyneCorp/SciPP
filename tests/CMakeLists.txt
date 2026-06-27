@@ -11,7 +11,8 @@ add_executable(scypp_tests
   test_signal.cpp
   test_signal_extras.cpp
   test_sparse.cpp
-  test_spatial.cpp)
+  test_spatial.cpp
+  test_ndimage.cpp)
 
 target_link_libraries(scypp_tests PRIVATE scypp::scypp numpp::numpp)
 

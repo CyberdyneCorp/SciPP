@@ -49,7 +49,11 @@ add_library(scypp
   spatial/distance.cpp
   spatial/kdtree.cpp
   spatial/geometry.cpp
-  spatial/rotation.cpp)
+  spatial/rotation.cpp
+  ndimage/filters.cpp
+  ndimage/morphology.cpp
+  ndimage/measurements.cpp
+  ndimage/interpolation.cpp)
 
 add_library(scypp::scypp ALIAS scypp)
 

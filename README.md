@@ -38,9 +38,9 @@ auto [P, L, U] = scypp::linalg::lu(Asq);      // explicit P·L·U
 ndarray E      = scypp::linalg::expm(Asq);    // matrix exponential
 ```
 
-> Phases 1–10 (`special`, `constants`, `linalg`, `fft`, `optimize`, `integrate`,
-> `differentiate`, `interpolate`, `stats`, `signal`, `sparse`, `spatial`) are
-> implemented. The APIs for `ndimage`, `cluster`/`io` are on the roadmap.
+> Phases 1–11 (`special`, `constants`, `linalg`, `fft`, `optimize`, `integrate`,
+> `differentiate`, `interpolate`, `stats`, `signal`, `sparse`, `spatial`, `ndimage`)
+> are implemented. The APIs for `cluster`/`io`/`datasets` are on the roadmap.
 
 ## Why ScyPP
 
@@ -102,7 +102,7 @@ namespace. See [`openspec/project.md`](openspec/project.md) for the full map.
 
 ## Project status
 
-**Phases 1–10 shipped** (built on NumPP, validated against SciPy 1.15 — **3596
+**Phases 1–11 shipped** (built on NumPP, validated against SciPy 1.15 — **4825
 oracle checks, 0 divergences**):
 
 - **Phase 1** — `scypp::special` (gamma/erf/Bessel/exponential integrals/
@@ -145,6 +145,10 @@ oracle checks, 0 divergences**):
 - **Phase 10** — `scypp::spatial`: distances (`pdist`/`cdist`/`squareform` + metrics
   with backend dispatch), `KDTree`, 2-D `ConvexHull`/`Delaunay`, and 3-D rotations
   (`transform::Rotation` quat/matrix/euler/rotvec + `apply`/`inv`/compose/`Slerp`).
+- **Phase 11** — `scypp::ndimage`: filters (`gaussian`/`uniform`/`median`/`sobel`/…
+  with boundary modes + dispatch), morphology (binary/grey + `distance_transform_edt`),
+  measurements (`label`/`center_of_mass`), and order-0/1 geometric transforms
+  (`shift`/`zoom`/`rotate`/`affine_transform`/`map_coordinates`).
 
 The architecture, CUDA/OpenCL/Metal backend strategy, and the full parity roadmap
 are specified with **OpenSpec** under [`openspec/`](openspec/). Each remaining

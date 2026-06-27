@@ -24,6 +24,7 @@ import scipy.sparse.linalg as sspl
 import scipy.sparse.csgraph as sscg
 from scipy.spatial import KDTree, ConvexHull, Delaunay, distance as spd
 from scipy.spatial.transform import Rotation as spR, Slerp as spSlerp
+import scipy.ndimage as sni
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 ROOT = os.path.abspath(os.path.join(HERE, "..", ".."))
@@ -615,6 +616,52 @@ def main():
     key_r = spR.from_euler("z", [0, 90, 180], degrees=True)
     sl = spSlerp(key_t, key_r)
     emit_vec("sa_slerp_apply", sl(0.7).apply([1., 0., 0.]))
+
+    # ---- ndimage ----
+    rng = np.random.default_rng(1)
+    I = np.array([[1., 2., 3., 4., 5.], [2., 4., 6., 8., 10.], [1., 3., 5., 7., 9.],
+                  [0., 2., 4., 6., 8.], [5., 4., 3., 2., 1.]])
+    emit_mat(out, "ni_I", I)
+    for m in ["reflect", "nearest", "mirror", "wrap", "constant"]:
+        emit_mat(out, f"ni_gauss_{m}", sni.gaussian_filter(I, 1.0, mode=m))
+    emit_mat(out, "ni_uniform", sni.uniform_filter(I, 3))
+    emit_mat(out, "ni_median", sni.median_filter(I, 3))
+    emit_mat(out, "ni_minimum", sni.minimum_filter(I, 3))
+    emit_mat(out, "ni_maximum", sni.maximum_filter(I, 3))
+    emit_mat(out, "ni_sobel0", sni.sobel(I, axis=0))
+    emit_mat(out, "ni_sobel1", sni.sobel(I, axis=1))
+    emit_mat(out, "ni_laplace", sni.laplace(I))
+    emit_vec("ni_corr1d", sni.correlate1d(I[0], np.array([1., 2., 1.])))
+
+    # morphology
+    B = np.array([[0., 0., 0., 0., 0.], [0., 1., 1., 1., 0.], [0., 1., 1., 1., 0.],
+                  [0., 1., 1., 1., 0.], [0., 0., 0., 0., 0.]])
+    emit_mat(out, "ni_B", B)
+    emit_mat(out, "ni_erosion", sni.binary_erosion(B).astype(float))
+    emit_mat(out, "ni_dilation", sni.binary_dilation(B).astype(float))
+    emit_mat(out, "ni_opening", sni.binary_opening(B).astype(float))
+    emit_mat(out, "ni_grey_erosion", sni.grey_erosion(I, size=3))
+    emit_mat(out, "ni_edt", sni.distance_transform_edt(B))
+
+    # measurements
+    Limg = np.array([[1., 1., 0., 0., 1.], [1., 0., 0., 1., 1.], [0., 0., 0., 0., 0.],
+                     [1., 1., 0., 1., 0.], [1., 0., 0., 1., 0.]])
+    emit_mat(out, "ni_Limg", Limg)
+    lab, num = sni.label(Limg)
+    emit_scalar(out, "ni_label_num", float(num))
+    emit_mat(out, "ni_label", lab.astype(float))
+    emit_vec("ni_com", np.array(sni.center_of_mass(I)))
+    emit_scalar(out, "ni_sum", float(sni.sum(I)))
+
+    # geometric transforms (order 0 and 1)
+    emit_mat(out, "ni_shift1", sni.shift(I, [1.0, 0.5], order=1))
+    emit_mat(out, "ni_affine1", sni.affine_transform(I, np.array([[1., 0.2], [-0.1, 1.]]),
+                                                     offset=[0.3, -0.2], order=1))
+    emit_mat(out, "ni_zoom1", sni.zoom(I, 1.5, order=1))
+    emit_mat(out, "ni_rotate1", sni.rotate(I, 30.0, order=1, reshape=False))
+    coords = np.array([[0.5, 1.5, 2.2, 3.0], [1.0, 2.5, 0.8, 4.0]])
+    emit_mat(out, "ni_coords", coords)
+    emit_vec("ni_mapcoord", sni.map_coordinates(I, coords, order=1))
 
     out.append("}  // namespace golden")
     os.makedirs(os.path.dirname(GOLDEN), exist_ok=True)
