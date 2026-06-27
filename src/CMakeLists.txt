@@ -30,6 +30,8 @@ add_library(scypp
   stats/descriptive.cpp
   stats/tests.cpp
   stats/kde.cpp
+  stats/discrete.cpp
+  stats/ranktests.cpp
   signal/convolution.cpp
   signal/windows.cpp
   signal/waveforms.cpp

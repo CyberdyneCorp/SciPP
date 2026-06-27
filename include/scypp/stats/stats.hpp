@@ -84,6 +84,55 @@ struct f {
   static double mean(double dfn, double dfd, double loc = 0, double scale = 1);
 };
 
+// ---- discrete distributions ----
+struct binom {
+  static double pmf(int k, int n, double p);
+  static double logpmf(int k, int n, double p);
+  static double cdf(int k, int n, double p);
+  static double sf(int k, int n, double p);
+  static int ppf(double q, int n, double p);
+  static double mean(int n, double p);
+  static double var(int n, double p);
+};
+struct poisson {
+  static double pmf(int k, double mu);
+  static double logpmf(int k, double mu);
+  static double cdf(int k, double mu);
+  static double sf(int k, double mu);
+  static int ppf(double q, double mu);
+  static double mean(double mu);
+  static double var(double mu);
+};
+struct geom {
+  static double pmf(int k, double p);
+  static double cdf(int k, double p);
+  static double sf(int k, double p);
+  static int ppf(double q, double p);
+  static double mean(double p);
+  static double var(double p);
+};
+struct bernoulli {
+  static double pmf(int k, double p);
+  static double cdf(int k, double p);
+  static double mean(double p);
+  static double var(double p);
+};
+struct nbinom {
+  static double pmf(int k, double n, double p);
+  static double logpmf(int k, double n, double p);
+  static double cdf(int k, double n, double p);
+  static double sf(int k, double n, double p);
+  static double mean(double n, double p);
+  static double var(double n, double p);
+};
+struct hypergeom {
+  static double pmf(int k, int M, int n, int N);
+  static double cdf(int k, int M, int n, int N);
+  static double sf(int k, int M, int n, int N);
+  static double mean(int M, int n, int N);
+  static double var(int M, int n, int N);
+};
+
 // ---- summary statistics ----
 struct DescribeResult { int nobs; double minv, maxv, mean, variance, skewness, kurtosis; };
 double gmean(const ndarray& a);
@@ -116,6 +165,12 @@ TestResult f_oneway(const std::vector<ndarray>& groups);
 TestResult ks_2samp(const ndarray& a, const ndarray& b);
 Chi2ContingencyResult chi2_contingency(const ndarray& table);
 TestResult normaltest(const ndarray& a);
+
+// ---- nonparametric rank tests ----
+TestResult mannwhitneyu(const ndarray& x, const ndarray& y);
+TestResult wilcoxon(const ndarray& x, const ndarray& y);
+TestResult kruskal(const std::vector<ndarray>& groups);
+CorrResult kendalltau(const ndarray& x, const ndarray& y);
 
 // ---- density estimation ----
 class gaussian_kde {
