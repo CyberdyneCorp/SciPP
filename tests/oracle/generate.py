@@ -448,6 +448,79 @@ def main():
     fw, Pw = ssg.welch(sig, fs=50.0, nperseg=16)
     emit_vec("sg_welch_f", fw); emit_vec("sg_welch_P", Pw)
 
+    # ---- signal extras ----
+    se_t = np.linspace(0, 1, 64, endpoint=False)
+    se_sig = np.sin(2 * np.pi * 4 * se_t) + 0.3 * np.sin(2 * np.pi * 13 * se_t)
+    se_sig2 = np.sin(2 * np.pi * 4 * se_t + 0.5) + 0.2 * np.cos(2 * np.pi * 9 * se_t)
+    emit_vec("se_sig", se_sig); emit_vec("se_sig2", se_sig2)
+
+    fcs, Pcs = ssg.csd(se_sig, se_sig2, fs=64.0, nperseg=32)
+    emit_vec("se_csd_f", fcs); emit_vec("se_csd_re", Pcs.real); emit_vec("se_csd_im", Pcs.imag)
+    fco, Cco = ssg.coherence(se_sig, se_sig2, fs=64.0, nperseg=32)
+    emit_vec("se_coh", Cco)
+    fsp, tsp, Ssp = ssg.spectrogram(se_sig, fs=64.0, nperseg=32)
+    emit_vec("se_spec_f", fsp); emit_vec("se_spec_t", tsp); emit_mat(out, "se_spec_S", Ssp)
+    fst, tst, Zst = ssg.stft(se_sig, fs=64.0, nperseg=32)
+    emit_mat(out, "se_stft_re", Zst.real); emit_mat(out, "se_stft_im", Zst.imag)
+    _, xrec = ssg.istft(Zst, fs=64.0, nperseg=32)
+    emit_vec("se_istft", xrec[:64])
+
+    # peaks
+    pk_x = np.array([0., 1., 0., 2., 1., 3., 0., 1., 4., 1., 0., 2., 0.])
+    emit_vec("se_pk_x", pk_x)
+    pk, _ = ssg.find_peaks(pk_x)
+    emit_vec("se_peaks", pk.astype(float))
+    pk2, _ = ssg.find_peaks(pk_x, height=2.0)
+    emit_vec("se_peaks_h", pk2.astype(float))
+    prom = ssg.peak_prominences(pk_x, pk)[0]
+    emit_vec("se_prom", prom)
+    wid = ssg.peak_widths(pk_x, pk)[0]
+    emit_vec("se_width", wid)
+
+    # LTI: H(s) = 1/(s^2 + 0.5 s + 1)
+    num = [1.0]; den = [1.0, 0.5, 1.0]
+    lw = np.logspace(-1, 1, 32)
+    _, lh = ssg.freqresp((num, den), w=lw)
+    emit_vec("se_fr_re", lh.real); emit_vec("se_fr_im", lh.imag)
+    _, lmag, lph = ssg.bode((num, den), w=lw)
+    emit_vec("se_bode_mag", lmag); emit_vec("se_bode_ph", lph)
+    lt = np.linspace(0, 20, 60)
+    _, lstep = ssg.step((num, den), T=lt)
+    emit_vec("se_step", lstep)
+    _, limp = ssg.impulse((num, den), T=lt)
+    emit_vec("se_impulse", limp)
+    lu = np.sin(lt)
+    _, ly, _ = ssg.lsim((num, den), U=lu, T=lt)
+    emit_vec("se_lsim", ly)
+
+    # resampling
+    emit_vec("se_resample", ssg.resample(se_sig, 96))
+    emit_vec("se_resample_poly", ssg.resample_poly(se_sig, 3, 2))
+    emit_vec("se_decimate", ssg.decimate(se_sig, 2))
+    uh = np.array([0.25, 0.5, 0.25]); ux = np.array([1.0, 2.0, 3.0, 4.0])
+    emit_vec("se_uh", uh); emit_vec("se_ux", ux)
+    emit_vec("se_upfirdn", ssg.upfirdn(uh, ux, 2, 1))
+
+    # ellip / bessel: validate by freqz magnitude response
+    be, ae = ssg.ellip(4, 1, 40, 0.3, btype="low")
+    we, he = ssg.freqz(be, ae, worN=48)
+    emit_vec("se_ellip_mag", np.abs(he))
+    bb, ab = ssg.bessel(4, 0.3, btype="low")
+    wb, hb = ssg.freqz(bb, ab, worN=48)
+    emit_vec("se_bessel_mag", np.abs(hb))
+
+    # savgol / medfilt / wiener / 2-D
+    emit_vec("se_savgol_coeffs", ssg.savgol_coeffs(7, 2))
+    emit_vec("se_savgol", ssg.savgol_filter(se_sig, 7, 2))
+    emit_vec("se_medfilt", ssg.medfilt(se_sig, 5))
+    emit_vec("se_wiener", ssg.wiener(se_sig, 5))
+    A2 = np.array([[1., 2., 3.], [4., 5., 6.], [7., 8., 9.]])
+    B2 = np.array([[1., 0.], [0., -1.]])
+    emit_mat(out, "se_A2", A2); emit_mat(out, "se_B2", B2)
+    emit_mat(out, "se_conv2d", ssg.convolve2d(A2, B2, mode="full"))
+    emit_mat(out, "se_conv2d_same", ssg.convolve2d(A2, B2, mode="same"))
+    emit_mat(out, "se_corr2d", ssg.correlate2d(A2, B2, mode="full"))
+
     out.append("}  // namespace golden")
     os.makedirs(os.path.dirname(GOLDEN), exist_ok=True)
     with open(GOLDEN, "w") as f:

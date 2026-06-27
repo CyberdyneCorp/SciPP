@@ -8,7 +8,8 @@ add_executable(scypp_tests
   test_integrate.cpp
   test_interpolate.cpp
   test_stats.cpp
-  test_signal.cpp)
+  test_signal.cpp
+  test_signal_extras.cpp)
 
 target_link_libraries(scypp_tests PRIVATE scypp::scypp numpp::numpp)
 

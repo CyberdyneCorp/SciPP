@@ -35,7 +35,13 @@ add_library(scypp
   signal/waveforms.cpp
   signal/filter.cpp
   signal/design.cpp
-  signal/spectral.cpp)
+  signal/spectral.cpp
+  signal/filter2.cpp
+  signal/resample.cpp
+  signal/peaks.cpp
+  signal/lti.cpp
+  signal/spectral2.cpp
+  signal/design2.cpp)
 
 add_library(scypp::scypp ALIAS scypp)
 

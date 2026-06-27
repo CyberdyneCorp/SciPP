@@ -3,6 +3,7 @@
 // waveforms, time-domain filtering, filter design, and spectral estimation.
 
 #include <cstdint>
+#include <optional>
 #include <string>
 #include <vector>
 
@@ -65,5 +66,65 @@ ndarray tf2sos(const ndarray& b, const ndarray& a);
 SpectralResult periodogram(const ndarray& x, double fs = 1.0, const std::string& window = "boxcar");
 SpectralResult welch(const ndarray& x, double fs = 1.0, const std::string& window = "hann",
                      int64_t nperseg = 256);
+
+// ---- advanced spectral (signal extras) ----
+struct CsdResult { ndarray f, Pxy; };               // Pxy complex
+SpectralResult coherence(const ndarray& x, const ndarray& y, double fs = 1.0,
+                         const std::string& window = "hann", int64_t nperseg = 256);
+CsdResult csd(const ndarray& x, const ndarray& y, double fs = 1.0,
+              const std::string& window = "hann", int64_t nperseg = 256);
+struct SpectrogramResult { ndarray f, t, Sxx; };    // Sxx (nf, nseg)
+SpectrogramResult spectrogram(const ndarray& x, double fs = 1.0,
+                              const std::string& window = "tukey", int64_t nperseg = 256);
+struct StftResult { ndarray f, t, Zxx; };           // Zxx complex (nf, nseg)
+StftResult stft(const ndarray& x, double fs = 1.0, const std::string& window = "hann",
+                int64_t nperseg = 256);
+ndarray istft(const ndarray& Zxx, double fs = 1.0, const std::string& window = "hann",
+              int64_t nperseg = 256);
+
+// ---- peak analysis ----
+struct FindPeaksResult { ndarray peaks, prominences, widths, left_bases, right_bases; };
+FindPeaksResult find_peaks(const ndarray& x, std::optional<double> height = std::nullopt,
+                           std::optional<int64_t> distance = std::nullopt,
+                           std::optional<double> prominence = std::nullopt,
+                           std::optional<double> width = std::nullopt);
+struct ProminencesResult { ndarray prominences, left_bases, right_bases; };
+ProminencesResult peak_prominences(const ndarray& x, const ndarray& peaks);
+struct WidthsResult { ndarray widths, width_heights, left_ips, right_ips; };
+WidthsResult peak_widths(const ndarray& x, const ndarray& peaks, double rel_height = 0.5);
+
+// ---- LTI systems (continuous-time transfer function) ----
+struct TransferFunction { ndarray num, den; };
+struct StateSpace { ndarray A, B, C, D; };
+StateSpace tf2ss(const ndarray& num, const ndarray& den);
+struct FreqRespResult { ndarray w, h; };            // h complex
+FreqRespResult freqresp(const TransferFunction& sys, const ndarray& w);
+struct BodeResult { ndarray w, mag, phase; };
+BodeResult bode(const TransferFunction& sys, const ndarray& w);
+struct TimeResponse { ndarray t, y; };
+TimeResponse lsim(const TransferFunction& sys, const ndarray& u, const ndarray& t);
+TimeResponse step(const TransferFunction& sys, const ndarray& t);
+TimeResponse impulse(const TransferFunction& sys, const ndarray& t);
+
+// ---- resampling ----
+ndarray resample(const ndarray& x, int64_t num);
+ndarray upfirdn(const ndarray& h, const ndarray& x, int up = 1, int down = 1);
+ndarray resample_poly(const ndarray& x, int up, int down);
+ndarray decimate(const ndarray& x, int q);
+
+// ---- elliptic / Bessel design ----
+BA ellip(int N, double rp, double rs, const std::vector<double>& Wn,
+         const std::string& btype = "lowpass");
+BA bessel(int N, const std::vector<double>& Wn, const std::string& btype = "lowpass");
+
+// ---- Savitzky-Golay, median, Wiener, 2-D ----
+ndarray savgol_coeffs(int window_length, int polyorder, int deriv = 0);
+ndarray savgol_filter(const ndarray& x, int window_length, int polyorder, int deriv = 0);
+ndarray medfilt(const ndarray& x, int kernel_size = 3);
+ndarray wiener(const ndarray& x, int size = 3);
+ndarray convolve2d(const ndarray& a, const ndarray& b, const std::string& mode = "full",
+                   const std::string& boundary = "fill");
+ndarray correlate2d(const ndarray& a, const ndarray& b, const std::string& mode = "full",
+                    const std::string& boundary = "fill");
 
 }  // namespace scypp::signal

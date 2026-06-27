@@ -102,7 +102,7 @@ namespace. See [`openspec/project.md`](openspec/project.md) for the full map.
 
 ## Project status
 
-**Phases 1–8 shipped** (built on NumPP, validated against SciPy 1.15 — **2150
+**Phases 1–8 shipped** (built on NumPP, validated against SciPy 1.15 — **3214
 oracle checks, 0 divergences**):
 
 - **Phase 1** — `scypp::special` (gamma/erf/Bessel/exponential integrals/
@@ -132,8 +132,11 @@ oracle checks, 0 divergences**):
   `ks_2samp`/`chi2_contingency`/`normaltest`), and `gaussian_kde`.
 - **Phase 8** — `scypp::signal`: convolution, windows, waveforms, time-domain
   filtering (`lfilter`/`filtfilt`/`sosfilt`/`hilbert`/`freqz`), filter design
-  (`butter`/`cheby1`/`cheby2`/`firwin` + zpk conversions), and spectral estimation
-  (`welch`/`periodogram`).
+  (`butter`/`cheby1`/`cheby2`/`ellip`/`bessel`/`firwin` + zpk conversions), spectral
+  estimation (`welch`/`periodogram`/`csd`/`coherence`/`spectrogram`/`stft`), peak
+  analysis (`find_peaks`/`peak_prominences`/`peak_widths`), LTI systems
+  (`bode`/`step`/`impulse`/`lsim`), resampling (`resample`/`resample_poly`/
+  `decimate`/`upfirdn`), and `savgol_filter`/`medfilt`/`wiener`/`convolve2d`.
 
 The architecture, CUDA/OpenCL/Metal backend strategy, and the full parity roadmap
 are specified with **OpenSpec** under [`openspec/`](openspec/). Each remaining
