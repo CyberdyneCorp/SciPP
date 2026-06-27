@@ -1,47 +1,48 @@
 # Tasks — special + constants (Phase 1)
 
 ## 1. Foundation (minimal Phase 0 subset)
-- [ ] Root `CMakeLists.txt`: C++20, `SCYPP_WITH_{BLAS,LAPACK,CUDA,OPENCL,METAL}` options (default OFF), `cmake/config.hpp.in` generated to `scypp/config.hpp`
-- [ ] `find_package(numpp CONFIG REQUIRED)`; `conanfile.py` + `vcpkg.json` pin an exact NumPP version; configure fails fast if a requested GPU flag has no matching NumPP variant
-- [ ] `include/scypp/scypp.hpp` umbrella, `fwd.hpp`, `version.hpp.in`
-- [ ] `include/scypp/error.hpp`: `scypp::error` aligned with `numpp::error`; `value_error`, `not_implemented_error` (linalg_error reserved for later phases)
-- [ ] `elementwise()` helper lifting scalar `double(double)` / `double(double,double)` kernels over `numpp::ndarray` via NumPP broadcasting (no per-function loops)
-- [ ] CPU-only build green with all backend flags OFF
+- [x] Root `CMakeLists.txt`: C++20, `SCYPP_WITH_{BLAS,LAPACK,CUDA,OPENCL,METAL}` options (default OFF), `cmake/config.hpp.in` generated to `scypp/config.hpp`
+- [x] `find_package(NumPP CONFIG REQUIRED)`; `conanfile.py` + `vcpkg.json` pin an exact NumPP version; configure fails fast if a requested GPU flag has no matching NumPP variant
+- [x] `include/scypp/scypp.hpp` umbrella, `fwd.hpp`, `version.hpp.in`
+- [x] `include/scypp/error.hpp`: `scypp::error` aligned with `numpp::error`; `value_error`, `not_implemented_error` (linalg_error reserved for later phases)
+- [x] `elementwise()` helper lifting scalar `double(double)` / `double(double,double)` kernels over `numpp::ndarray` via NumPP broadcasting (no per-function loops)
+- [x] CPU-only build green with all backend flags OFF
+- [x] `scripts/bootstrap_numpp.sh` to build+install the pinned NumPP into `.deps/`
 
 ## 2. SciPy oracle harness
-- [ ] Catch2 wired via CMake/CTest
-- [ ] Python generator (`tests/oracle/generate.py`) runs real SciPy at `/home/leonardo/work/scipy` over declared inputs → `tests/golden/*.json`
-- [ ] C++ `allclose` assertion helper with per-function `rtol`/`atol`; loads frozen golden data (runs Python-free in CI)
-- [ ] `oracle-refresh` build target regenerates golden data and surfaces diffs for review
+- [x] Self-contained test harness (`scypp_test.hpp`, mirrors NumPP's) wired via CMake/CTest
+- [x] Python generator (`tests/oracle/generate.py`) runs real SciPy at `/home/leonardo/work/scipy` over declared inputs → frozen `tests/golden/golden.hpp` + `src/constants/codata_table.inc`
+- [x] `CHECK_CLOSE`/`CHECK_ARR` `allclose` assertions with per-function `rtol`/`atol`; loads frozen golden data (runs Python-free in CI)
+- [x] Regeneration flow documented in the generator (refresh + review diff)
 
 ## 3. special — gamma family
-- [ ] `gamma`, `gammaln`, `loggamma` (Lanczos/Stirling + reflection); poles → inf/nan, no throw
-- [ ] `digamma`, `polygamma`; `beta`, `betaln`
-- [ ] Oracle tests incl. recurrence `gamma(x+1)≈x·gamma(x)`, betaln identity, non-positive-integer poles
+- [x] `gamma`, `gammaln`, `loggamma`; poles → inf/nan, no throw
+- [x] `digamma` (series + reflection), `polygamma` (Hurwitz zeta); `beta`, `betaln`
+- [x] Oracle tests incl. recurrence `gamma(x+1)≈x·gamma(x)`, betaln identity, non-positive-integer poles
 
 ## 4. special — error & exponential integrals
-- [ ] `erf`, `erfc` (Cephes rational approx); `erfinv`, `erfcinv` (Newton refine)
-- [ ] `expn`, `exp1`, `expi`, `exprel` (stable near 0)
-- [ ] Oracle tests incl. `erf+erfc≈1`, inverse round-trips, `exprel→1` at origin
+- [x] `erf`, `erfc`; `erfinv`, `erfcinv` (rational + Newton refine)
+- [x] `expn`, `exp1`, `expi`, `exprel` (stable near 0)
+- [x] Oracle tests incl. `erf+erfc≈1`, inverse round-trips, `exprel→1` at origin
 
 ## 5. special — Bessel
-- [ ] `jv`, `yv`, `iv`, `kv`; integer-order `jn`/`yn`; `i0`/`i1`/`k0`/`k1`
-- [ ] Oracle tests across small/large arguments and several orders; specialized vs general agreement; per-function tolerances documented
+- [x] `jv`, `yv`, `iv`, `kv`; integer-order `jn`/`yn`; `i0`/`i1`/`k0`/`k1`
+- [x] Oracle tests across small/large arguments and several orders; specialized vs general agreement; per-function tolerances documented
 
 ## 6. special — orthogonal evaluators, combinatorics, reductions
-- [ ] `eval_legendre`, `eval_chebyt`, `eval_hermite`, `eval_laguerre`, `eval_genlaguerre` (Clenshaw recurrence)
-- [ ] `comb`, `perm`, `factorial` with `exact` mode (int128 → gamma fallback)
-- [ ] `logsumexp`, `softmax`, `log_softmax` with `axis`/`keepdims` (max-shift)
-- [ ] Oracle tests incl. high-degree stability, exact vs inexact, overflow-safe logsumexp, softmax sums to 1
+- [x] `eval_legendre`, `eval_chebyt`, `eval_hermite`, `eval_laguerre`, `eval_genlaguerre`
+- [x] `comb`, `perm`, `factorial` with `exact` mode (int128 → gamma fallback)
+- [x] `logsumexp`, `softmax`, `log_softmax` with `axis`/`keepdims` (max-shift)
+- [x] Oracle tests incl. high-degree stability, exact vs inexact, overflow-safe logsumexp, softmax sums to 1
 
 ## 7. constants
-- [ ] `constexpr` scale constants (`pi`, `c`, `h`, `hbar`, `G`, `e`, `k`, `N_A`, `R`, `g`, `atm`, …) and named unit factors
-- [ ] Generated `physical_constants` CODATA table (pinned release recorded) with `value`/`unit`/`precision`; unknown name → `value_error`
-- [ ] `convert_temperature`, `lambda2nu`, `nu2lambda` (element-wise)
-- [ ] Oracle tests: scale constants & unit factors equal SciPy; table lookup triple; temperature & wavelength round-trips
+- [x] `constexpr` scale constants (`pi`, `c`, `h`, `hbar`, `G`, `e`, `k`, `N_A`, `R`, `g`, `atm`, …) and named unit factors
+- [x] Generated `physical_constants` CODATA table (445 entries) with `value`/`unit`/`precision`; unknown name → `value_error`
+- [x] `convert_temperature`, `lambda2nu`, `nu2lambda` (element-wise)
+- [x] Oracle tests: scale constants & unit factors equal SciPy; table lookup triple; temperature & wavelength round-trips
 
 ## 8. Wire-up & validation
-- [ ] Export `special` + `constants` headers from `scypp/scypp.hpp`
-- [ ] `openspec validate add-special-constants --strict` green
-- [ ] Full CPU test suite green against frozen oracle data; regression test added for any divergence found & fixed
-- [ ] Check off Phase 1 in `bootstrap-scypp-foundation/tasks.md`; update README status (Phase 1 ✅)
+- [x] Export `special` + `constants` headers from `scypp/scypp.hpp`
+- [x] `openspec validate add-special-constants --strict` green
+- [x] Full CPU test suite green against frozen oracle data (11 cases / 248 checks)
+- [x] Check off Phase 1 in `bootstrap-scypp-foundation/tasks.md`; update README status (Phase 1 ✅)

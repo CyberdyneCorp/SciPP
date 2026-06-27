@@ -30,7 +30,7 @@
 > Not implemented in this change. Ported against the SciPy oracle and its OpenSpec
 > baseline; GPU-accelerable kernels reuse the backend-acceleration substrate.
 
-- [ ] **Phase 1** — `special` (gamma/erf/Bessel/orthogonal polys/logsumexp/softmax) + `constants` (CODATA, unit conversion)
+- [x] **Phase 1** — `special` (gamma/erf/Bessel/orthogonal polys/logsumexp/softmax) + `constants` (CODATA, unit conversion) — delivered via `add-special-constants`
 - [ ] **Phase 2** — `linalg` (inv/solve/lstsq/pinv, eig/eigh, lu/qr/svd/cholesky/ldl/schur/qz/polar, expm/logm/sqrtm, Sylvester/Lyapunov/Riccati; BLAS/LAPACK + GPU GEMM)
 - [ ] **Phase 3** — `fft` + `fftpack` (fft/rfft/hfft, fftn/rfftn, dct/dst I–IV, helpers; GPU transforms)
 - [ ] **Phase 4** — `optimize` (minimize methods, root/brentq/newton, least_squares/curve_fit/nnls, linprog/milp)

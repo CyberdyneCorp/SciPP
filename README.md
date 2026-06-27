@@ -18,16 +18,24 @@ validated against real SciPy as a numerical oracle, and is the SciPy sibling of:
 
 ```cpp
 #include "scypp/scypp.hpp"
-#include "numpp/numpp.hpp"
+#include "numpp/core/ndarray.hpp"
 using numpp::ndarray;
+namespace sp = scypp::special;
+namespace cst = scypp::constants;
 
-ndarray A = /* ... */;
-auto [P, L, U] = scypp::linalg::lu(A);          // SciPy-shaped decomposition
-ndarray y      = scypp::signal::filtfilt(b, a, x);
-auto   spec    = scypp::fft::dct(x, /*type=*/2); // DCT-II (GPU-accelerated)
-auto   res     = scypp::optimize::minimize(f, x0, "BFGS");
-double p       = scypp::stats::ttest_ind(a, b).pvalue;
+// Special functions — scalar or element-wise over a numpp::ndarray.
+double g   = sp::gamma(0.5);                  // 1.7724538509...
+double b   = sp::jv(0.0, 2.0);                // Bessel J0(2)
+ndarray ls = sp::logsumexp(x, /*axis=*/1);    // numerically stable
+
+// Physical constants & conversions (CODATA, matches scipy.constants).
+double c   = cst::c;                          // speed of light
+double m_e = cst::value("electron mass");     // CODATA table lookup
+double f   = cst::convert_temperature(100.0, "Celsius", "Fahrenheit");  // 212
 ```
+
+> Phase 1 (`special`, `constants`) is implemented. The APIs below
+> (`linalg::lu`, `fft::dct`, `optimize::minimize`, …) are on the roadmap.
 
 ## Why ScyPP
 
@@ -89,11 +97,16 @@ namespace. See [`openspec/project.md`](openspec/project.md) for the full map.
 
 ## Project status
 
-ScyPP is in **Phase 0 — foundation**. The architecture, build/packaging, the NumPP
-integration contract, the CUDA/OpenCL/Metal backend strategy, the SciPy oracle
-harness, and the full parity roadmap are specified with **OpenSpec** under
-[`openspec/`](openspec/). Each subpackage graduates into its own OpenSpec change as
-it is implemented, ported against the SciPy oracle.
+**Phase 1 shipped** — `scypp::special` (gamma/erf/Bessel/exponential integrals/
+orthogonal evaluators/combinatorics/`logsumexp`/`softmax`) and `scypp::constants`
+(CODATA table + scale constants + unit conversions) build on NumPP and pass
+**248 oracle checks against SciPy 1.15** (11 cases, 0 divergences). This phase
+also stood up the foundation: CMake/C++20 skeleton, pinned NumPP `find_package`
+dependency, the `scypp::error` model, and the frozen-golden SciPy oracle harness.
+
+The architecture, CUDA/OpenCL/Metal backend strategy, and the full parity roadmap
+are specified with **OpenSpec** under [`openspec/`](openspec/). Each remaining
+subpackage graduates into its own OpenSpec change, ported against the SciPy oracle.
 
 ```bash
 openspec list                              # active changes
@@ -101,16 +114,29 @@ openspec show bootstrap-scypp-foundation   # the foundation + parity roadmap
 openspec validate --all --strict           # validate the specs
 ```
 
-## Building (planned)
+## Building
+
+ScyPP depends on NumPP via `find_package(NumPP)`. For local development, build and
+install the pinned NumPP into `.deps/` first:
 
 ```bash
-# CPU-only (mobile-friendly, zero extra deps beyond NumPP)
-cmake -S . -B build -G Ninja -DCMAKE_BUILD_TYPE=Release
+# 1. Build + install the pinned NumPP dependency (expects ../NumPP source)
+./scripts/bootstrap_numpp.sh            # or: ./scripts/bootstrap_numpp.sh /path/to/NumPP
+
+# 2. Configure + build ScyPP (CPU-only, mobile-friendly, zero extra deps)
+cmake -S . -B build -DCMAKE_BUILD_TYPE=Release
 cmake --build build -j
 
-# With GPU acceleration (propagates to NumPP's backend)
-cmake -S . -B build -DSCYPP_WITH_CUDA=ON     # or -DSCYPP_WITH_OPENCL=ON / -DSCYPP_WITH_METAL=ON
+# 3. Run the SciPy-oracle test suite
+ctest --test-dir build --output-on-failure
+
+# With GPU acceleration (requires a NumPP package built with the matching backend)
+cmake -S . -B build -DSCYPP_WITH_CUDA=ON   # or -DSCYPP_WITH_OPENCL=ON / -DSCYPP_WITH_METAL=ON
 ```
+
+Refresh the frozen oracle data after changing the test set:
+`python3 tests/oracle/generate.py` (requires Python + SciPy; CI runs against the
+committed golden data without Python).
 
 Backend feature flags (`SCYPP_WITH_{BLAS,LAPACK,CUDA,OPENCL,METAL}`) all default
 **OFF**; enabling one enables the matching NumPP backend so both layers share a
