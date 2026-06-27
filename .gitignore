@@ -7,3 +7,4 @@ compile_commands.json
 *.so.*
 .DS_Store
 __pycache__/
+tests/golden/_rt.*

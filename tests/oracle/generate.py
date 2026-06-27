@@ -25,6 +25,10 @@ import scipy.sparse.csgraph as sscg
 from scipy.spatial import KDTree, ConvexHull, Delaunay, distance as spd
 from scipy.spatial.transform import Rotation as spR, Slerp as spSlerp
 import scipy.ndimage as sni
+import scipy.cluster.vq as scv
+import scipy.cluster.hierarchy as sch
+from scipy.io import mmread, mmwrite, wavfile
+import io as _io
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 ROOT = os.path.abspath(os.path.join(HERE, "..", ".."))
@@ -662,6 +666,45 @@ def main():
     coords = np.array([[0.5, 1.5, 2.2, 3.0], [1.0, 2.5, 0.8, 4.0]])
     emit_mat(out, "ni_coords", coords)
     emit_vec("ni_mapcoord", sni.map_coordinates(I, coords, order=1))
+
+    # ---- cluster ----
+    obs = np.array([[1.9, 2.3], [1.5, 2.5], [0.8, 0.6], [0.4, 1.8], [3.0, 3.2],
+                    [2.7, 2.9], [0.5, 0.5], [3.1, 3.0]])
+    emit_mat(out, "cl_obs", obs)
+    emit_mat(out, "cl_whiten", scv.whiten(obs))
+    cb = np.array([[1.0, 1.0], [3.0, 3.0]])
+    emit_mat(out, "cl_cb", cb)
+    code, dist = scv.vq(obs, cb)
+    emit_vec("cl_vq_code", code.astype(float)); emit_vec("cl_vq_dist", dist)
+    cent, lab = scv.kmeans2(obs, cb, iter=10, minit="matrix")
+    emit_mat(out, "cl_km_centroids", cent)
+    emit_vec("cl_km_labels", lab.astype(float))
+
+    pts = np.array([[0.0, 0.0], [0.2, 0.1], [3.0, 3.0], [3.2, 2.9], [6.0, 0.5], [6.1, 0.7]])
+    emit_mat(out, "cl_pts", pts)
+    for meth in ["single", "complete", "average", "ward"]:
+        emit_mat(out, f"cl_link_{meth}", sch.linkage(pts, method=meth))
+    Zc = sch.linkage(pts, method="average")
+    emit_vec("cl_cophenet", sch.cophenet(Zc))
+    emit_vec("cl_fcluster", sch.fcluster(Zc, 3, criterion="maxclust").astype(float))
+
+    # ---- io: write golden sample files, emit expected values ----
+    gdir = os.path.join(ROOT, "tests", "golden")
+    from scipy.sparse import csr_array
+    mm_A = np.array([[5., 0., 0., 1.], [0., 8., 0., 0.], [0., 0., 3., 2.]])
+    mmwrite(os.path.join(gdir, "sample.mtx"), csr_array(mm_A))
+    emit_mat(out, "io_mm", mm_A)
+
+    wav_rate = 8000
+    wav_data = np.array([0, 1000, -2000, 32000, -32000, 500, -500, 0], dtype=np.int16)
+    wavfile.write(os.path.join(gdir, "sample.wav"), wav_rate, wav_data)
+    emit_scalar(out, "io_wav_rate", float(wav_rate))
+    emit_vec("io_wav", wav_data.astype(float))
+
+    with open(os.path.join(gdir, "sample.arff"), "w") as af:
+        af.write("@relation test\n@attribute a numeric\n@attribute b numeric\n@attribute c numeric\n@data\n")
+        af.write("1.0,2.0,3.0\n4.5,5.5,6.5\n7.0,8.0,9.0\n")
+    emit_mat(out, "io_arff", np.array([[1.0, 2.0, 3.0], [4.5, 5.5, 6.5], [7.0, 8.0, 9.0]]))
 
     out.append("}  // namespace golden")
     os.makedirs(os.path.dirname(GOLDEN), exist_ok=True)

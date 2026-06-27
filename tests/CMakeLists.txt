@@ -12,12 +12,15 @@ add_executable(scypp_tests
   test_signal_extras.cpp
   test_sparse.cpp
   test_spatial.cpp
-  test_ndimage.cpp)
+  test_ndimage.cpp
+  test_cluster_io.cpp)
 
 target_link_libraries(scypp_tests PRIVATE scypp::scypp numpp::numpp)
 
 target_include_directories(scypp_tests PRIVATE
   ${CMAKE_CURRENT_SOURCE_DIR}
   ${CMAKE_CURRENT_SOURCE_DIR}/golden)
+
+target_compile_definitions(scypp_tests PRIVATE SCYPP_GOLDEN_DIR="${CMAKE_CURRENT_SOURCE_DIR}/golden")
 
 add_test(NAME scypp_tests COMMAND scypp_tests)

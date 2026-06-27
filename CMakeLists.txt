@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.25)
 
 project(ScyPP
-  VERSION 0.1.0
+  VERSION 1.0.0
   DESCRIPTION "Modern C++20 port of SciPy, built on NumPP"
   LANGUAGES CXX)
 

@@ -38,9 +38,10 @@ auto [P, L, U] = scypp::linalg::lu(Asq);      // explicit P·L·U
 ndarray E      = scypp::linalg::expm(Asq);    // matrix exponential
 ```
 
-> Phases 1–11 (`special`, `constants`, `linalg`, `fft`, `optimize`, `integrate`,
-> `differentiate`, `interpolate`, `stats`, `signal`, `sparse`, `spatial`, `ndimage`)
-> are implemented. The APIs for `cluster`/`io`/`datasets` are on the roadmap.
+> **All 12 subpackages are implemented** (`special`, `constants`, `linalg`, `fft`,
+> `optimize`, `integrate`, `differentiate`, `interpolate`, `stats`, `signal`,
+> `sparse`, `spatial`, `ndimage`, `cluster`, `io`). Deferred long-tail features are
+> tracked as open OpenSpec backlog changes under `openspec/changes/`.
 
 ## Why ScyPP
 
@@ -102,8 +103,9 @@ namespace. See [`openspec/project.md`](openspec/project.md) for the full map.
 
 ## Project status
 
-**Phases 1–11 shipped** (built on NumPP, validated against SciPy 1.15 — **4825
-oracle checks, 0 divergences**):
+**v1.0 — all 12 phases shipped.** Every public SciPy subpackage's commonly-used
+surface is ported, built on NumPP and validated against SciPy 1.15 — **5051 oracle
+checks, 0 divergences**:
 
 - **Phase 1** — `scypp::special` (gamma/erf/Bessel/exponential integrals/
   orthogonal evaluators/combinatorics/`logsumexp`/`softmax`) and `scypp::constants`
@@ -149,6 +151,9 @@ oracle checks, 0 divergences**):
   with boundary modes + dispatch), morphology (binary/grey + `distance_transform_edt`),
   measurements (`label`/`center_of_mass`), and order-0/1 geometric transforms
   (`shift`/`zoom`/`rotate`/`affine_transform`/`map_coordinates`).
+- **Phase 12** — `scypp::cluster` (`whiten`/`vq`/`kmeans2`, `linkage`/`fcluster`/
+  `cophenet`) and `scypp::io` (Matrix Market `mmread`/`mmwrite`, WAV `wavread`/
+  `wavwrite`, ARFF `loadarff`).
 
 The architecture, CUDA/OpenCL/Metal backend strategy, and the full parity roadmap
 are specified with **OpenSpec** under [`openspec/`](openspec/). Each remaining

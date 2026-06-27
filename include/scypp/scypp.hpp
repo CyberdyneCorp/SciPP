@@ -3,7 +3,9 @@
 
 #include "scypp/version.hpp"
 #include "scypp/error.hpp"
+#include "scypp/cluster/cluster.hpp"
 #include "scypp/constants/constants.hpp"
+#include "scypp/io/io.hpp"
 #include "scypp/differentiate/differentiate.hpp"
 #include "scypp/fft/fft.hpp"
 #include "scypp/integrate/integrate.hpp"

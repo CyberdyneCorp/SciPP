@@ -53,7 +53,10 @@ add_library(scypp
   ndimage/filters.cpp
   ndimage/morphology.cpp
   ndimage/measurements.cpp
-  ndimage/interpolation.cpp)
+  ndimage/interpolation.cpp
+  cluster/vq.cpp
+  cluster/hierarchy.cpp
+  io/io.cpp)
 
 add_library(scypp::scypp ALIAS scypp)
 
