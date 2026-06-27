@@ -33,7 +33,7 @@
 - [x] **Phase 1** — `special` (gamma/erf/Bessel/orthogonal polys/logsumexp/softmax) + `constants` (CODATA, unit conversion) — delivered via `add-special-constants`
 - [~] **Phase 2** — `linalg` core delivered via `add-linalg` (inv/det/solve/lstsq/pinv/pinvh/norm, lu/qr/svd/cholesky, eig/eigh, expm/polar, special matrices; GEMM via NumPP). Deferred to a follow-up: ldl, sqrtm/logm/funm, schur/qz/cossin, banded, matrix-equation solvers
 - [x] **Phase 3** — `fft` + `fftpack` delivered via `add-fft` (fft/rfft/hfft, fftn/rfftn delegated to NumPP; dct/dst I–IV + next_fast_len + fftpack alias; ortho/forward DCT norm, N-D DCT, fht/czt deferred)
-- [ ] **Phase 4** — `optimize` (minimize methods, root/brentq/newton, least_squares/curve_fit/nnls, linprog/milp)
+- [x] **Phase 4** — `optimize` core delivered via `add-optimize` (brentq/bisect/newton, minimize_scalar brent/bounded, minimize Nelder-Mead/BFGS, least_squares/curve_fit/fsolve). Deferred: linprog/milp, constrained (SLSQP/trust-constr), global optimizers, nnls
 - [ ] **Phase 5** — `integrate` (quad/simpson/trapezoid, solve_ivp RK/Radau/BDF/LSODA, solve_bvp) + `differentiate`
 - [ ] **Phase 6** — `interpolate` (interp1d, CubicSpline/Pchip/Akima, B-splines, griddata/RegularGrid/RBF)
 - [ ] **Phase 7** — `stats` (distributions, summary stats, hypothesis tests, qmc, gaussian_kde)

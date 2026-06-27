@@ -3,7 +3,8 @@ add_executable(scypp_tests
   test_special.cpp
   test_constants.cpp
   test_linalg.cpp
-  test_fft.cpp)
+  test_fft.cpp
+  test_optimize.cpp)
 
 target_link_libraries(scypp_tests PRIVATE scypp::scypp numpp::numpp)
 

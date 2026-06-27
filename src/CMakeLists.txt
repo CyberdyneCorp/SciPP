@@ -13,7 +13,11 @@ add_library(scypp
   linalg/matfuncs.cpp
   linalg/special.cpp
   fft/fft.cpp
-  fft/realtransforms.cpp)
+  fft/realtransforms.cpp
+  optimize/roots_scalar.cpp
+  optimize/minimize_scalar.cpp
+  optimize/minimize.cpp
+  optimize/least_squares.cpp)
 
 add_library(scypp::scypp ALIAS scypp)
 

@@ -38,8 +38,9 @@ auto [P, L, U] = scypp::linalg::lu(Asq);      // explicit P·L·U
 ndarray E      = scypp::linalg::expm(Asq);    // matrix exponential
 ```
 
-> Phases 1–3 (`special`, `constants`, `linalg`, `fft`) are implemented. The APIs
-> for `optimize`, `integrate`, `stats`, … are on the roadmap.
+> Phases 1–4 (`special`, `constants`, `linalg`, `fft`, `optimize`) are
+> implemented. The APIs for `integrate`, `interpolate`, `stats`, … are on the
+> roadmap.
 
 ## Why ScyPP
 
@@ -101,7 +102,7 @@ namespace. See [`openspec/project.md`](openspec/project.md) for the full map.
 
 ## Project status
 
-**Phases 1–3 shipped** (built on NumPP, validated against SciPy 1.15 — **927
+**Phases 1–4 shipped** (built on NumPP, validated against SciPy 1.15 — **955
 oracle checks, 0 divergences**):
 
 - **Phase 1** — `scypp::special` (gamma/erf/Bessel/exponential integrals/
@@ -116,6 +117,9 @@ oracle checks, 0 divergences**):
 - **Phase 3** — `scypp::fft` (+ legacy `scypp::fftpack`): the FFT family
   (`fft`/`rfft`/`hfft`, N-D variants, `fftfreq`/`fftshift`) delegated to NumPP, plus
   SciPy's **DCT/DST** types I–IV, `next_fast_len`, and axis-wise transforms.
+- **Phase 4** — `scypp::optimize`: scalar root finders (`brentq`/`bisect`/`newton`),
+  `minimize_scalar` (brent/bounded), `minimize` (Nelder–Mead/BFGS), and nonlinear
+  least squares (`least_squares`/`curve_fit`/`fsolve`).
 
 The architecture, CUDA/OpenCL/Metal backend strategy, and the full parity roadmap
 are specified with **OpenSpec** under [`openspec/`](openspec/). Each remaining

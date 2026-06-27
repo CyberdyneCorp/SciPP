@@ -6,4 +6,5 @@
 #include "scypp/constants/constants.hpp"
 #include "scypp/fft/fft.hpp"
 #include "scypp/linalg/linalg.hpp"
+#include "scypp/optimize/optimize.hpp"
 #include "scypp/special/special.hpp"

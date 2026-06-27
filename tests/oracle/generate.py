@@ -14,6 +14,7 @@ import scipy.special as sps
 import scipy.constants as spc
 import scipy.linalg as sla
 import scipy.fft as spf
+import scipy.optimize as spo
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 ROOT = os.path.abspath(os.path.join(HERE, "..", ".."))
@@ -221,6 +222,40 @@ def main():
     emit_vec("fftshift8", spf.fftshift(np.arange(8.0)))
     for n in (1, 7, 8, 13, 100, 1000):
         emit_scalar(out, f"nfl_{n}", float(spf.next_fast_len(n)))
+
+    # ---- optimize ----
+    emit_scalar(out, "opt_brentq", spo.brentq(lambda x: x * x - 2.0, 0.0, 2.0))
+    emit_scalar(out, "opt_bisect", spo.bisect(lambda x: x * x - 2.0, 0.0, 2.0))
+    emit_scalar(out, "opt_newton", spo.newton(lambda x: x**3 - 2 * x - 5, 2.0))
+
+    msb = spo.minimize_scalar(lambda x: np.cosh(x - 1.7), method="brent")
+    emit_scalar(out, "opt_ms_brent_x", msb.x)
+    emit_scalar(out, "opt_ms_brent_f", msb.fun)
+    msd = spo.minimize_scalar(lambda x: (x - 2.0) ** 2, method="bounded", bounds=(0.0, 1.0))
+    emit_scalar(out, "opt_ms_bounded_x", msd.x)
+
+    def rosen(p):
+        return (1 - p[0]) ** 2 + 100.0 * (p[1] - p[0] ** 2) ** 2
+    nm = spo.minimize(rosen, [-1.2, 1.0], method="Nelder-Mead")
+    emit_mat(out, "opt_nm_rosen", np.asarray(nm.x).reshape(-1, 1))
+
+    quad = lambda p: (p[0] - 3.0) ** 2 + (p[1] + 1.0) ** 2
+    bf = spo.minimize(quad, [0.0, 0.0], method="BFGS")
+    emit_mat(out, "opt_bfgs_quad", np.asarray(bf.x).reshape(-1, 1))
+
+    # curve_fit: a*exp(-b*x)+c, noise-free
+    cf_x = np.linspace(0.0, 4.0, 20)
+    cf_true = np.array([2.5, 1.3, 0.5])
+    cf_y = cf_true[0] * np.exp(-cf_true[1] * cf_x) + cf_true[2]
+    emit_vec("cf_xdata", cf_x)
+    emit_vec("cf_ydata", cf_y)
+    emit_mat(out, "opt_curvefit_true", cf_true.reshape(-1, 1))
+    popt, _ = spo.curve_fit(lambda x, a, b, c: a * np.exp(-b * x) + c, cf_x, cf_y, p0=[1., 1., 1.])
+    emit_mat(out, "opt_curvefit_popt", np.asarray(popt).reshape(-1, 1))
+
+    # fsolve: x^2+y^2-4=0, x-y=0  -> (sqrt2, sqrt2)
+    fs = spo.fsolve(lambda v: [v[0] ** 2 + v[1] ** 2 - 4.0, v[0] - v[1]], [1.0, 1.0])
+    emit_mat(out, "opt_fsolve", np.asarray(fs).reshape(-1, 1))
 
     out.append("}  // namespace golden")
     os.makedirs(os.path.dirname(GOLDEN), exist_ok=True)
