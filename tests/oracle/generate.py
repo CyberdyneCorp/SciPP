@@ -17,6 +17,7 @@ import scipy.fft as spf
 import scipy.optimize as spo
 import scipy.integrate as spi
 import scipy.interpolate as spn
+import scipy.stats as sst
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 ROOT = os.path.abspath(os.path.join(HERE, "..", ".."))
@@ -309,6 +310,84 @@ def main():
     emit_vec("ip_rbf_tps", spn.RBFInterpolator(yc, dvals, kernel="thin_plate_spline")(rbf_q))
     emit_vec("ip_rbf_cubic", spn.RBFInterpolator(yc, dvals, kernel="cubic")(rbf_q))
     emit_vec("ip_rbf_lin", spn.RBFInterpolator(yc, dvals, kernel="linear")(rbf_q))
+
+    # ---- stats ----
+    # distributions: pdf/cdf/ppf at points
+    emit_scalar(out, "st_norm_pdf", sst.norm.pdf(0.7, loc=0.2, scale=1.5))
+    emit_scalar(out, "st_norm_cdf", sst.norm.cdf(0.7, loc=0.2, scale=1.5))
+    emit_scalar(out, "st_norm_ppf", sst.norm.ppf(0.83, loc=0.2, scale=1.5))
+    emit_scalar(out, "st_gamma_cdf", sst.gamma.cdf(3.0, 2.5, scale=1.3))
+    emit_scalar(out, "st_gamma_ppf", sst.gamma.ppf(0.6, 2.5, scale=1.3))
+    emit_scalar(out, "st_chi2_cdf", sst.chi2.cdf(5.0, 3))
+    emit_scalar(out, "st_chi2_sf", sst.chi2.sf(5.0, 3))
+    emit_scalar(out, "st_beta_cdf", sst.beta.cdf(0.4, 2.0, 3.0))
+    emit_scalar(out, "st_beta_ppf", sst.beta.ppf(0.7, 2.0, 3.0))
+    emit_scalar(out, "st_t_cdf", sst.t.cdf(1.5, 8))
+    emit_scalar(out, "st_t_ppf", sst.t.ppf(0.975, 8))
+    emit_scalar(out, "st_f_cdf", sst.f.cdf(2.0, 5, 10))
+    emit_scalar(out, "st_f_sf", sst.f.sf(2.0, 5, 10))
+    emit_scalar(out, "st_expon_cdf", sst.expon.cdf(2.0, scale=1.5))
+
+    # summary statistics
+    sdat = np.array([2.0, 3.5, 1.0, 4.2, 2.8, 3.1, 5.0, 2.2, 3.3, 4.0])
+    emit_vec("st_data", sdat)
+    emit_scalar(out, "st_gmean", sst.gmean(sdat))
+    emit_scalar(out, "st_hmean", sst.hmean(sdat))
+    emit_scalar(out, "st_skew", sst.skew(sdat))
+    emit_scalar(out, "st_kurtosis", sst.kurtosis(sdat))
+    emit_scalar(out, "st_sem", sst.sem(sdat))
+    emit_scalar(out, "st_variation", sst.variation(sdat))
+    emit_scalar(out, "st_iqr", sst.iqr(sdat))
+    tied = np.array([1.0, 2.0, 2.0, 3.0, 3.0, 3.0, 4.0])
+    emit_vec("st_tied", tied)
+    emit_vec("st_rankdata", sst.rankdata(tied))
+    emit_vec("st_zscore", sst.zscore(sdat))
+
+    # correlation / regression
+    cx = np.array([1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0])
+    cy = np.array([2.1, 3.9, 6.2, 7.8, 10.1, 12.2, 13.8])
+    emit_vec("st_cx", cx); emit_vec("st_cy", cy)
+    pr = sst.pearsonr(cx, cy)
+    emit_scalar(out, "st_pearson_r", pr[0]); emit_scalar(out, "st_pearson_p", pr[1])
+    spr = sst.spearmanr(cx, cy)
+    emit_scalar(out, "st_spearman_r", spr.statistic); emit_scalar(out, "st_spearman_p", spr.pvalue)
+    lr = sst.linregress(cx, cy)
+    emit_scalar(out, "st_lr_slope", lr.slope); emit_scalar(out, "st_lr_intercept", lr.intercept)
+    emit_scalar(out, "st_lr_r", lr.rvalue); emit_scalar(out, "st_lr_p", lr.pvalue)
+    emit_scalar(out, "st_lr_stderr", lr.stderr)
+
+    # hypothesis tests
+    ga = np.array([5.1, 4.9, 6.2, 5.7, 5.5, 6.0, 4.8])
+    gb = np.array([6.2, 6.8, 5.9, 7.1, 6.5, 6.9, 7.3])
+    emit_vec("st_ga", ga); emit_vec("st_gb", gb)
+    t1 = sst.ttest_1samp(ga, 5.0)
+    emit_scalar(out, "st_t1_stat", t1.statistic); emit_scalar(out, "st_t1_p", t1.pvalue)
+    ti = sst.ttest_ind(ga, gb)
+    emit_scalar(out, "st_ti_stat", ti.statistic); emit_scalar(out, "st_ti_p", ti.pvalue)
+    tr = sst.ttest_rel(ga, gb)
+    emit_scalar(out, "st_tr_stat", tr.statistic); emit_scalar(out, "st_tr_p", tr.pvalue)
+    gc = np.array([5.5, 5.8, 6.1, 5.9, 6.0, 5.7, 6.2])
+    fo = sst.f_oneway(ga, gb, gc)
+    emit_scalar(out, "st_fo_stat", fo.statistic); emit_scalar(out, "st_fo_p", fo.pvalue)
+    ks = sst.ks_2samp(ga, gb, method="asymp")
+    emit_scalar(out, "st_ks_stat", ks.statistic); emit_scalar(out, "st_ks_p", ks.pvalue)
+    ct = np.array([[10.0, 20.0, 30.0], [6.0, 9.0, 17.0]])
+    emit_mat(out, "st_ct", ct)
+    c2 = sst.chi2_contingency(ct)
+    emit_scalar(out, "st_chi2c_stat", c2.statistic); emit_scalar(out, "st_chi2c_p", c2.pvalue)
+    emit_mat(out, "st_chi2c_exp", c2.expected_freq)
+    nt_data = np.array([2.1, 3.4, 1.9, 5.2, 2.8, 3.3, 4.1, 2.5, 3.9, 2.2, 4.5, 3.0,
+                        2.7, 3.6, 1.5, 4.8, 2.9, 3.2, 4.0, 2.6])
+    emit_vec("st_nt_data", nt_data)
+    ntr = sst.normaltest(nt_data)
+    emit_scalar(out, "st_nt_stat", ntr.statistic); emit_scalar(out, "st_nt_p", ntr.pvalue)
+
+    # gaussian_kde (1-D)
+    kde_data = np.array([1.0, 1.5, 2.0, 2.2, 3.0, 3.1, 3.5, 4.0, 4.2, 5.0])
+    kde_q = np.array([1.5, 2.5, 3.5, 4.5])
+    emit_vec("st_kde_data", kde_data); emit_vec("st_kde_q", kde_q)
+    emit_vec("st_kde_scott", sst.gaussian_kde(kde_data, bw_method="scott")(kde_q))
+    emit_vec("st_kde_silverman", sst.gaussian_kde(kde_data, bw_method="silverman")(kde_q))
 
     out.append("}  // namespace golden")
     os.makedirs(os.path.dirname(GOLDEN), exist_ok=True)

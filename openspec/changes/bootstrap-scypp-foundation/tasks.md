@@ -36,7 +36,7 @@
 - [x] **Phase 4** — `optimize` core delivered via `add-optimize` (brentq/bisect/newton, minimize_scalar brent/bounded, minimize Nelder-Mead/BFGS, least_squares/curve_fit/fsolve). Deferred: linprog/milp, constrained (SLSQP/trust-constr), global optimizers, nnls
 - [x] **Phase 5** — `integrate` core + `differentiate` delivered via `add-integrate` (trapezoid/simpson/cumulative_trapezoid, quad adaptive Gauss-Kronrod, fixed_quad, solve_ivp RK45/RK23; derivative/jacobian/hessian). Deferred work tracked in the open `add-integrate-stiff-bvp` backlog change (stiff solvers Radau/BDF/LSODA + odeint, solve_bvp, dblquad/tplquad/nquad, romberg)
 - [x] **Phase 6** — `interpolate` delivered via `add-interpolate` (Interp1d, CubicSpline/Pchip/Akima + derivatives, RegularGridInterpolator/interpn, RBFInterpolator). Deferred: FITPACK smoothing splines (splrep/BSpline/UnivariateSpline), Delaunay griddata/LinearND/NearestND
-- [ ] **Phase 7** — `stats` (distributions, summary stats, hypothesis tests, qmc, gaussian_kde)
+- [x] **Phase 7** — `stats` core delivered via `add-stats` (continuous distributions norm/expon/uniform/gamma/chi2/beta/t/f, summary statistics, pearsonr/spearmanr/linregress, ttest family/f_oneway/ks_2samp/chi2_contingency/normaltest, gaussian_kde). Deferred: rvs/fit sampling, QMC, discrete distributions, rank-based tests (mannwhitneyu/wilcoxon/kruskal/shapiro)
 - [ ] **Phase 8** — `signal` (convolve/fftconvolve, lfilter/filtfilt/sosfilt, filter design, welch/spectrogram/stft, LTI)
 - [ ] **Phase 9** — `sparse` (CSR/CSC/COO/DIA/LIL/BSR, sparse.linalg spsolve/cg/gmres/eigsh/svds, csgraph; GPU SpMV)
 - [ ] **Phase 10** — `spatial` (KDTree, cdist/pdist/squareform, ConvexHull/Delaunay/Voronoi, transform.Rotation; GPU distances)

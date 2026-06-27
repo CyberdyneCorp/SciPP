@@ -38,9 +38,9 @@ auto [P, L, U] = scypp::linalg::lu(Asq);      // explicit P·L·U
 ndarray E      = scypp::linalg::expm(Asq);    // matrix exponential
 ```
 
-> Phases 1–6 (`special`, `constants`, `linalg`, `fft`, `optimize`, `integrate`,
-> `differentiate`, `interpolate`) are implemented. The APIs for `stats`,
-> `signal`, `sparse`, … are on the roadmap.
+> Phases 1–7 (`special`, `constants`, `linalg`, `fft`, `optimize`, `integrate`,
+> `differentiate`, `interpolate`, `stats`) are implemented. The APIs for `signal`,
+> `sparse`, `spatial`, … are on the roadmap.
 
 ## Why ScyPP
 
@@ -102,7 +102,7 @@ namespace. See [`openspec/project.md`](openspec/project.md) for the full map.
 
 ## Project status
 
-**Phases 1–6 shipped** (built on NumPP, validated against SciPy 1.15 — **1157
+**Phases 1–7 shipped** (built on NumPP, validated against SciPy 1.15 — **1234
 oracle checks, 0 divergences**):
 
 - **Phase 1** — `scypp::special` (gamma/erf/Bessel/exponential integrals/
@@ -126,6 +126,10 @@ oracle checks, 0 divergences**):
 - **Phase 6** — `scypp::interpolate`: `Interp1d`, `CubicSpline`/`PchipInterpolator`/
   `Akima1DInterpolator` (with derivatives), `RegularGridInterpolator`/`interpn`, and
   `RBFInterpolator` (radial basis functions).
+- **Phase 7** — `scypp::stats`: continuous distributions (`norm`/`gamma`/`beta`/`t`/
+  `f`/`chi2`/…) with `pdf`/`cdf`/`ppf`, summary statistics, correlation/regression
+  (`pearsonr`/`spearmanr`/`linregress`), hypothesis tests (`ttest_*`/`f_oneway`/
+  `ks_2samp`/`chi2_contingency`/`normaltest`), and `gaussian_kde`.
 
 The architecture, CUDA/OpenCL/Metal backend strategy, and the full parity roadmap
 are specified with **OpenSpec** under [`openspec/`](openspec/). Each remaining

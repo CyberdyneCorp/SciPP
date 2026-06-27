@@ -24,7 +24,12 @@ add_library(scypp
   interpolate/interp1d.cpp
   interpolate/splines.cpp
   interpolate/regular_grid.cpp
-  interpolate/rbf.cpp)
+  interpolate/rbf.cpp
+  stats/special_inc.cpp
+  stats/distributions.cpp
+  stats/descriptive.cpp
+  stats/tests.cpp
+  stats/kde.cpp)
 
 add_library(scypp::scypp ALIAS scypp)
 

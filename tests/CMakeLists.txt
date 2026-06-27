@@ -6,7 +6,8 @@ add_executable(scypp_tests
   test_fft.cpp
   test_optimize.cpp
   test_integrate.cpp
-  test_interpolate.cpp)
+  test_interpolate.cpp
+  test_stats.cpp)
 
 target_link_libraries(scypp_tests PRIVATE scypp::scypp numpp::numpp)
 
