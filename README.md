@@ -38,8 +38,8 @@ auto [P, L, U] = scypp::linalg::lu(Asq);      // explicit P·L·U
 ndarray E      = scypp::linalg::expm(Asq);    // matrix exponential
 ```
 
-> Phases 1–2 (`special`, `constants`, `linalg`) are implemented. The APIs for
-> `fft`, `optimize`, `stats`, … are on the roadmap.
+> Phases 1–3 (`special`, `constants`, `linalg`, `fft`) are implemented. The APIs
+> for `optimize`, `integrate`, `stats`, … are on the roadmap.
 
 ## Why ScyPP
 
@@ -101,7 +101,7 @@ namespace. See [`openspec/project.md`](openspec/project.md) for the full map.
 
 ## Project status
 
-**Phases 1–2 shipped** (built on NumPP, validated against SciPy 1.15 — **895
+**Phases 1–3 shipped** (built on NumPP, validated against SciPy 1.15 — **927
 oracle checks, 0 divergences**):
 
 - **Phase 1** — `scypp::special` (gamma/erf/Bessel/exponential integrals/
@@ -113,6 +113,9 @@ oracle checks, 0 divergences**):
   `lu`/`qr`/`svd`/`cholesky` (+ factor/solve helpers), `eig`/`eigh`, `expm` (Padé)
   and `polar`, and special-matrix constructors. Standard decompositions delegate to
   NumPP; GEMM-heavy paths route through NumPP's BLAS/GPU `matmul`.
+- **Phase 3** — `scypp::fft` (+ legacy `scypp::fftpack`): the FFT family
+  (`fft`/`rfft`/`hfft`, N-D variants, `fftfreq`/`fftshift`) delegated to NumPP, plus
+  SciPy's **DCT/DST** types I–IV, `next_fast_len`, and axis-wise transforms.
 
 The architecture, CUDA/OpenCL/Metal backend strategy, and the full parity roadmap
 are specified with **OpenSpec** under [`openspec/`](openspec/). Each remaining

@@ -13,6 +13,7 @@ import numpy as np
 import scipy.special as sps
 import scipy.constants as spc
 import scipy.linalg as sla
+import scipy.fft as spf
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 ROOT = os.path.abspath(os.path.join(HERE, "..", ".."))
@@ -185,6 +186,41 @@ def main():
     emit_mat(out, "la_leslie", sla.leslie([0.1, 2.0, 1.0, 0.1], [0.2, 0.8, 0.7]))
     emit_mat(out, "la_blockdiag", sla.block_diag(np.array([[1., 2.], [3., 4.]]),
                                                  np.array([[5.]]), np.array([[6., 7.]])))
+
+    # ---- fft ----
+    def emit_vec(name, arr):
+        arr = np.asarray(arr, dtype=float).ravel()
+        out.append(f"inline const double {name}[] = {{{', '.join(fmt(v) for v in arr)}}};")
+        out.append(f"inline constexpr int {name}_n = {len(arr)};")
+
+    xr = np.array([1., 2., 3., 4., 5., 6., 7., 8.])
+    emit_vec("fft_x", xr)
+    F = spf.fft(xr)
+    emit_vec("fft_re", F.real)
+    emit_vec("fft_im", F.imag)
+    Rf = spf.rfft(xr)
+    emit_vec("rfft_re", Rf.real)
+    emit_vec("rfft_im", Rf.imag)
+    Fo = spf.fft(xr, norm="ortho")
+    emit_vec("fft_ortho_re", Fo.real)
+    emit_vec("fft_ortho_im", Fo.imag)
+
+    for t in (1, 2, 3, 4):
+        emit_vec(f"dct{t}", spf.dct(xr, type=t))
+        emit_vec(f"dst{t}", spf.dst(xr, type=t))
+        emit_vec(f"idct{t}", spf.idct(xr, type=t))
+        emit_vec(f"idst{t}", spf.idst(xr, type=t))
+
+    # dct along axis=0 of a 2-D array
+    X2 = np.array([[1., 2., 3.], [4., 5., 6.]])
+    emit_mat(out, "fft_X2", X2)
+    emit_mat(out, "fft_dct2_ax0", spf.dct(X2, type=2, axis=0))
+
+    emit_vec("fftfreq8", spf.fftfreq(8, 0.1))
+    emit_vec("rfftfreq8", spf.rfftfreq(8, 0.1))
+    emit_vec("fftshift8", spf.fftshift(np.arange(8.0)))
+    for n in (1, 7, 8, 13, 100, 1000):
+        emit_scalar(out, f"nfl_{n}", float(spf.next_fast_len(n)))
 
     out.append("}  // namespace golden")
     os.makedirs(os.path.dirname(GOLDEN), exist_ok=True)

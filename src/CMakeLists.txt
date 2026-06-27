@@ -11,7 +11,9 @@ add_library(scypp
   linalg/decomp.cpp
   linalg/eigen.cpp
   linalg/matfuncs.cpp
-  linalg/special.cpp)
+  linalg/special.cpp
+  fft/fft.cpp
+  fft/realtransforms.cpp)
 
 add_library(scypp::scypp ALIAS scypp)
 

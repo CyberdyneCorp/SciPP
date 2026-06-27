@@ -31,9 +31,13 @@ option(SCYPP_BUILD_TESTS "Build the test suite"              ON)
 # -----------------------------------------------------------------------------
 set(SCYPP_NUMPP_PREFIX "${CMAKE_CURRENT_SOURCE_DIR}/.deps/numpp"
     CACHE PATH "Install prefix of a locally-built NumPP (find_package hint)")
-list(PREPEND CMAKE_PREFIX_PATH "${SCYPP_NUMPP_PREFIX}")
+set(NumPP_DIR "${SCYPP_NUMPP_PREFIX}/lib/cmake/NumPP" CACHE PATH "" FORCE)
 
-find_package(NumPP CONFIG REQUIRED)
+# Resolve only the pinned install prefix, ignoring any stale build-tree package
+# registered by NumPP's own build in ~/.cmake/packages.
+find_package(NumPP CONFIG REQUIRED
+  NO_CMAKE_PACKAGE_REGISTRY
+  NO_CMAKE_SYSTEM_PACKAGE_REGISTRY)
 message(STATUS "ScyPP: found NumPP ${NumPP_VERSION}")
 
 # GPU/accel flag propagation: a requested ScyPP GPU backend requires a NumPP

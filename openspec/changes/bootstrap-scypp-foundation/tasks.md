@@ -32,7 +32,7 @@
 
 - [x] **Phase 1** — `special` (gamma/erf/Bessel/orthogonal polys/logsumexp/softmax) + `constants` (CODATA, unit conversion) — delivered via `add-special-constants`
 - [~] **Phase 2** — `linalg` core delivered via `add-linalg` (inv/det/solve/lstsq/pinv/pinvh/norm, lu/qr/svd/cholesky, eig/eigh, expm/polar, special matrices; GEMM via NumPP). Deferred to a follow-up: ldl, sqrtm/logm/funm, schur/qz/cossin, banded, matrix-equation solvers
-- [ ] **Phase 3** — `fft` + `fftpack` (fft/rfft/hfft, fftn/rfftn, dct/dst I–IV, helpers; GPU transforms)
+- [x] **Phase 3** — `fft` + `fftpack` delivered via `add-fft` (fft/rfft/hfft, fftn/rfftn delegated to NumPP; dct/dst I–IV + next_fast_len + fftpack alias; ortho/forward DCT norm, N-D DCT, fht/czt deferred)
 - [ ] **Phase 4** — `optimize` (minimize methods, root/brentq/newton, least_squares/curve_fit/nnls, linprog/milp)
 - [ ] **Phase 5** — `integrate` (quad/simpson/trapezoid, solve_ivp RK/Radau/BDF/LSODA, solve_bvp) + `differentiate`
 - [ ] **Phase 6** — `interpolate` (interp1d, CubicSpline/Pchip/Akima, B-splines, griddata/RegularGrid/RBF)
