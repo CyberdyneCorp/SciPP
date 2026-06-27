@@ -12,6 +12,7 @@ import os
 import numpy as np
 import scipy.special as sps
 import scipy.constants as spc
+import scipy.linalg as sla
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 ROOT = os.path.abspath(os.path.join(HERE, "..", ".."))
@@ -37,6 +38,16 @@ def emit_arr(out, name, xs, fn):
 
 def emit_scalar(out, name, value):
     out.append(f"inline const double {name} = {fmt(value)};")
+
+
+def emit_mat(out, name, m):
+    """Emit a 2-D array (row-major) plus its dimensions."""
+    m = np.asarray(m, dtype=float)
+    r, c = (m.shape + (1,))[:2] if m.ndim == 2 else (m.shape[0], 1)
+    flat = m.ravel()
+    out.append(f"inline const double {name}_d[] = {{{', '.join(fmt(v) for v in flat)}}};")
+    out.append(f"inline constexpr int {name}_r = {m.shape[0]};")
+    out.append(f"inline constexpr int {name}_c = {m.shape[1] if m.ndim == 2 else 1};")
 
 
 def main():
@@ -132,6 +143,48 @@ def main():
     emit_scalar(out, "temp_c2f_100", spc.convert_temperature(100.0, "Celsius", "Fahrenheit"))
     emit_scalar(out, "temp_k2c_300", spc.convert_temperature(300.0, "Kelvin", "Celsius"))
     emit_scalar(out, "l2nu_500nm", spc.lambda2nu(500e-9))
+
+    # ---- linalg ----
+    Asq = np.array([[4., 3., 2., 1.], [3., 5., 1., 2.], [2., 1., 6., 3.], [1., 2., 3., 7.]])
+    Aspd = np.array([[4., 1., 1.], [1., 3., 0.], [1., 0., 2.]])
+    Atall = np.array([[1., 2., 3.], [4., 5., 6.], [7., 8., 10.], [1., 0., 1.], [2., 1., 0.]])
+    b4 = np.array([1., 2., 3., 4.])
+    b5 = np.array([1., 2., 3., 4., 5.])
+    emit_mat(out, "la_Asq", Asq)
+    emit_mat(out, "la_Aspd", Aspd)
+    emit_mat(out, "la_Atall", Atall)
+    emit_mat(out, "la_b4", b4.reshape(-1, 1))
+    emit_mat(out, "la_b5", b5.reshape(-1, 1))
+
+    emit_scalar(out, "la_det_Asq", sla.det(Asq))
+    emit_mat(out, "la_inv_Asq", sla.inv(Asq))
+    emit_mat(out, "la_solve_Asq_b4", sla.solve(Asq, b4).reshape(-1, 1))
+    emit_mat(out, "la_lstsq_x", sla.lstsq(Atall, b5)[0].reshape(-1, 1))
+    emit_mat(out, "la_pinv_Atall", sla.pinv(Atall))
+    emit_mat(out, "la_pinvh_Aspd", sla.pinvh(Aspd))
+    emit_mat(out, "la_eigvalsh_Aspd", sla.eigvalsh(Aspd).reshape(-1, 1))
+    emit_scalar(out, "la_norm_fro", sla.norm(Asq))
+    emit_scalar(out, "la_norm_1", sla.norm(Asq, 1))
+    emit_scalar(out, "la_norm_inf", sla.norm(Asq, np.inf))
+    emit_mat(out, "la_chol_upper", sla.cholesky(Aspd))           # upper default
+    emit_mat(out, "la_expm_Asq", sla.expm(Asq))
+    emit_mat(out, "la_expm_rot", sla.expm(np.array([[0., 1.], [-1., 0.]])))
+    pu, pp = sla.polar(Asq)
+    emit_mat(out, "la_polar_u", pu)
+    emit_mat(out, "la_polar_p", pp)
+
+    # special matrices
+    emit_mat(out, "la_toeplitz", sla.toeplitz([1., 2., 3., 4.]))
+    emit_mat(out, "la_circulant", sla.circulant([1., 2., 3.]))
+    emit_mat(out, "la_hankel", sla.hankel([1., 2., 3.], [3., 4., 5.]))
+    emit_mat(out, "la_hilbert", sla.hilbert(4))
+    emit_mat(out, "la_hadamard", sla.hadamard(4))
+    emit_mat(out, "la_pascal", sla.pascal(4))
+    emit_mat(out, "la_companion", sla.companion([1., -6., 11., -6.]))
+    emit_mat(out, "la_tri", np.tril(np.ones((4, 4))))
+    emit_mat(out, "la_leslie", sla.leslie([0.1, 2.0, 1.0, 0.1], [0.2, 0.8, 0.7]))
+    emit_mat(out, "la_blockdiag", sla.block_diag(np.array([[1., 2.], [3., 4.]]),
+                                                 np.array([[5.]]), np.array([[6., 7.]])))
 
     out.append("}  // namespace golden")
     os.makedirs(os.path.dirname(GOLDEN), exist_ok=True)

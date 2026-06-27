@@ -31,7 +31,7 @@
 > baseline; GPU-accelerable kernels reuse the backend-acceleration substrate.
 
 - [x] **Phase 1** — `special` (gamma/erf/Bessel/orthogonal polys/logsumexp/softmax) + `constants` (CODATA, unit conversion) — delivered via `add-special-constants`
-- [ ] **Phase 2** — `linalg` (inv/solve/lstsq/pinv, eig/eigh, lu/qr/svd/cholesky/ldl/schur/qz/polar, expm/logm/sqrtm, Sylvester/Lyapunov/Riccati; BLAS/LAPACK + GPU GEMM)
+- [~] **Phase 2** — `linalg` core delivered via `add-linalg` (inv/det/solve/lstsq/pinv/pinvh/norm, lu/qr/svd/cholesky, eig/eigh, expm/polar, special matrices; GEMM via NumPP). Deferred to a follow-up: ldl, sqrtm/logm/funm, schur/qz/cossin, banded, matrix-equation solvers
 - [ ] **Phase 3** — `fft` + `fftpack` (fft/rfft/hfft, fftn/rfftn, dct/dst I–IV, helpers; GPU transforms)
 - [ ] **Phase 4** — `optimize` (minimize methods, root/brentq/newton, least_squares/curve_fit/nnls, linprog/milp)
 - [ ] **Phase 5** — `integrate` (quad/simpson/trapezoid, solve_ivp RK/Radau/BDF/LSODA, solve_bvp) + `differentiate`

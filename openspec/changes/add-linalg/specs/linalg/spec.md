@@ -28,10 +28,10 @@ systems SHALL raise an error mirroring SciPy's `LinAlgError`. (oracle: scipy/lin
 ### Requirement: Matrix decompositions
 
 `scypp::linalg` SHALL provide `lu` / `lu_factor` / `lu_solve`, `qr`, `svd` /
-`svdvals`, `cholesky` / `cho_factor` / `cho_solve`, and `ldl`, matching SciPy.
+`svdvals`, and `cholesky` / `cho_factor` / `cho_solve`, matching SciPy.
 `cholesky` SHALL return the upper factor by default (SciPy convention) with a
 `lower` option. (oracle: scipy/linalg/_decomp_lu.py, _decomp_qr.py, _decomp_svd.py,
-_decomp_cholesky.py, _decomp_ldl.py)
+_decomp_cholesky.py)
 
 #### Scenario: LU reconstructs the input
 - GIVEN a square matrix `A`

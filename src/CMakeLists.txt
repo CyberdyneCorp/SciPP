@@ -6,7 +6,12 @@ add_library(scypp
   special/orthogonal.cpp
   special/combinatorics.cpp
   special/reductions.cpp
-  constants/constants.cpp)
+  constants/constants.cpp
+  linalg/basic.cpp
+  linalg/decomp.cpp
+  linalg/eigen.cpp
+  linalg/matfuncs.cpp
+  linalg/special.cpp)
 
 add_library(scypp::scypp ALIAS scypp)
 

@@ -32,10 +32,14 @@ ndarray ls = sp::logsumexp(x, /*axis=*/1);    // numerically stable
 double c   = cst::c;                          // speed of light
 double m_e = cst::value("electron mass");     // CODATA table lookup
 double f   = cst::convert_temperature(100.0, "Celsius", "Fahrenheit");  // 212
+
+// Linear algebra (scipy.linalg conventions, GEMM via NumPP).
+auto [P, L, U] = scypp::linalg::lu(Asq);      // explicit P·L·U
+ndarray E      = scypp::linalg::expm(Asq);    // matrix exponential
 ```
 
-> Phase 1 (`special`, `constants`) is implemented. The APIs below
-> (`linalg::lu`, `fft::dct`, `optimize::minimize`, …) are on the roadmap.
+> Phases 1–2 (`special`, `constants`, `linalg`) are implemented. The APIs for
+> `fft`, `optimize`, `stats`, … are on the roadmap.
 
 ## Why ScyPP
 
@@ -97,12 +101,18 @@ namespace. See [`openspec/project.md`](openspec/project.md) for the full map.
 
 ## Project status
 
-**Phase 1 shipped** — `scypp::special` (gamma/erf/Bessel/exponential integrals/
-orthogonal evaluators/combinatorics/`logsumexp`/`softmax`) and `scypp::constants`
-(CODATA table + scale constants + unit conversions) build on NumPP and pass
-**248 oracle checks against SciPy 1.15** (11 cases, 0 divergences). This phase
-also stood up the foundation: CMake/C++20 skeleton, pinned NumPP `find_package`
-dependency, the `scypp::error` model, and the frozen-golden SciPy oracle harness.
+**Phases 1–2 shipped** (built on NumPP, validated against SciPy 1.15 — **895
+oracle checks, 0 divergences**):
+
+- **Phase 1** — `scypp::special` (gamma/erf/Bessel/exponential integrals/
+  orthogonal evaluators/combinatorics/`logsumexp`/`softmax`) and `scypp::constants`
+  (CODATA table + scale constants + unit conversions). This phase also stood up the
+  foundation: CMake/C++20 skeleton, pinned NumPP `find_package` dependency, the
+  `scypp::error` model, and the frozen-golden SciPy oracle harness.
+- **Phase 2** — `scypp::linalg`: `inv`/`det`/`solve`/`lstsq`/`pinv`/`pinvh`/`norm`,
+  `lu`/`qr`/`svd`/`cholesky` (+ factor/solve helpers), `eig`/`eigh`, `expm` (Padé)
+  and `polar`, and special-matrix constructors. Standard decompositions delegate to
+  NumPP; GEMM-heavy paths route through NumPP's BLAS/GPU `matmul`.
 
 The architecture, CUDA/OpenCL/Metal backend strategy, and the full parity roadmap
 are specified with **OpenSpec** under [`openspec/`](openspec/). Each remaining

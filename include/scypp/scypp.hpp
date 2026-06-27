@@ -4,4 +4,5 @@
 #include "scypp/version.hpp"
 #include "scypp/error.hpp"
 #include "scypp/constants/constants.hpp"
+#include "scypp/linalg/linalg.hpp"
 #include "scypp/special/special.hpp"

@@ -1,7 +1,8 @@
 add_executable(scypp_tests
   main.cpp
   test_special.cpp
-  test_constants.cpp)
+  test_constants.cpp
+  test_linalg.cpp)
 
 target_link_libraries(scypp_tests PRIVATE scypp::scypp numpp::numpp)
 

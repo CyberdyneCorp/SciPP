@@ -24,7 +24,7 @@ over `numpp::ndarray`:
   (matrix/vector orders).
 - **Decompositions**: `lu` / `lu_factor` / `lu_solve` (the SciPy-only explicit
   P·L·U), `qr`, `svd` / `svdvals`, `cholesky` (SciPy upper-default) / `cho_factor`
-  / `cho_solve`, `ldl`.
+  / `cho_solve`.
 - **Eigenvalue problems**: `eig`, `eigvals`, `eigh`, `eigvalsh` (incl. the
   `eigvals_only` / subset-free standard forms).
 - **Matrix functions**: `expm` (Padé scaling-and-squaring) and `polar`
@@ -44,6 +44,8 @@ over `numpp::ndarray`:
 
 ## Non-goals (deferred to a later linalg change)
 
+- **`ldl`**: SciPy's Bunch–Kaufman LDLᵀ with 2×2 pivot blocks is hard to match
+  bit-for-bit against the oracle; deferred to its own change.
 - **Matrix functions beyond expm/polar**: `sqrtm`, `logm`, `funm`, `cosm`,
   `sinm`, `fractional_matrix_power` — they need a robust complex Schur form to
   match SciPy on defective matrices.
