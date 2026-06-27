@@ -19,6 +19,9 @@ import scipy.integrate as spi
 import scipy.interpolate as spn
 import scipy.stats as sst
 import scipy.signal as ssg
+import scipy.sparse as ssp
+import scipy.sparse.linalg as sspl
+import scipy.sparse.csgraph as sscg
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 ROOT = os.path.abspath(os.path.join(HERE, "..", ".."))
@@ -520,6 +523,48 @@ def main():
     emit_mat(out, "se_conv2d", ssg.convolve2d(A2, B2, mode="full"))
     emit_mat(out, "se_conv2d_same", ssg.convolve2d(A2, B2, mode="same"))
     emit_mat(out, "se_corr2d", ssg.correlate2d(A2, B2, mode="full"))
+
+    # ---- sparse ----
+    Asp = np.array([[4., 0., 1., 0.], [0., 3., 0., 2.], [1., 0., 5., 0.], [0., 2., 0., 6.]])
+    emit_mat(out, "sp_A", Asp)
+    csr = ssp.csr_array(Asp)
+    emit_mat(out, "sp_A_toarray", csr.toarray())
+    xv = np.array([1., 2., 3., 4.])
+    emit_vec("sp_x", xv)
+    emit_vec("sp_spmv", csr @ xv)
+    Xm = np.array([[1., 0.], [0., 1.], [2., 1.], [1., 2.]])
+    emit_mat(out, "sp_X", Xm)
+    emit_mat(out, "sp_spmm", (csr @ Xm))
+    emit_vec("sp_diag", csr.diagonal())
+    emit_scalar(out, "sp_norm_fro", sspl.norm(csr))
+    emit_mat(out, "sp_eye", ssp.eye_array(4).toarray())
+    dd = ssp.diags([np.array([1., 2., 3., 4.]), np.array([5., 6., 7.])], [0, 1]).toarray()
+    emit_mat(out, "sp_diags", dd)
+    Bsum = (csr + ssp.eye_array(4)).toarray()
+    emit_mat(out, "sp_add", Bsum)
+
+    # solvers (SPD system)
+    bb = np.array([1., 2., 3., 4.])
+    emit_vec("sp_b", bb)
+    emit_vec("sp_spsolve", sspl.spsolve(ssp.csr_array(Asp), bb))
+
+    # csgraph (weighted directed graph)
+    G = np.array([[0., 2., 0., 6.], [0., 0., 3., 8.], [0., 0., 0., 0.], [0., 0., 7., 0.]])
+    emit_mat(out, "sp_G", G)
+    gcsr = ssp.csr_array(G)
+    emit_mat(out, "sp_dijkstra", sscg.dijkstra(gcsr, directed=True))
+    emit_mat(out, "sp_floyd", sscg.floyd_warshall(gcsr, directed=True))
+    # connected components (undirected)
+    Gu = np.array([[0., 1., 0., 0., 0.], [1., 0., 0., 0., 0.], [0., 0., 0., 1., 0.],
+                   [0., 0., 1., 0., 0.], [0., 0., 0., 0., 0.]])
+    emit_mat(out, "sp_Gu", Gu)
+    ncomp, lbl = sscg.connected_components(ssp.csr_array(Gu), directed=False)
+    emit_scalar(out, "sp_ncomp", float(ncomp))
+    # MST total weight
+    Gm = np.array([[0., 1., 0., 4.], [1., 0., 2., 6.], [0., 2., 0., 3.], [4., 6., 3., 0.]])
+    emit_mat(out, "sp_Gm", Gm)
+    mst = sscg.minimum_spanning_tree(ssp.csr_array(Gm))
+    emit_scalar(out, "sp_mst_weight", mst.toarray().sum())
 
     out.append("}  // namespace golden")
     os.makedirs(os.path.dirname(GOLDEN), exist_ok=True)

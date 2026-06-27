@@ -41,7 +41,11 @@ add_library(scypp
   signal/peaks.cpp
   signal/lti.cpp
   signal/spectral2.cpp
-  signal/design2.cpp)
+  signal/design2.cpp
+  sparse/formats.cpp
+  sparse/ops.cpp
+  sparse/linalg.cpp
+  sparse/csgraph.cpp)
 
 add_library(scypp::scypp ALIAS scypp)
 

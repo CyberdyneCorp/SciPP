@@ -38,9 +38,9 @@ auto [P, L, U] = scypp::linalg::lu(Asq);      // explicit P·L·U
 ndarray E      = scypp::linalg::expm(Asq);    // matrix exponential
 ```
 
-> Phases 1–8 (`special`, `constants`, `linalg`, `fft`, `optimize`, `integrate`,
-> `differentiate`, `interpolate`, `stats`, `signal`) are implemented. The APIs for
-> `sparse`, `spatial`, `ndimage`, … are on the roadmap.
+> Phases 1–9 (`special`, `constants`, `linalg`, `fft`, `optimize`, `integrate`,
+> `differentiate`, `interpolate`, `stats`, `signal`, `sparse`) are implemented. The
+> APIs for `spatial`, `ndimage`, `cluster`/`io` are on the roadmap.
 
 ## Why ScyPP
 
@@ -102,7 +102,7 @@ namespace. See [`openspec/project.md`](openspec/project.md) for the full map.
 
 ## Project status
 
-**Phases 1–8 shipped** (built on NumPP, validated against SciPy 1.15 — **3214
+**Phases 1–9 shipped** (built on NumPP, validated against SciPy 1.15 — **3365
 oracle checks, 0 divergences**):
 
 - **Phase 1** — `scypp::special` (gamma/erf/Bessel/exponential integrals/
@@ -137,6 +137,11 @@ oracle checks, 0 divergences**):
   analysis (`find_peaks`/`peak_prominences`/`peak_widths`), LTI systems
   (`bode`/`step`/`impulse`/`lsim`), resampling (`resample`/`resample_poly`/
   `decimate`/`upfirdn`), and `savgol_filter`/`medfilt`/`wiener`/`convolve2d`.
+- **Phase 9** — `scypp::sparse`: COO/CSR/CSC formats + conversions, `eye`/`diags`,
+  `spmv`/`spmm` with NumPP capability-registry **backend dispatch** (CPU kernel +
+  GPU-ready architecture), `sparse.linalg` (`spsolve`/`cg`/`gmres`/`norm`), and
+  `sparse.csgraph` (`dijkstra`/`bellman_ford`/`floyd_warshall`/
+  `connected_components`/`minimum_spanning_tree`).
 
 The architecture, CUDA/OpenCL/Metal backend strategy, and the full parity roadmap
 are specified with **OpenSpec** under [`openspec/`](openspec/). Each remaining
