@@ -22,6 +22,8 @@ import scipy.signal as ssg
 import scipy.sparse as ssp
 import scipy.sparse.linalg as sspl
 import scipy.sparse.csgraph as sscg
+from scipy.spatial import KDTree, ConvexHull, Delaunay, distance as spd
+from scipy.spatial.transform import Rotation as spR, Slerp as spSlerp
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 ROOT = os.path.abspath(os.path.join(HERE, "..", ".."))
@@ -565,6 +567,54 @@ def main():
     emit_mat(out, "sp_Gm", Gm)
     mst = sscg.minimum_spanning_tree(ssp.csr_array(Gm))
     emit_scalar(out, "sp_mst_weight", mst.toarray().sum())
+
+    # ---- spatial ----
+    P = np.array([[0., 0.], [1., 0.], [0., 1.], [1., 1.], [0.5, 0.3], [0.2, 0.8]])
+    Q = np.array([[2., 2.], [0.5, 0.5], [3., 1.]])
+    emit_mat(out, "sa_P", P); emit_mat(out, "sa_Q", Q)
+    for m in ["euclidean", "cityblock", "chebyshev", "cosine", "correlation", "hamming"]:
+        emit_vec(f"sa_pdist_{m}", spd.pdist(P, metric=m))
+    emit_mat(out, "sa_cdist_eucl", spd.cdist(P, Q, metric="euclidean"))
+    emit_mat(out, "sa_squareform", spd.squareform(spd.pdist(P)))
+
+    # KDTree
+    tree = KDTree(P)
+    dd, ii = tree.query(Q, k=2)
+    emit_mat(out, "sa_kd_dist", dd)
+    emit_mat(out, "sa_kd_idx", ii.astype(float))
+
+    # ConvexHull (2-D)
+    hull = ConvexHull(P)
+    emit_scalar(out, "sa_hull_area", hull.area)      # perimeter (2-D)
+    emit_scalar(out, "sa_hull_volume", hull.volume)  # area (2-D)
+    emit_vec("sa_hull_vertices", np.sort(hull.vertices).astype(float))
+
+    # Delaunay (2-D): general-position points (unique triangulation), sorted tris
+    DP = np.array([[0.0, 0.0], [1.0, 0.2], [0.3, 1.0], [1.2, 1.1], [0.6, 0.4], [0.1, 0.7]])
+    emit_mat(out, "sa_DP", DP)
+    dela = Delaunay(DP)
+    tris = np.sort(dela.simplices, axis=1)
+    tris = tris[np.lexsort(tris.T[::-1])]
+    emit_mat(out, "sa_delaunay", tris.astype(float))
+    emit_scalar(out, "sa_find_simplex_in", float(dela.find_simplex([0.5, 0.5]) >= 0))
+
+    # Rotation
+    r = spR.from_euler("xyz", [30, 45, 60], degrees=True)
+    emit_mat(out, "sa_rot_matrix", r.as_matrix())
+    emit_vec("sa_rot_quat", r.as_quat())
+    emit_vec("sa_rot_apply", r.apply([1., 2., 3.]))
+    emit_vec("sa_rot_euler", r.as_euler("xyz", degrees=True))
+    emit_vec("sa_rot_rotvec", r.as_rotvec())
+    emit_scalar(out, "sa_rot_mag", r.magnitude())
+    r2 = spR.from_quat([0.1, 0.2, 0.3, 0.9])
+    comp = (r * r2)
+    emit_vec("sa_rot_compose_apply", comp.apply([1., 0., 0.]))
+    emit_vec("sa_rot_inv_apply", r.inv().apply([1., 2., 3.]))
+    # Slerp
+    key_t = np.array([0., 1., 2.])
+    key_r = spR.from_euler("z", [0, 90, 180], degrees=True)
+    sl = spSlerp(key_t, key_r)
+    emit_vec("sa_slerp_apply", sl(0.7).apply([1., 0., 0.]))
 
     out.append("}  // namespace golden")
     os.makedirs(os.path.dirname(GOLDEN), exist_ok=True)

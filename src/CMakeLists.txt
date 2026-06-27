@@ -45,7 +45,11 @@ add_library(scypp
   sparse/formats.cpp
   sparse/ops.cpp
   sparse/linalg.cpp
-  sparse/csgraph.cpp)
+  sparse/csgraph.cpp
+  spatial/distance.cpp
+  spatial/kdtree.cpp
+  spatial/geometry.cpp
+  spatial/rotation.cpp)
 
 add_library(scypp::scypp ALIAS scypp)
 

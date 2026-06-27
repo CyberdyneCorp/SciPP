@@ -12,5 +12,6 @@
 #include "scypp/optimize/optimize.hpp"
 #include "scypp/signal/signal.hpp"
 #include "scypp/sparse/sparse.hpp"
+#include "scypp/spatial/spatial.hpp"
 #include "scypp/special/special.hpp"
 #include "scypp/stats/stats.hpp"

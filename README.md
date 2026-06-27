@@ -38,9 +38,9 @@ auto [P, L, U] = scypp::linalg::lu(Asq);      // explicit P·L·U
 ndarray E      = scypp::linalg::expm(Asq);    // matrix exponential
 ```
 
-> Phases 1–9 (`special`, `constants`, `linalg`, `fft`, `optimize`, `integrate`,
-> `differentiate`, `interpolate`, `stats`, `signal`, `sparse`) are implemented. The
-> APIs for `spatial`, `ndimage`, `cluster`/`io` are on the roadmap.
+> Phases 1–10 (`special`, `constants`, `linalg`, `fft`, `optimize`, `integrate`,
+> `differentiate`, `interpolate`, `stats`, `signal`, `sparse`, `spatial`) are
+> implemented. The APIs for `ndimage`, `cluster`/`io` are on the roadmap.
 
 ## Why ScyPP
 
@@ -102,7 +102,7 @@ namespace. See [`openspec/project.md`](openspec/project.md) for the full map.
 
 ## Project status
 
-**Phases 1–9 shipped** (built on NumPP, validated against SciPy 1.15 — **3365
+**Phases 1–10 shipped** (built on NumPP, validated against SciPy 1.15 — **3596
 oracle checks, 0 divergences**):
 
 - **Phase 1** — `scypp::special` (gamma/erf/Bessel/exponential integrals/
@@ -142,6 +142,9 @@ oracle checks, 0 divergences**):
   GPU-ready architecture), `sparse.linalg` (`spsolve`/`cg`/`gmres`/`norm`), and
   `sparse.csgraph` (`dijkstra`/`bellman_ford`/`floyd_warshall`/
   `connected_components`/`minimum_spanning_tree`).
+- **Phase 10** — `scypp::spatial`: distances (`pdist`/`cdist`/`squareform` + metrics
+  with backend dispatch), `KDTree`, 2-D `ConvexHull`/`Delaunay`, and 3-D rotations
+  (`transform::Rotation` quat/matrix/euler/rotvec + `apply`/`inv`/compose/`Slerp`).
 
 The architecture, CUDA/OpenCL/Metal backend strategy, and the full parity roadmap
 are specified with **OpenSpec** under [`openspec/`](openspec/). Each remaining
