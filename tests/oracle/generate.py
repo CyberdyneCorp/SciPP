@@ -16,6 +16,7 @@ import scipy.linalg as sla
 import scipy.fft as spf
 import scipy.optimize as spo
 import scipy.integrate as spi
+import scipy.interpolate as spn
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 ROOT = os.path.abspath(os.path.join(HERE, "..", ".."))
@@ -271,6 +272,43 @@ def main():
     emit_scalar(out, "ig_quad_pi", spi.quad(lambda x: 4.0 / (1.0 + x * x), 0.0, 1.0)[0])
     emit_scalar(out, "ig_quad_exp", spi.quad(lambda x: np.exp(-x * x), 0.0, 2.0)[0])
     emit_scalar(out, "ig_fixed_quad", spi.fixed_quad(lambda x: x**3, 0.0, 2.0, n=5)[0])
+
+    # ---- interpolate ----
+    ip_x = np.array([0.0, 1.0, 2.0, 3.0, 4.0, 5.0])
+    ip_y = np.sin(ip_x)
+    ip_q = np.linspace(0.2, 4.8, 12)
+    emit_vec("ip_x", ip_x)
+    emit_vec("ip_y", ip_y)
+    emit_vec("ip_q", ip_q)
+    emit_vec("ip_linear", spn.interp1d(ip_x, ip_y, kind="linear")(ip_q))
+    emit_vec("ip_nearest", spn.interp1d(ip_x, ip_y, kind="nearest")(ip_q))
+    emit_vec("ip_cubic", spn.CubicSpline(ip_x, ip_y)(ip_q))
+    emit_vec("ip_cubic_d1", spn.CubicSpline(ip_x, ip_y)(ip_q, 1))
+    emit_vec("ip_cubic_nat", spn.CubicSpline(ip_x, ip_y, bc_type="natural")(ip_q))
+    emit_vec("ip_pchip", spn.PchipInterpolator(ip_x, ip_y)(ip_q))
+    emit_vec("ip_akima", spn.Akima1DInterpolator(ip_x, ip_y)(ip_q))
+
+    # 2-D regular grid
+    gx = np.array([0.0, 1.0, 2.0, 3.0])
+    gy = np.array([0.0, 1.0, 2.0])
+    gv = np.array([[(xi * xi + yi) for yi in gy] for xi in gx])
+    rgi_q = np.array([[0.5, 0.5], [1.5, 1.2], [2.7, 0.3], [3.0, 2.0]])
+    emit_mat(out, "ip_gv", gv)
+    emit_mat(out, "ip_rgi_q", rgi_q)
+    emit_vec("ip_rgi_lin", spn.RegularGridInterpolator((gx, gy), gv, method="linear")(rgi_q))
+    emit_vec("ip_rgi_near", spn.RegularGridInterpolator((gx, gy), gv, method="nearest")(rgi_q))
+
+    # RBF scattered (2-D)
+    rng = np.random.default_rng(0)
+    yc = np.array([[0.0, 0.0], [1.0, 0.0], [0.0, 1.0], [1.0, 1.0], [0.5, 0.5], [0.2, 0.8], [0.8, 0.3]])
+    dvals = np.array([f(p) for p in yc for f in [lambda p: p[0] * p[0] + p[1]]])
+    rbf_q = np.array([[0.3, 0.3], [0.6, 0.7], [0.9, 0.1]])
+    emit_mat(out, "ip_rbf_y", yc)
+    emit_vec("ip_rbf_d", dvals)
+    emit_mat(out, "ip_rbf_q", rbf_q)
+    emit_vec("ip_rbf_tps", spn.RBFInterpolator(yc, dvals, kernel="thin_plate_spline")(rbf_q))
+    emit_vec("ip_rbf_cubic", spn.RBFInterpolator(yc, dvals, kernel="cubic")(rbf_q))
+    emit_vec("ip_rbf_lin", spn.RBFInterpolator(yc, dvals, kernel="linear")(rbf_q))
 
     out.append("}  // namespace golden")
     os.makedirs(os.path.dirname(GOLDEN), exist_ok=True)

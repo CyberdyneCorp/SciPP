@@ -20,7 +20,11 @@ add_library(scypp
   optimize/least_squares.cpp
   integrate/quadrature.cpp
   integrate/solve_ivp.cpp
-  integrate/differentiate.cpp)
+  integrate/differentiate.cpp
+  interpolate/interp1d.cpp
+  interpolate/splines.cpp
+  interpolate/regular_grid.cpp
+  interpolate/rbf.cpp)
 
 add_library(scypp::scypp ALIAS scypp)
 

@@ -7,6 +7,7 @@
 #include "scypp/differentiate/differentiate.hpp"
 #include "scypp/fft/fft.hpp"
 #include "scypp/integrate/integrate.hpp"
+#include "scypp/interpolate/interpolate.hpp"
 #include "scypp/linalg/linalg.hpp"
 #include "scypp/optimize/optimize.hpp"
 #include "scypp/special/special.hpp"
