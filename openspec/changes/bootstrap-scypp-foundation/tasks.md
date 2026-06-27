@@ -34,7 +34,7 @@
 - [~] **Phase 2** — `linalg` core delivered via `add-linalg` (inv/det/solve/lstsq/pinv/pinvh/norm, lu/qr/svd/cholesky, eig/eigh, expm/polar, special matrices; GEMM via NumPP). Deferred to a follow-up: ldl, sqrtm/logm/funm, schur/qz/cossin, banded, matrix-equation solvers
 - [x] **Phase 3** — `fft` + `fftpack` delivered via `add-fft` (fft/rfft/hfft, fftn/rfftn delegated to NumPP; dct/dst I–IV + next_fast_len + fftpack alias; ortho/forward DCT norm, N-D DCT, fht/czt deferred)
 - [x] **Phase 4** — `optimize` core delivered via `add-optimize` (brentq/bisect/newton, minimize_scalar brent/bounded, minimize Nelder-Mead/BFGS, least_squares/curve_fit/fsolve). Deferred: linprog/milp, constrained (SLSQP/trust-constr), global optimizers, nnls
-- [x] **Phase 5** — `integrate` core + `differentiate` delivered via `add-integrate` (trapezoid/simpson/cumulative_trapezoid, quad adaptive Gauss-Kronrod, fixed_quad, solve_ivp RK45/RK23; derivative/jacobian/hessian). Deferred: stiff solvers Radau/BDF/LSODA, solve_bvp, dblquad/nquad
+- [x] **Phase 5** — `integrate` core + `differentiate` delivered via `add-integrate` (trapezoid/simpson/cumulative_trapezoid, quad adaptive Gauss-Kronrod, fixed_quad, solve_ivp RK45/RK23; derivative/jacobian/hessian). Deferred work tracked in the open `add-integrate-stiff-bvp` backlog change (stiff solvers Radau/BDF/LSODA + odeint, solve_bvp, dblquad/tplquad/nquad, romberg)
 - [ ] **Phase 6** — `interpolate` (interp1d, CubicSpline/Pchip/Akima, B-splines, griddata/RegularGrid/RBF)
 - [ ] **Phase 7** — `stats` (distributions, summary stats, hypothesis tests, qmc, gaussian_kde)
 - [ ] **Phase 8** — `signal` (convolve/fftconvolve, lfilter/filtfilt/sosfilt, filter design, welch/spectrogram/stft, LTI)
