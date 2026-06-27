@@ -18,6 +18,7 @@ import scipy.optimize as spo
 import scipy.integrate as spi
 import scipy.interpolate as spn
 import scipy.stats as sst
+import scipy.signal as ssg
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 ROOT = os.path.abspath(os.path.join(HERE, "..", ".."))
@@ -388,6 +389,64 @@ def main():
     emit_vec("st_kde_data", kde_data); emit_vec("st_kde_q", kde_q)
     emit_vec("st_kde_scott", sst.gaussian_kde(kde_data, bw_method="scott")(kde_q))
     emit_vec("st_kde_silverman", sst.gaussian_kde(kde_data, bw_method="silverman")(kde_q))
+
+    # ---- signal ----
+    sa = np.array([1.0, 2.0, 3.0, 4.0, 5.0])
+    sb = np.array([0.5, 1.0, 0.5])
+    emit_vec("sg_a", sa); emit_vec("sg_b", sb)
+    emit_vec("sg_conv_full", ssg.convolve(sa, sb, mode="full"))
+    emit_vec("sg_conv_same", ssg.convolve(sa, sb, mode="same"))
+    emit_vec("sg_conv_valid", ssg.convolve(sa, sb, mode="valid"))
+    emit_vec("sg_corr_full", ssg.correlate(sa, sb, mode="full"))
+
+    emit_vec("sg_hann", ssg.windows.hann(16))
+    emit_vec("sg_hamming", ssg.windows.hamming(16))
+    emit_vec("sg_blackman", ssg.windows.blackman(16))
+    emit_vec("sg_kaiser", ssg.windows.kaiser(16, 8.0))
+    emit_vec("sg_tukey", ssg.windows.tukey(16, 0.5))
+    emit_vec("sg_hann_per", ssg.windows.hann(16, sym=False))
+
+    tw = np.linspace(0, 1, 50, endpoint=False)
+    emit_vec("sg_tw", tw)
+    emit_vec("sg_chirp", ssg.chirp(tw, f0=2.0, t1=1.0, f1=8.0, method="linear"))
+    emit_vec("sg_sawtooth", ssg.sawtooth(2 * np.pi * 3 * tw))
+    emit_vec("sg_square", ssg.square(2 * np.pi * 3 * tw, duty=0.3))
+
+    # butter lowpass + filtering
+    b, a = ssg.butter(4, 0.2, btype="low")
+    emit_vec("sg_butter_b", b); emit_vec("sg_butter_a", a)
+    bh, ah = ssg.butter(3, 0.3, btype="high")
+    emit_vec("sg_butterhp_b", bh); emit_vec("sg_butterhp_a", ah)
+    bbp, abp = ssg.butter(2, [0.2, 0.4], btype="band")
+    emit_vec("sg_butterbp_b", bbp); emit_vec("sg_butterbp_a", abp)
+    bc1, ac1 = ssg.cheby1(4, 1.0, 0.2, btype="low")
+    emit_vec("sg_cheby1_b", bc1); emit_vec("sg_cheby1_a", ac1)
+    bc2, ac2 = ssg.cheby2(4, 30.0, 0.2, btype="low")
+    emit_vec("sg_cheby2_b", bc2); emit_vec("sg_cheby2_a", ac2)
+
+    sig = np.sin(2 * np.pi * 3 * tw) + 0.4 * np.sin(2 * np.pi * 12 * tw)
+    emit_vec("sg_sig", sig)
+    emit_vec("sg_lfilter", ssg.lfilter(b, a, sig))
+    emit_vec("sg_lfilter_zi", ssg.lfilter_zi(b, a))
+    emit_vec("sg_filtfilt", ssg.filtfilt(b, a, sig))
+    sos = ssg.butter(4, 0.2, btype="low", output="sos")
+    emit_mat(out, "sg_sos", sos)
+    emit_vec("sg_sosfilt", ssg.sosfilt(sos, sig))
+    emit_vec("sg_detrend", ssg.detrend(sig, type="linear"))
+
+    w, h = ssg.freqz(b, a, worN=32)
+    emit_vec("sg_freqz_w", w)
+    emit_vec("sg_freqz_hr", h.real); emit_vec("sg_freqz_hi", h.imag)
+    hil = ssg.hilbert(sig)
+    emit_vec("sg_hilbert_r", hil.real); emit_vec("sg_hilbert_i", hil.imag)
+
+    taps = ssg.firwin(21, 0.3)
+    emit_vec("sg_firwin", taps)
+
+    fp, Pp = ssg.periodogram(sig, fs=50.0)
+    emit_vec("sg_per_f", fp); emit_vec("sg_per_P", Pp)
+    fw, Pw = ssg.welch(sig, fs=50.0, nperseg=16)
+    emit_vec("sg_welch_f", fw); emit_vec("sg_welch_P", Pw)
 
     out.append("}  // namespace golden")
     os.makedirs(os.path.dirname(GOLDEN), exist_ok=True)

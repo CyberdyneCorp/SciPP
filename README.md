@@ -38,9 +38,9 @@ auto [P, L, U] = scypp::linalg::lu(Asq);      // explicit P·L·U
 ndarray E      = scypp::linalg::expm(Asq);    // matrix exponential
 ```
 
-> Phases 1–7 (`special`, `constants`, `linalg`, `fft`, `optimize`, `integrate`,
-> `differentiate`, `interpolate`, `stats`) are implemented. The APIs for `signal`,
-> `sparse`, `spatial`, … are on the roadmap.
+> Phases 1–8 (`special`, `constants`, `linalg`, `fft`, `optimize`, `integrate`,
+> `differentiate`, `interpolate`, `stats`, `signal`) are implemented. The APIs for
+> `sparse`, `spatial`, `ndimage`, … are on the roadmap.
 
 ## Why ScyPP
 
@@ -102,7 +102,7 @@ namespace. See [`openspec/project.md`](openspec/project.md) for the full map.
 
 ## Project status
 
-**Phases 1–7 shipped** (built on NumPP, validated against SciPy 1.15 — **1234
+**Phases 1–8 shipped** (built on NumPP, validated against SciPy 1.15 — **2150
 oracle checks, 0 divergences**):
 
 - **Phase 1** — `scypp::special` (gamma/erf/Bessel/exponential integrals/
@@ -130,6 +130,10 @@ oracle checks, 0 divergences**):
   `f`/`chi2`/…) with `pdf`/`cdf`/`ppf`, summary statistics, correlation/regression
   (`pearsonr`/`spearmanr`/`linregress`), hypothesis tests (`ttest_*`/`f_oneway`/
   `ks_2samp`/`chi2_contingency`/`normaltest`), and `gaussian_kde`.
+- **Phase 8** — `scypp::signal`: convolution, windows, waveforms, time-domain
+  filtering (`lfilter`/`filtfilt`/`sosfilt`/`hilbert`/`freqz`), filter design
+  (`butter`/`cheby1`/`cheby2`/`firwin` + zpk conversions), and spectral estimation
+  (`welch`/`periodogram`).
 
 The architecture, CUDA/OpenCL/Metal backend strategy, and the full parity roadmap
 are specified with **OpenSpec** under [`openspec/`](openspec/). Each remaining

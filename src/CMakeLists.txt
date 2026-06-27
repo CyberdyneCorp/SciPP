@@ -29,7 +29,13 @@ add_library(scypp
   stats/distributions.cpp
   stats/descriptive.cpp
   stats/tests.cpp
-  stats/kde.cpp)
+  stats/kde.cpp
+  signal/convolution.cpp
+  signal/windows.cpp
+  signal/waveforms.cpp
+  signal/filter.cpp
+  signal/design.cpp
+  signal/spectral.cpp)
 
 add_library(scypp::scypp ALIAS scypp)
 
