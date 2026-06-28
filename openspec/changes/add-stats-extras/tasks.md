@@ -1,5 +1,7 @@
 # Tasks — stats extras (backlog, not yet scheduled)
 
+> GitHub issue: [#4](https://github.com/CyberdyneCorp/SciPP/issues/4)
+
 > Tracking artifact. Each item graduates into real implementation when picked up.
 
 - [ ] distribution `rvs` (seeded via NumPP random) and `fit` (MLE)

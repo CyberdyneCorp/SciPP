@@ -1,5 +1,7 @@
 # Tasks — advanced optimize (backlog, not yet scheduled)
 
+> GitHub issue: [#3](https://github.com/CyberdyneCorp/SciPP/issues/3)
+
 > Tracking artifact. Each item graduates into real implementation when picked up.
 
 - [x] `linprog` (two-phase simplex) — delivered via `add-optimize-lp`; `milp` (branch-and-bound) still pending

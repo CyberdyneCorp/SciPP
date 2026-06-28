@@ -1,5 +1,7 @@
 # Tasks — advanced linalg (backlog, not yet scheduled)
 
+> GitHub issue: [#1](https://github.com/CyberdyneCorp/SciPP/issues/1)
+
 > Tracking artifact. Each item graduates into real implementation when picked up.
 
 - [ ] `ldl` (Bunch–Kaufman, 2×2 pivots)

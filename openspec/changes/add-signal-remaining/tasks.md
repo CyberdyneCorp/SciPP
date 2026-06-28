@@ -1,5 +1,7 @@
 # Tasks — signal remaining (backlog, not yet scheduled)
 
+> GitHub issue: [#5](https://github.com/CyberdyneCorp/SciPP/issues/5)
+
 > Tracking artifact. Each item graduates into real implementation when picked up.
 
 - [x] discrete LTI: `dstep`, `dimpulse`, `dlsim`, `dbode`, `dfreqresp` (delivered via add-signal-discrete-lti)

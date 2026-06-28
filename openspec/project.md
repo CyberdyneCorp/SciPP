@@ -84,3 +84,23 @@ ported into the `scipp::<name>` namespace:
   its own OpenSpec change when picked up.
 - New work flows through `propose → apply → validate → archive`.
 - Validate with `openspec validate --all --strict`.
+
+## Tracking deferred work and bugs
+Every deferred feature and every bug is tracked in **two** places that stay in
+sync, so nothing is lost between the spec and the issue tracker:
+
+- **Deferred features** live as an OpenSpec backlog change under
+  `openspec/changes/add-*` **and** as a GitHub issue labeled `deferred`,
+  `openspec`, and the relevant `module:<name>`. The backlog's `tasks.md` links its
+  issue (`> GitHub issue: #N`); the issue body mirrors the unchecked checklist.
+  When an item is picked up it graduates into its own focused, spec-driven,
+  oracle-tested change; on completion, check the item off in the backlog, note the
+  delivering change, and close/trim the issue.
+- **Bugs** are filed as a GitHub issue labeled `bug` (+ `module:<name>`). The fix
+  change MUST add a regression test reproducing the bug, per the project rules.
+- A new deferral discovered while implementing (e.g. a non-convergent region of a
+  special function, an unsupported metric) is added to the relevant backlog
+  `tasks.md`/issue and the change's `proposal.md` Non-goals in the same PR — never
+  left only in code comments.
+
+The live SciPP backlog issues are SciPP#1–#9 (one per `add-*` backlog change).

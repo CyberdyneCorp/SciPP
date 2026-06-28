@@ -1,5 +1,7 @@
 # Tasks — fft extras (backlog, not yet scheduled)
 
+> GitHub issue: [#2](https://github.com/CyberdyneCorp/SciPP/issues/2)
+
 > Tracking artifact. Each item graduates into real implementation when picked up.
 
 - [x] DCT/DST `ortho` and `forward` normalizations (types I–IV) — delivered via add-fft-dct-dst

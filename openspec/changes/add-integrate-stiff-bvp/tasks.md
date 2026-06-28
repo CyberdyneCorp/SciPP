@@ -1,5 +1,7 @@
 # Tasks — integrate completion (backlog, not yet scheduled)
 
+> GitHub issue: [#8](https://github.com/CyberdyneCorp/SciPP/issues/8)
+
 > Tracking artifact. Each item graduates into real implementation work (its own
 > change or a focused batch) when picked up; nothing here is implemented yet.
 
