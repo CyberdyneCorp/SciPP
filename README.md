@@ -104,7 +104,7 @@ namespace. See [`openspec/project.md`](openspec/project.md) for the full map.
 ## Project status
 
 **v1.0 — all 12 phases shipped.** Every public SciPy subpackage's commonly-used
-surface is ported, built on NumPP and validated against SciPy 1.15 — **5154 oracle
+surface is ported, built on NumPP and validated against SciPy 1.15 — **5182 oracle
 checks, 0 divergences**:
 
 - **Phase 1** — `scypp::special` (gamma/erf/Bessel/exponential integrals/

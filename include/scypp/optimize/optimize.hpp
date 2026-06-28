@@ -78,4 +78,30 @@ CurveFitResult curve_fit(const ModelFn& model, const ndarray& xdata, const ndarr
                          const ndarray& p0, double ftol = 1e-8, double xtol = 1e-8);
 ndarray fsolve(const VecFn& F, const ndarray& x0, double xtol = 1.49012e-8, int maxiter = 200);
 
+// ---- linear programming ----
+struct LinprogResult {
+  ndarray x;
+  double fun = 0.0;
+  bool success = false;
+  int status = 0;  // 0 optimal, 2 infeasible, 3 unbounded
+  std::string message;
+};
+
+// Minimize c·x subject to A_ub·x <= b_ub, A_eq·x = b_eq, x >= 0 (default bounds).
+// Two-phase primal simplex (Bland's rule). Empty optionals mean "no such block".
+LinprogResult linprog(const ndarray& c,
+                      std::optional<ndarray> A_ub = std::nullopt,
+                      std::optional<ndarray> b_ub = std::nullopt,
+                      std::optional<ndarray> A_eq = std::nullopt,
+                      std::optional<ndarray> b_eq = std::nullopt);
+
+// ---- nonnegative least squares ----
+struct NNLSResult {
+  ndarray x;
+  double rnorm = 0.0;
+};
+
+// Lawson-Hanson active-set solver for min ||A·x - b|| subject to x >= 0.
+NNLSResult nnls(const ndarray& A, const ndarray& b, int maxiter = -1);
+
 }  // namespace scypp::optimize

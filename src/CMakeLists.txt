@@ -18,6 +18,8 @@ add_library(scypp
   optimize/minimize_scalar.cpp
   optimize/minimize.cpp
   optimize/least_squares.cpp
+  optimize/linprog.cpp
+  optimize/nnls.cpp
   integrate/quadrature.cpp
   integrate/solve_ivp.cpp
   integrate/differentiate.cpp

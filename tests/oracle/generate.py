@@ -735,6 +735,30 @@ def main():
     kt = sst.kendalltau(rx, ry, method="asymptotic")
     emit_scalar(out, "dd_kt_stat", kt.statistic); emit_scalar(out, "dd_kt_p", kt.pvalue)
 
+    # ---- linprog + nnls ----
+    # LP1: min -x0 -2x1  s.t. x0+x1<=4, x0+3x1<=6  -> vertex (3,1), fun -5
+    lp1 = spo.linprog([-1, -2], A_ub=[[1, 1], [1, 3]], b_ub=[4, 6], bounds=(0, None))
+    emit_vec("lp1_x", lp1.x); emit_scalar(out, "lp1_fun", float(lp1.fun))
+    # LP2: equality + inequality. min x0+x1 s.t. x0+2x1>=3 (-> -x0-2x1<=-3), x0+x1=2
+    lp2 = spo.linprog([1, 1], A_ub=[[-1, -2]], b_ub=[-3], A_eq=[[1, 1]], b_eq=[2], bounds=(0, None))
+    emit_vec("lp2_x", lp2.x); emit_scalar(out, "lp2_fun", float(lp2.fun))
+    # LP3: classic min c=[-3,-2,-4] with 3 ub constraints
+    lp3 = spo.linprog([-3, -2, -4], A_ub=[[1, 1, 1], [2, 1, 0], [0, 1, 2]],
+                      b_ub=[10, 8, 12], bounds=(0, None))
+    emit_vec("lp3_x", lp3.x); emit_scalar(out, "lp3_fun", float(lp3.fun))
+
+    nnls_A = np.array([[1.0, 0.0], [1.0, 1.0], [0.0, 1.0], [2.0, 1.0]])
+    nnls_b = np.array([1.0, 2.0, 1.5, 3.0])
+    nx, nr = spo.nnls(nnls_A, nnls_b)
+    emit_mat(out, "nnls_A", nnls_A); emit_vec("nnls_b", nnls_b)
+    emit_vec("nnls_x", nx); emit_scalar(out, "nnls_rnorm", float(nr))
+    # nnls case where the unconstrained solution has a negative component
+    nnls_A2 = np.array([[1.0, 1.0], [1.0, -1.0], [1.0, 2.0]])
+    nnls_b2 = np.array([2.0, 5.0, 1.0])
+    nx2, nr2 = spo.nnls(nnls_A2, nnls_b2)
+    emit_mat(out, "nnls_A2", nnls_A2); emit_vec("nnls_b2", nnls_b2)
+    emit_vec("nnls_x2", nx2); emit_scalar(out, "nnls_rnorm2", float(nr2))
+
     out.append("}  // namespace golden")
     os.makedirs(os.path.dirname(GOLDEN), exist_ok=True)
     with open(GOLDEN, "w") as f:
