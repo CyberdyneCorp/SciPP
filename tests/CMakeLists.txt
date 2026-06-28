@@ -30,7 +30,8 @@ add_executable(scypp_tests
   test_integrate_bdf.cpp
   test_integrate_nested.cpp
   test_integrate_bvp.cpp
-  test_stats_normality.cpp)
+  test_stats_normality.cpp
+  test_odr.cpp)
 
 target_link_libraries(scypp_tests PRIVATE scypp::scypp numpp::numpp)
 

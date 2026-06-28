@@ -1136,6 +1136,67 @@ def main():
     emit_vec("hu_b", [sps.hyperu(2.0, 0.4, x) for x in hu_x])
     emit_vec("hu_c", [sps.hyperu(1.5, 2.7, x) for x in hu_x])
 
+    # ---- odr (orthogonal distance regression) ----
+    import scipy.odr as sodr
+
+    def emit_vec_odr(name, arr):
+        arr = np.asarray(arr, dtype=float).ravel()
+        out.append(f"inline const double {name}[] = {{{', '.join(fmt(v) for v in arr)}}};")
+        out.append(f"inline constexpr int {name}_n = {len(arr)};")
+
+    def _odr_lin(B, xx):
+        return B[0] + B[1] * xx
+
+    def _odr_exp(B, xx):
+        return B[0] * np.exp(B[1] * xx)
+
+    # (a) linear model y = b0 + b1 x with noise in both variables.
+    rng = np.random.RandomState(0)
+    xl = np.linspace(0, 10, 15)
+    yl_true = 2.0 + 1.5 * xl
+    xl = xl + rng.normal(0, 0.1, xl.size)
+    yl = yl_true + rng.normal(0, 0.2, xl.size)
+    emit_vec_odr("odr_lin_x", xl)
+    emit_vec_odr("odr_lin_y", yl)
+    ol = sodr.ODR(sodr.Data(xl, yl), sodr.Model(_odr_lin), beta0=[1.0, 1.0]).run()
+    emit_vec_odr("odr_lin_beta", ol.beta)
+    emit_vec_odr("odr_lin_sdbeta", ol.sd_beta)
+    emit_scalar(out, "odr_lin_resvar", ol.res_var)
+    emit_scalar(out, "odr_lin_ss", ol.sum_square)
+
+    # (b) nonlinear model y = b0 * exp(b1 x).
+    rng = np.random.RandomState(3)
+    xn_ = np.linspace(0, 2, 12)
+    yn_true = 2.5 * np.exp(0.7 * xn_)
+    xn_ = xn_ + rng.normal(0, 0.02, xn_.size)
+    yn_ = yn_true + rng.normal(0, 0.1, xn_.size)
+    emit_vec_odr("odr_nl_x", xn_)
+    emit_vec_odr("odr_nl_y", yn_)
+    on = sodr.ODR(sodr.Data(xn_, yn_), sodr.Model(_odr_exp), beta0=[1.0, 1.0]).run()
+    emit_vec_odr("odr_nl_beta", on.beta)
+    emit_vec_odr("odr_nl_sdbeta", on.sd_beta)
+    emit_scalar(out, "odr_nl_resvar", on.res_var)
+    emit_scalar(out, "odr_nl_ss", on.sum_square)
+
+    # (c) weighted linear model with per-point standard deviations sx, sy.
+    rng = np.random.RandomState(5)
+    xw = np.linspace(0, 10, 12)
+    yw_true = 1.0 + 0.8 * xw
+    sxw = np.full(xw.size, 0.1)
+    syw = np.full(xw.size, 0.3)
+    xw = xw + rng.normal(0, 0.1, xw.size)
+    yw = yw_true + rng.normal(0, 0.3, xw.size)
+    emit_vec_odr("odr_w_x", xw)
+    emit_vec_odr("odr_w_y", yw)
+    emit_vec_odr("odr_w_sx", sxw)
+    emit_vec_odr("odr_w_sy", syw)
+    ow = sodr.ODR(sodr.Data(xw, yw, wd=1.0 / sxw**2, we=1.0 / syw**2),
+                  sodr.Model(_odr_lin), beta0=[0.0, 1.0]).run()
+    emit_vec_odr("odr_w_beta", ow.beta)
+    emit_vec_odr("odr_w_sdbeta", ow.sd_beta)
+    emit_scalar(out, "odr_w_resvar", ow.res_var)
+    emit_scalar(out, "odr_w_ss", ow.sum_square)
+
     out.append("}  // namespace golden")
     os.makedirs(os.path.dirname(GOLDEN), exist_ok=True)
     with open(GOLDEN, "w") as f:

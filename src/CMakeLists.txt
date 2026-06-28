@@ -73,6 +73,7 @@ add_library(scypp
   ndimage/interpolation.cpp
   cluster/vq.cpp
   cluster/hierarchy.cpp
+  odr/odr.cpp
   io/io.cpp)
 
 add_library(scypp::scypp ALIAS scypp)
