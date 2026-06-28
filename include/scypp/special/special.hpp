@@ -4,6 +4,7 @@
 // `ndarray` overload. Domain edges follow SciPy: out-of-domain returns nan/inf
 // rather than throwing.
 
+#include <complex>
 #include <cstdint>
 #include <optional>
 
@@ -38,6 +39,22 @@ ndarray erf(const ndarray& x);
 ndarray erfc(const ndarray& x);
 ndarray erfinv(const ndarray& y);
 ndarray erfcinv(const ndarray& y);
+
+// ---- error-function relatives --------------------------------------------
+// erfcx(x) = exp(x^2) erfc(x); dawsn(x) = (sqrt(pi)/2) exp(-x^2) erfi(x);
+// wofz(z)  = w(z) = exp(-z^2) erfc(-i z) (Faddeeva function, delivered on the
+// upper half-plane Im(z) >= 0 that the Voigt profile and Fresnel integrals
+// require); voigt_profile(x, sigma, gamma) = Re[w((x + i gamma)/(sigma sqrt2))]
+// / (sigma sqrt(2 pi)); fresnel(x) returns the pair (S, C) of Fresnel integrals.
+double  erfcx(double x);
+double  dawsn(double x);
+double  voigt_profile(double x, double sigma, double gamma);
+std::complex<double> wofz(std::complex<double> z);
+struct fresnel_t { double S, C; };
+fresnel_t fresnel(double x);
+
+ndarray erfcx(const ndarray& x);
+ndarray dawsn(const ndarray& x);
 
 // ---- exponential / logarithmic integrals ----------------------------------
 double  exp1(double x);        // E_1(x)

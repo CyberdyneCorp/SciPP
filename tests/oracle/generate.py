@@ -1021,6 +1021,39 @@ def main():
         emit_vec(f"ej_{tag}_ph", [v[3] for v in ejv])
         emit_scalar(out, f"ej_m_{tag}", mm)
 
+    # ---- error-function relatives ----
+    erfcx_x = [-25.0, -10.0, -5.0, -2.0, -1.0, -0.5, 0.0, 0.5, 1.0, 2.0, 5.0,
+               10.0, 24.0, 25.0, 26.0, 30.0, 50.0, 100.0, 1000.0, 1e6]
+    emit_arr(out, "erfcx", erfcx_x, sps.erfcx)
+    dawsn_x = [-50.0, -10.0, -6.0, -5.0, -4.0, -3.5, -3.0, -2.0, -1.0, -0.5,
+               -0.2, -0.1, 0.0, 0.1, 0.2, 0.5, 1.0, 2.0, 3.0, 3.5, 4.0, 5.0,
+               6.0, 10.0, 50.0, 1000.0]
+    emit_arr(out, "dawsn", dawsn_x, sps.dawsn)
+    # fresnel S, C
+    fr_x = [-8.0, -5.0, -3.0, -2.0, -1.5, -1.0, -0.5, 0.0, 0.3, 0.7, 1.0, 1.5,
+            2.0, 2.5, 3.0, 4.0, 5.0, 8.0]
+    emit_vec("fr_x", fr_x)
+    frv = [sps.fresnel(x) for x in fr_x]
+    emit_vec("fr_S", [v[0] for v in frv])
+    emit_vec("fr_C", [v[1] for v in frv])
+    # voigt_profile over x for several (sigma, gamma) including gamma = 0
+    vt_x = [0.0, 0.5, 1.0, 2.0, 3.0, 5.0, 8.0, 12.0]
+    emit_vec("vt_x", vt_x)
+    for tag, (sg, gm) in [("a", (1.0, 0.5)), ("b", (2.0, 0.1)), ("c", (0.5, 1.0)),
+                          ("d", (1.5, 0.0)), ("e", (3.0, 2.0))]:
+        emit_vec(f"vt_{tag}", [sps.voigt_profile(x, sg, gm) for x in vt_x])
+        emit_scalar(out, f"vt_{tag}_sigma", sg)
+        emit_scalar(out, f"vt_{tag}_gamma", gm)
+    # wofz at complex points (upper half-plane; includes negative real part)
+    wz = [(0.5, 0.5), (1.0, 1.0), (2.0, 1.0), (1.0, 2.0), (3.0, 2.0), (0.3, 1.0),
+          (5.0, 0.5), (0.0, 1.0), (0.0, 3.0), (2.0, 0.1), (4.0, 0.5),
+          (-2.0, 1.0), (-1.0, 0.3)]
+    emit_vec("wz_re", [p[0] for p in wz])
+    emit_vec("wz_im", [p[1] for p in wz])
+    wzv = [sps.wofz(complex(p[0], p[1])) for p in wz]
+    emit_vec("wz_wre", [v.real for v in wzv])
+    emit_vec("wz_wim", [v.imag for v in wzv])
+
     out.append("}  // namespace golden")
     os.makedirs(os.path.dirname(GOLDEN), exist_ok=True)
     with open(GOLDEN, "w") as f:

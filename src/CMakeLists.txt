@@ -1,6 +1,7 @@
 add_library(scypp
   special/gamma.cpp
   special/erf.cpp
+  special/erf_extras.cpp
   special/expint.cpp
   special/bessel.cpp
   special/airy.cpp

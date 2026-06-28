@@ -5,7 +5,7 @@
 
 - [x] Airy: `airy`, `airye` — delivered via add-special-airy-elliptic
 - [x] Elliptic: `ellipk`, `ellipkm1`, `ellipe`, `ellipkinc`, `ellipeinc`, `ellipj` — delivered via add-special-airy-elliptic
-- [ ] Error-fn relatives: `erfcx`, `dawsn`, `wofz`/`voigt_profile`, `fresnel`
+- [x] Error-fn relatives: `erfcx`, `dawsn`, `wofz`/`voigt_profile`, `fresnel` — delivered via add-special-erf-extras
 - [ ] More Bessel: `spherical_jn`/`yn`/`in`/`kn`, `kelvin`, `hankel1`/`hankel2`
 - [ ] Integrals: `sici`, `shichi`
 - [ ] Misc: `lambertw`, `zeta`/`zetac`, `struve`/`modstruve`, `spence`
