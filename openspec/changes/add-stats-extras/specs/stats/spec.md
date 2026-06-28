@@ -3,7 +3,7 @@
 ## ADDED Requirements
 
 ### Requirement: Distribution sampling and fitting
-`scypp::stats` distributions SHALL provide `rvs` (random sampling, seeded via
+`scipp::stats` distributions SHALL provide `rvs` (random sampling, seeded via
 NumPP `random`) and `fit` (maximum-likelihood parameter estimation), matching
 SciPy reproducibly or distributionally. (oracle: scipy/stats/_continuous_distns.py)
 
@@ -14,7 +14,7 @@ SciPy reproducibly or distributionally. (oracle: scipy/stats/_continuous_distns.
   reproducible for a fixed seed
 
 ### Requirement: Discrete distributions
-`scypp::stats` SHALL provide the discrete distributions `binom`, `poisson`,
+`scipp::stats` SHALL provide the discrete distributions `binom`, `poisson`,
 `geom`, `nbinom`, `hypergeom` and `bernoulli` with `pmf`/`logpmf`/`cdf`/`ppf` and
 moments, matching SciPy. (oracle: scipy/stats/_discrete_distns.py)
 
@@ -24,7 +24,7 @@ moments, matching SciPy. (oracle: scipy/stats/_discrete_distns.py)
 - THEN the results are `allclose` to SciPy
 
 ### Requirement: Quasi-Monte-Carlo
-`scypp::stats::qmc` SHALL provide `Sobol`, `Halton` and `LatinHypercube`
+`scipp::stats::qmc` SHALL provide `Sobol`, `Halton` and `LatinHypercube`
 low-discrepancy samplers, matching SciPy. (oracle: scipy/stats/_qmc.py)
 
 #### Scenario: Sobol sequence matches SciPy
@@ -33,7 +33,7 @@ low-discrepancy samplers, matching SciPy. (oracle: scipy/stats/_qmc.py)
 - THEN the points match SciPy's sequence
 
 ### Requirement: Nonparametric and rank-based tests
-`scypp::stats` SHALL provide `mannwhitneyu`, `wilcoxon`, `kruskal`, `kendalltau`,
+`scipp::stats` SHALL provide `mannwhitneyu`, `wilcoxon`, `kruskal`, `kendalltau`,
 `shapiro` and `anderson`, matching SciPy within documented tolerance. (oracle: scipy/stats/_stats_py.py, _morestats.py)
 
 #### Scenario: Rank tests match SciPy

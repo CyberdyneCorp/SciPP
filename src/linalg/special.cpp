@@ -1,15 +1,15 @@
 // Special-matrix constructors (scipy.linalg special_matrices), built by direct
 // row-major fill.
-#include "scypp/linalg/linalg.hpp"
+#include "scipp/linalg/linalg.hpp"
 
 #include <vector>
 
 #include "numpp/core/dtype.hpp"
 #include "numpp/linalg/linalg.hpp"
-#include "scypp/error.hpp"
-#include "scypp/linalg/detail.hpp"
+#include "scipp/error.hpp"
+#include "scipp/linalg/detail.hpp"
 
-namespace scypp::linalg {
+namespace scipp::linalg {
 
 ndarray toeplitz(const ndarray& c, const ndarray& r) {
   std::vector<double> cv = detail::to_vec(c), rv = detail::to_vec(r);
@@ -83,7 +83,7 @@ ndarray block_diag(const std::vector<ndarray>& blocks) {
 ndarray companion(const ndarray& a) {
   std::vector<double> av = detail::to_vec(a);
   int64_t n = av.size() - 1;
-  if (n < 1 || av[0] == 0.0) throw scypp::value_error("companion: invalid polynomial");
+  if (n < 1 || av[0] == 0.0) throw scipp::value_error("companion: invalid polynomial");
   std::vector<double> m(n * n, 0.0);
   for (int64_t j = 0; j < n; ++j) m[0 * n + j] = -av[j + 1] / av[0];
   for (int64_t i = 1; i < n; ++i) m[i * n + (i - 1)] = 1.0;
@@ -94,7 +94,7 @@ ndarray leslie(const ndarray& f, const ndarray& s) {
   std::vector<double> fv = detail::to_vec(f), sv = detail::to_vec(s);
   int64_t n = fv.size();
   if (static_cast<int64_t>(sv.size()) != n - 1)
-    throw scypp::value_error("leslie: len(s) must be len(f)-1");
+    throw scipp::value_error("leslie: len(s) must be len(f)-1");
   std::vector<double> m(n * n, 0.0);
   for (int64_t j = 0; j < n; ++j) m[0 * n + j] = fv[j];
   for (int64_t i = 1; i < n; ++i) m[i * n + (i - 1)] = sv[i - 1];
@@ -111,7 +111,7 @@ ndarray hilbert(int64_t n) {
 }
 
 ndarray hadamard(int64_t n) {
-  if (n < 1 || (n & (n - 1)) != 0) throw scypp::value_error("hadamard: n must be a power of 2");
+  if (n < 1 || (n & (n - 1)) != 0) throw scipp::value_error("hadamard: n must be a power of 2");
   std::vector<double> h(n * n, 0.0);
   h[0] = 1.0;
   for (int64_t k = 1; k < n; k <<= 1) {  // Sylvester doubling
@@ -138,9 +138,9 @@ ndarray pascal(int64_t n, const std::string& kind) {
       if (kind == "symmetric") m[i * n + j] = binom[i + j][i];
       else if (kind == "lower") m[i * n + j] = (j <= i) ? binom[i][j] : 0.0;
       else if (kind == "upper") m[i * n + j] = (i <= j) ? binom[j][i] : 0.0;
-      else throw scypp::value_error("pascal: kind must be symmetric/lower/upper");
+      else throw scipp::value_error("pascal: kind must be symmetric/lower/upper");
     }
   return detail::from_mat(m, n, n);
 }
 
-}  // namespace scypp::linalg
+}  // namespace scipp::linalg

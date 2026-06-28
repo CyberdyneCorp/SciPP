@@ -2,16 +2,16 @@
 
 ## Context
 
-`scypp::interpolate` ports the deterministic interpolators of
+`scipp::interpolate` ports the deterministic interpolators of
 `scipy.interpolate`. SciPy's interpolators are objects: build from sample data,
-then call at query points. ScyPP mirrors this with classes exposing
+then call at query points. SciPP mirrors this with classes exposing
 `operator()(const ndarray&)` (and a scalar overload). Tridiagonal spline systems
 and the RBF linear solve go through `numpp::linalg::solve`.
 
 ## API shape
 
 ```cpp
-namespace scypp::interpolate {
+namespace scipp::interpolate {
 class Interp1d {
  public:
   Interp1d(const ndarray& x, const ndarray& y, std::string kind = "linear",

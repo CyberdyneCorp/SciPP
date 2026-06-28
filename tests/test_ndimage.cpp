@@ -1,14 +1,14 @@
-// Oracle tests for scypp::ndimage against frozen SciPy golden data.
+// Oracle tests for scipp::ndimage against frozen SciPy golden data.
 #include <cmath>
 #include <vector>
 
 #include "golden.hpp"
 #include "numpp/core/dtype.hpp"
 #include "numpp/core/ndarray.hpp"
-#include "scypp/ndimage/ndimage.hpp"
-#include "scypp_test.hpp"
+#include "scipp/ndimage/ndimage.hpp"
+#include "scipp_test.hpp"
 
-namespace ni = scypp::ndimage;
+namespace ni = scipp::ndimage;
 namespace {
 numpp::ndarray mat(const double* d, int r, int c) {
   numpp::ndarray a(numpp::Shape{r, c}, numpp::kFloat64);

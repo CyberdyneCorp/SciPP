@@ -1,17 +1,17 @@
 // Radial-basis-function interpolation (scattered data) with a polynomial tail.
-#include "scypp/interpolate/interpolate.hpp"
+#include "scipp/interpolate/interpolate.hpp"
 
 #include <cmath>
 #include <vector>
 
 #include "numpp/core/dtype.hpp"
 #include "numpp/linalg/linalg.hpp"
-#include "scypp/error.hpp"
-#include "scypp/linalg/detail.hpp"
+#include "scipp/error.hpp"
+#include "scipp/linalg/detail.hpp"
 
-namespace scypp::interpolate {
+namespace scipp::interpolate {
 namespace {
-namespace sd = scypp::linalg::detail;
+namespace sd = scipp::linalg::detail;
 
 double kernel_value(const std::string& k, double r) {  // r already scaled by epsilon
   if (k == "linear") return -r;
@@ -22,7 +22,7 @@ double kernel_value(const std::string& k, double r) {  // r already scaled by ep
   if (k == "inverse_multiquadric") return 1.0 / std::sqrt(r * r + 1.0);
   if (k == "inverse_quadratic") return 1.0 / (r * r + 1.0);
   if (k == "gaussian") return std::exp(-r * r);
-  throw scypp::value_error("RBFInterpolator: unknown kernel " + k);
+  throw scipp::value_error("RBFInterpolator: unknown kernel " + k);
 }
 
 int min_degree(const std::string& k) {
@@ -98,4 +98,4 @@ ndarray RBFInterpolator::operator()(const ndarray& x) const {
   return sd::from_vec(out);
 }
 
-}  // namespace scypp::interpolate
+}  // namespace scipp::interpolate

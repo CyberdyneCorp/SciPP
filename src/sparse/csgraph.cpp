@@ -1,5 +1,5 @@
 // Compressed-sparse graph algorithms: shortest paths, components, MST.
-#include "scypp/sparse/sparse.hpp"
+#include "scipp/sparse/sparse.hpp"
 
 #include <algorithm>
 #include <cmath>
@@ -8,10 +8,10 @@
 #include <functional>
 #include <vector>
 
-#include "scypp/sparse/detail.hpp"
+#include "scipp/sparse/detail.hpp"
 
-namespace scypp::sparse::csgraph {
-namespace d = scypp::sparse::detail;
+namespace scipp::sparse::csgraph {
+namespace d = scipp::sparse::detail;
 namespace {
 constexpr double kInf = std::numeric_limits<double>::infinity();
 
@@ -306,4 +306,4 @@ CsrMatrix minimum_spanning_tree(const CsrMatrix& graph) {
   return CsrMatrix::from_coo({d::from_dv(val), d::from_iv(row), d::from_iv(col), n, n});
 }
 
-}  // namespace scypp::sparse::csgraph
+}  // namespace scipp::sparse::csgraph

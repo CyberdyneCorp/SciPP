@@ -2,16 +2,16 @@
 // scipy.interpolate.griddata. "nearest" uses a KD-tree; "linear" interpolates
 // barycentrically over the Delaunay triangulation and returns fill_value outside
 // the convex hull.
-#include "scypp/interpolate/interpolate.hpp"
+#include "scipp/interpolate/interpolate.hpp"
 
 #include <stdexcept>
 #include <vector>
 
 #include "numpp/core/creation.hpp"
 #include "numpp/core/dtype.hpp"
-#include "scypp/spatial/spatial.hpp"
+#include "scipp/spatial/spatial.hpp"
 
-namespace scypp::interpolate {
+namespace scipp::interpolate {
 namespace {
 numpp::ndarray make_row(double x, double y) {
   numpp::ndarray p(numpp::Shape{1, 2}, numpp::kFloat64);
@@ -39,7 +39,7 @@ ndarray griddata(const ndarray& points, const ndarray& values, const ndarray& xi
   double* O = out.typed_data<double>();
 
   if (method == "nearest") {
-    scypp::spatial::KDTree tree(points);
+    scipp::spatial::KDTree tree(points);
     auto q = tree.query(xi, 1);
     const double* idx = q.indices.typed_data<double>();
     for (int64_t i = 0; i < m; ++i) O[i] = V[static_cast<int64_t>(idx[i])];
@@ -49,7 +49,7 @@ ndarray griddata(const ndarray& points, const ndarray& values, const ndarray& xi
   if (method != "linear")
     throw std::invalid_argument("griddata: method must be 'nearest' or 'linear'");
 
-  scypp::spatial::Delaunay tri(points);
+  scipp::spatial::Delaunay tri(points);
   numpp::ndarray simp = tri.simplices();
   const double* S = simp.typed_data<double>();
   (void)n;
@@ -85,4 +85,4 @@ ndarray griddata(const ndarray& points, const ndarray& values, const ndarray& xi
   return out;
 }
 
-}  // namespace scypp::interpolate
+}  // namespace scipp::interpolate

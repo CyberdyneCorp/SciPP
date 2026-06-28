@@ -3,7 +3,7 @@
 ## ADDED Requirements
 
 ### Requirement: LDL decomposition
-`scypp::linalg` SHALL provide `ldl` for symmetric/Hermitian indefinite matrices
+`scipp::linalg` SHALL provide `ldl` for symmetric/Hermitian indefinite matrices
 (Bunch–Kaufman with 2×2 pivot blocks), matching SciPy. (oracle: scipy/linalg/_decomp_ldl.py)
 
 #### Scenario: LDL reconstructs the input
@@ -12,7 +12,7 @@
 - THEN the permuted `lu @ d @ lu.conj().T` reconstructs `A` and matches SciPy
 
 ### Requirement: Matrix functions
-`scypp::linalg` SHALL provide `sqrtm`, `logm`, `funm`, `cosm`, `sinm` and
+`scipp::linalg` SHALL provide `sqrtm`, `logm`, `funm`, `cosm`, `sinm` and
 `fractional_matrix_power`, matching SciPy within documented tolerance. (oracle: scipy/linalg/_matfuncs.py)
 
 #### Scenario: Matrix square root and logarithm
@@ -21,7 +21,7 @@
 - THEN `sqrtm(A) @ sqrtm(A)` ≈ `A`, `expm(logm(A))` ≈ `A`, and both match SciPy
 
 ### Requirement: Schur and generalized decompositions
-`scypp::linalg` SHALL provide `schur`, `rsf2csf`, `qz`, `ordqz`, `hessenberg` and
+`scipp::linalg` SHALL provide `schur`, `rsf2csf`, `qz`, `ordqz`, `hessenberg` and
 `cossin`, matching SciPy within documented tolerance. (oracle: scipy/linalg/_decomp_schur.py, _decomp_qz.py)
 
 #### Scenario: Schur form reconstructs the input
@@ -30,7 +30,7 @@
 - THEN `Z @ T @ Z.conj().T` reconstructs `A` with `T` (quasi-)triangular, matching SciPy
 
 ### Requirement: Banded and structured solvers
-`scypp::linalg` SHALL provide `solve_banded`, `solveh_banded`, `eig_banded`,
+`scipp::linalg` SHALL provide `solve_banded`, `solveh_banded`, `eig_banded`,
 `eigh_tridiagonal` and `solve_triangular`, matching SciPy. (oracle: scipy/linalg/_basic.py, _decomp.py)
 
 #### Scenario: Banded solve matches the dense solve
@@ -39,7 +39,7 @@
 - THEN the solution matches the equivalent dense `solve` and SciPy
 
 ### Requirement: Matrix-equation solvers
-`scypp::linalg` SHALL provide `solve_sylvester`, `solve_lyapunov`,
+`scipp::linalg` SHALL provide `solve_sylvester`, `solve_lyapunov`,
 `solve_discrete_lyapunov`, `solve_continuous_are` and `solve_discrete_are`,
 matching SciPy within documented tolerance. (oracle: scipy/linalg/_solvers.py)
 

@@ -1,17 +1,17 @@
 // Normality tests: shapiro (Shapiro-Wilk, Royston AS R94) and anderson
 // (Anderson-Darling for the normal distribution), matching scipy.stats.
-#include "scypp/stats/stats.hpp"
+#include "scipp/stats/stats.hpp"
 
 #include <algorithm>
 #include <cmath>
 #include <stdexcept>
 #include <vector>
 
-#include "scypp/linalg/detail.hpp"
+#include "scipp/linalg/detail.hpp"
 
-namespace scypp::stats {
+namespace scipp::stats {
 namespace {
-namespace sd = scypp::linalg::detail;
+namespace sd = scipp::linalg::detail;
 
 // Algorithm AS 181.2 polynomial evaluation: cc[0] + cc[1]*x + ... + cc[k-1]*x^(k-1).
 double poly(const double* cc, int nord, double x) {
@@ -177,4 +177,4 @@ AndersonResult anderson(const ndarray& x) {
   return {A2, critical, sig};
 }
 
-}  // namespace scypp::stats
+}  // namespace scipp::stats

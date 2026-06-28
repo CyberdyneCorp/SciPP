@@ -1,8 +1,8 @@
 # Tasks — linalg (Phase 2)
 
 ## 1. Module scaffold
-- [x] `include/scypp/linalg/linalg.hpp` (declarations) + result structs (`LUResult`, `LUFactor`, `QRResult`, `SVDResult`, `EigResult`, `EighResult`, `CholFactor`, `PolarResult`, `LstsqResult`)
-- [x] `src/linalg/*.cpp` added to `src/CMakeLists.txt`; exported from `scypp/scypp.hpp`
+- [x] `include/scipp/linalg/linalg.hpp` (declarations) + result structs (`LUResult`, `LUFactor`, `QRResult`, `SVDResult`, `EigResult`, `EighResult`, `CholFactor`, `PolarResult`, `LstsqResult`)
+- [x] `src/linalg/*.cpp` added to `src/CMakeLists.txt`; exported from `scipp/scipp.hpp`
 - [x] Shared helpers: row-major float64 working-copy accessor, triangular solves
 
 ## 2. Basic operations (delegate to NumPP, SciPy conventions)
@@ -32,4 +32,4 @@
 - [x] `tests/test_linalg.cpp`: reconstruction checks (P·L·U, Q·R, U·S·Vh), `expm`/`polar`/special-matrix `allclose`, eigen reconstruction, singular-input error
 - [x] CPU build green; full suite green against frozen oracle data
 - [x] `openspec validate add-linalg --strict` green
-- [x] Check off Phase 2 in `bootstrap-scypp-foundation/tasks.md`; update README status
+- [x] Check off Phase 2 in `bootstrap-scipp-foundation/tasks.md`; update README status

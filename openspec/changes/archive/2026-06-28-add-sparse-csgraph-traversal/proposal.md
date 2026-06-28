@@ -1,8 +1,8 @@
-# Add csgraph traversal + flow algorithms to scypp::sparse
+# Add csgraph traversal + flow algorithms to scipp::sparse
 
 ## Why
 
-The `scypp::sparse::csgraph` submodule already ships the distance/structure
+The `scipp::sparse::csgraph` submodule already ships the distance/structure
 algorithms (`dijkstra`, `bellman_ford`, `floyd_warshall`, `connected_components`,
 `minimum_spanning_tree`), but the traversal and flow family from
 `scipy.sparse.csgraph` was deferred to the `add-sparse-extras` backlog. These are
@@ -13,7 +13,7 @@ required.
 
 ## What changes
 
-Extends the **sparse** capability — `scypp::sparse::csgraph`, validated against
+Extends the **sparse** capability — `scipp::sparse::csgraph`, validated against
 `scipy.sparse.csgraph` on small fixed graphs:
 
 - **`breadth_first_order` / `depth_first_order`**: return the node visitation
@@ -37,7 +37,7 @@ Extends the **sparse** capability — `scypp::sparse::csgraph`, validated agains
 
 - Affected specs: **modifies** the `sparse` capability (adds one requirement).
 - Affected code: extends `src/sparse/csgraph.cpp` and
-  `include/scypp/sparse/sparse.hpp` (four new entry points plus `TraversalResult`
+  `include/scipp/sparse/sparse.hpp` (four new entry points plus `TraversalResult`
   and `MaximumFlowResult` result structs), `tests/test_sparse_csgraph.cpp`, and
   the oracle generator.
 - Trims the `csgraph` traversal/flow line from the `add-sparse-extras` backlog.

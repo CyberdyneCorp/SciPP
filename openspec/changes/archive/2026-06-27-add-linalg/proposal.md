@@ -2,22 +2,22 @@
 
 ## Why
 
-Phase 2 of the ScyPP roadmap (see `bootstrap-scypp-foundation`). `scipy.linalg`
+Phase 2 of the SciPP roadmap (see `bootstrap-scipp-foundation`). `scipy.linalg`
 is the most widely depended-upon numerical subpackage and the first one that is
-acceleration-sensitive: its hot path is dense matrix multiply (GEMM), which ScyPP
+acceleration-sensitive: its hot path is dense matrix multiply (GEMM), which SciPP
 routes through NumPP's BLAS/GPU backends. `optimize`, `integrate`, `signal`,
 `stats` and `sparse` all build on it.
 
 `scipy.linalg` overlaps `numpy.linalg` but adds routines (LU with explicit P/L/U,
 LDL, matrix functions, special-matrix constructors) and uses different
-conventions (e.g. `cholesky` returns the **upper** factor by default). ScyPP
+conventions (e.g. `cholesky` returns the **upper** factor by default). SciPP
 **delegates the standard decompositions to NumPP** (`solve`/`inv`/`det`/`qr`/
 `svd`/`eig`/`eigh`/`lstsq`/`pinv`/`norm`), adapting return shapes to SciPy, and
 **adds the SciPy-only routines** on top.
 
 ## What changes
 
-Adds the **linalg** capability — `scypp::linalg`, ported against the SciPy oracle,
+Adds the **linalg** capability — `scipp::linalg`, ported against the SciPy oracle,
 over `numpp::ndarray`:
 
 - **Basic**: `inv`, `det`, `solve`, `lstsq`, `pinv`, `pinvh`, `norm`
@@ -38,9 +38,9 @@ over `numpp::ndarray`:
 ## Impact
 
 - Affected specs: **adds** the `linalg` capability.
-- Affected code: new `include/scypp/linalg/`, `src/linalg/`, `tests/test_linalg.cpp`,
+- Affected code: new `include/scipp/linalg/`, `src/linalg/`, `tests/test_linalg.cpp`,
   extended oracle generator. Reuses the Phase 1 foundation unchanged.
-- Roadmap: checks off Phase 2 in `bootstrap-scypp-foundation/tasks.md`.
+- Roadmap: checks off Phase 2 in `bootstrap-scipp-foundation/tasks.md`.
 
 ## Non-goals (deferred to a later linalg change)
 

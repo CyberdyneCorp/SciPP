@@ -3,8 +3,8 @@
 ## ADDED Requirements
 
 ### Requirement: GPU CSR matrix-vector kernel
-`scypp::sparse::spmv` SHALL use a real CUDA/OpenCL/Metal CSR device kernel
-(registered into NumPP's weak-linked device vtable, gated by `SCYPP_WITH_*`) when
+`scipp::sparse::spmv` SHALL use a real CUDA/OpenCL/Metal CSR device kernel
+(registered into NumPP's weak-linked device vtable, gated by `SCIPP_WITH_*`) when
 the device is available and the problem is large enough, producing a result equal
 to the CPU kernel within tolerance, with the CPU kernel always as fallback.
 (oracle: scipy/sparse — value parity)
@@ -16,7 +16,7 @@ to the CPU kernel within tolerance, with the CPU kernel always as fallback.
   reports the device
 
 ### Requirement: Sparse eigensolvers and factorizations
-`scypp::sparse::linalg` SHALL provide `eigsh`/`eigs`/`svds` (iterative
+`scipp::sparse::linalg` SHALL provide `eigsh`/`eigs`/`svds` (iterative
 eigen/singular solvers) and `splu`/`spilu` (sparse LU), matching SciPy within
 documented tolerance. (oracle: scipy/sparse/linalg)
 
@@ -26,7 +26,7 @@ documented tolerance. (oracle: scipy/sparse/linalg)
 - THEN the eigenvalues are `allclose` to SciPy's and `A v ≈ λ v`
 
 ### Requirement: Additional formats and graph routines
-`scypp::sparse` SHALL provide the `DIA`, `LIL` and `BSR` formats and the
+`scipp::sparse` SHALL provide the `DIA`, `LIL` and `BSR` formats and the
 additional `csgraph` routines (`breadth_first_order`, `depth_first_order`,
 `johnson`, `maximum_flow`), matching SciPy. (oracle: scipy/sparse, scipy/sparse/csgraph)
 

@@ -4,7 +4,7 @@
 
 ### Requirement: Distance computations
 
-`scypp::spatial` SHALL provide `pdist`, `cdist`, `squareform` and
+`scipp::spatial` SHALL provide `pdist`, `cdist`, `squareform` and
 `distance_matrix` with the metrics `euclidean`, `sqeuclidean`, `cityblock`,
 `chebyshev`, `minkowski`, `cosine`, `correlation`, `hamming` and `jaccard`,
 matching SciPy. `cdist`/`pdist` SHALL select a backend via NumPP's capability
@@ -24,7 +24,7 @@ registry with a portable CPU fallback. (oracle: scipy/spatial/distance.py)
 
 ### Requirement: KD-tree nearest-neighbor search
 
-`scypp::spatial` SHALL provide `KDTree` with `query` (k nearest neighbors) and
+`scipp::spatial` SHALL provide `KDTree` with `query` (k nearest neighbors) and
 `query_ball_point` (radius search), matching SciPy. (oracle: scipy/spatial/_kdtree.py)
 
 #### Scenario: k-nearest-neighbor query
@@ -40,7 +40,7 @@ registry with a portable CPU fallback. (oracle: scipy/spatial/distance.py)
 
 ### Requirement: 2-D convex hull and Delaunay triangulation
 
-`scypp::spatial` SHALL provide `ConvexHull` (vertices, simplices, area, volume) and
+`scipp::spatial` SHALL provide `ConvexHull` (vertices, simplices, area, volume) and
 `Delaunay` (simplices, `find_simplex`) for 2-D point sets, matching SciPy. (oracle: scipy/spatial/_qhull.pyx)
 
 #### Scenario: Convex hull matches SciPy
@@ -57,7 +57,7 @@ registry with a portable CPU fallback. (oracle: scipy/spatial/distance.py)
 
 ### Requirement: 3-D rotations
 
-`scypp::spatial::transform` SHALL provide `Rotation` with conversions to/from
+`scipp::spatial::transform` SHALL provide `Rotation` with conversions to/from
 quaternion, matrix, Euler angles and rotation vector, plus `apply`, `inv`,
 composition, `magnitude` and `Slerp`, matching SciPy. (oracle: scipy/spatial/transform/_rotation.pyx)
 

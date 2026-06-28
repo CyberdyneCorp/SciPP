@@ -1,5 +1,5 @@
 // KD-tree: build (median split) + k-NN query + radius query.
-#include "scypp/spatial/spatial.hpp"
+#include "scipp/spatial/spatial.hpp"
 
 #include <algorithm>
 #include <cmath>
@@ -8,11 +8,11 @@
 #include <vector>
 
 #include "numpp/core/dtype.hpp"
-#include "scypp/linalg/detail.hpp"
+#include "scipp/linalg/detail.hpp"
 
-namespace scypp::spatial {
+namespace scipp::spatial {
 namespace {
-namespace sd = scypp::linalg::detail;
+namespace sd = scipp::linalg::detail;
 }
 
 int KDTree::build(std::vector<int64_t>& ids, int lo, int hi, int depth) {
@@ -99,4 +99,4 @@ std::vector<int64_t> KDTree::query_ball_point(const ndarray& x, double r) const 
   return hits;
 }
 
-}  // namespace scypp::spatial
+}  // namespace scipp::spatial

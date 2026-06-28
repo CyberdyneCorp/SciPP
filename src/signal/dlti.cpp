@@ -1,6 +1,6 @@
 // Discrete-time LTI systems: cont2discrete (zoh/bilinear/euler), dstep,
 // dimpulse, dlsim, dfreqresp, dbode. Reuses the continuous helpers / expm.
-#include "scypp/signal/signal.hpp"
+#include "scipp/signal/signal.hpp"
 
 #include <cmath>
 #include <complex>
@@ -8,13 +8,13 @@
 
 #include "numpp/core/dtype.hpp"
 #include "numpp/linalg/linalg.hpp"
-#include "scypp/error.hpp"
-#include "scypp/linalg/detail.hpp"
-#include "scypp/linalg/linalg.hpp"
+#include "scipp/error.hpp"
+#include "scipp/linalg/detail.hpp"
+#include "scipp/linalg/linalg.hpp"
 
-namespace scypp::signal {
+namespace scipp::signal {
 namespace {
-namespace sd = scypp::linalg::detail;
+namespace sd = scipp::linalg::detail;
 using cd = std::complex<double>;
 
 // State-space dimensions and row-major buffers normalized from a system.
@@ -104,7 +104,7 @@ DiscreteStateSpace zoh_discretize(const Unpacked& s) {
     for (int j = 0; j < n; ++j) Mb[i * m + j] = s.A[i * n + j] * s.dt;
     for (int j = 0; j < p; ++j) Mb[i * m + (n + j)] = s.B[i * p + j] * s.dt;
   }
-  std::vector<double> E = sd::to_vec(scypp::linalg::expm(sd::from_mat(Mb, m, m)));
+  std::vector<double> E = sd::to_vec(scipp::linalg::expm(sd::from_mat(Mb, m, m)));
   std::vector<double> Ad(static_cast<size_t>(n) * n), Bd(static_cast<size_t>(n) * p);
   for (int i = 0; i < n; ++i) {
     for (int j = 0; j < n; ++j) Ad[i * n + j] = E[i * m + j];
@@ -166,7 +166,7 @@ DiscreteStateSpace cont2discrete(const StateSpace& sys, double dt, const std::st
   if (method == "bilinear" || method == "tustin") return alpha_discretize(s, 0.5);
   if (method == "euler" || method == "forward_diff") return alpha_discretize(s, 0.0);
   if (method == "backward_diff") return alpha_discretize(s, 1.0);
-  throw scypp::value_error("cont2discrete: unknown method '" + method + "'");
+  throw scipp::value_error("cont2discrete: unknown method '" + method + "'");
 }
 
 DiscreteStateSpace cont2discrete(const TransferFunction& sys, double dt, const std::string& method) {
@@ -244,4 +244,4 @@ BodeResult dbode(const DiscreteStateSpace& sys, const ndarray& w) {
   return {w, sd::from_vec(mag), sd::from_vec(phase)};
 }
 
-}  // namespace scypp::signal
+}  // namespace scipp::signal

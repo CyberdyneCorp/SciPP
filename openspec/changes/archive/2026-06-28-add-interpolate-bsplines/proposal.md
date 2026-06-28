@@ -1,4 +1,4 @@
-# Add B-splines to scypp::interpolate
+# Add B-splines to scipp::interpolate
 
 ## Why
 
@@ -13,7 +13,7 @@ gives users an arbitrary-degree interpolant with scipy-compatible knots.
 ## What changes
 
 Extends the **interpolate** capability — new public types/functions in
-`scypp::interpolate`, validated against scipy 1.15:
+`scipp::interpolate`, validated against scipy 1.15:
 
 - **`BSpline`**: the FITPACK `(t, c, k)` representation, evaluated by the de Boor
   recursion with `operator()(const ndarray&)` / `operator()(double)` and
@@ -32,7 +32,7 @@ Extends the **interpolate** capability — new public types/functions in
 - Affected specs: **modifies** the `interpolate` capability (adds one
   requirement).
 - Affected code: new `src/interpolate/bspline.cpp`, header additions in
-  `include/scypp/interpolate/interpolate.hpp`, oracle generator block, and
+  `include/scipp/interpolate/interpolate.hpp`, oracle generator block, and
   `tests/test_interpolate_bspline.cpp`. No changes to existing interpolators.
 - Trims the `BSpline`/`make_interp_spline`/`splev` part of the
   `add-interpolate-splines` backlog item.

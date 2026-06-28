@@ -2,7 +2,7 @@
 
 ## Why
 
-Phase 4 of the ScyPP roadmap. `scipy.optimize` is the first subpackage that is
+Phase 4 of the SciPP roadmap. `scipy.optimize` is the first subpackage that is
 **pure algorithm** — it does not delegate to NumPP's array kernels but implements
 root finding, function minimization, and least-squares fitting on top of them.
 It underpins `curve_fit`-style model fitting used across `stats`, `signal`, and
@@ -15,7 +15,7 @@ nonlinear least squares.
 
 ## What changes
 
-Adds the **optimize** capability — `scypp::optimize`, validated against the SciPy
+Adds the **optimize** capability — `scipp::optimize`, validated against the SciPy
 oracle, operating over `numpp::ndarray` and `std::function` callables:
 
 - **Scalar root finding**: `brentq` (Brent bracketing), `bisect`, `newton`
@@ -32,10 +32,10 @@ oracle, operating over `numpp::ndarray` and `std::function` callables:
 ## Impact
 
 - Affected specs: **adds** the `optimize` capability.
-- Affected code: new `include/scypp/optimize/`, `src/optimize/`,
+- Affected code: new `include/scipp/optimize/`, `src/optimize/`,
   `tests/test_optimize.cpp`, extended oracle generator. Reuses the Phase 1–3
   foundation; uses `numpp::linalg::solve` for the LM/Newton linear systems.
-- Roadmap: checks off Phase 4 in `bootstrap-scypp-foundation/tasks.md`.
+- Roadmap: checks off Phase 4 in `bootstrap-scipp-foundation/tasks.md`.
 
 ## Non-goals (deferred to a later optimize change)
 

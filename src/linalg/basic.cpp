@@ -1,14 +1,14 @@
 // Basic operations — delegate to numpp::linalg, adapting to SciPy conventions.
-#include "scypp/linalg/linalg.hpp"
+#include "scipp/linalg/linalg.hpp"
 
 #include <cmath>
 
 #include "numpp/core/dtype.hpp"
 #include "numpp/linalg/linalg.hpp"
-#include "scypp/error.hpp"
-#include "scypp/linalg/detail.hpp"
+#include "scipp/error.hpp"
+#include "scipp/linalg/detail.hpp"
 
-namespace scypp::linalg {
+namespace scipp::linalg {
 namespace nl = numpp::linalg;
 namespace {
 double scalar(const numpp::ndarray& a) {
@@ -67,11 +67,11 @@ ndarray norm(const ndarray& a, const std::string& ord) {
       best = std::max(best, s);
     }
   } else {
-    throw scypp::value_error("unsupported norm order: " + ord);
+    throw scipp::value_error("unsupported norm order: " + ord);
   }
   numpp::ndarray out(numpp::Shape{}, numpp::kFloat64);
   out.typed_data<double>()[0] = best;
   return out;
 }
 
-}  // namespace scypp::linalg
+}  // namespace scipp::linalg

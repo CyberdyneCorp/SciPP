@@ -1,16 +1,16 @@
 // Standard waveforms: chirp, sawtooth, square, unit_impulse.
-#include "scypp/signal/signal.hpp"
+#include "scipp/signal/signal.hpp"
 
 #include <cmath>
 #include <vector>
 
 #include "numpp/core/dtype.hpp"
-#include "scypp/error.hpp"
-#include "scypp/linalg/detail.hpp"
+#include "scipp/error.hpp"
+#include "scipp/linalg/detail.hpp"
 
-namespace scypp::signal {
+namespace scipp::signal {
 namespace {
-namespace sd = scypp::linalg::detail;
+namespace sd = scipp::linalg::detail;
 constexpr double kPi = 3.141592653589793238462643383279502884;
 }  // namespace
 
@@ -34,7 +34,7 @@ ndarray chirp(const ndarray& t, double f0, double t1, double f1, const std::stri
       double c = f0 * t1, df = f1 - f0;
       phase = 2.0 * kPi * (-c / df) * std::log(1.0 - df / (f0 * t1) * x);
     } else {
-      throw scypp::value_error("chirp: unknown method " + method);
+      throw scipp::value_error("chirp: unknown method " + method);
     }
     out[i] = std::cos(phase + phi_rad);
   }
@@ -71,4 +71,4 @@ ndarray unit_impulse(int64_t n, int64_t idx) {
   return sd::from_vec(out);
 }
 
-}  // namespace scypp::signal
+}  // namespace scipp::signal

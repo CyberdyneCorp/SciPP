@@ -1,17 +1,17 @@
 // N-D rectilinear-grid interpolation (linear / nearest) and interpn.
-#include "scypp/interpolate/interpolate.hpp"
+#include "scipp/interpolate/interpolate.hpp"
 
 #include <algorithm>
 #include <cmath>
 #include <vector>
 
 #include "numpp/core/dtype.hpp"
-#include "scypp/error.hpp"
-#include "scypp/linalg/detail.hpp"
+#include "scipp/error.hpp"
+#include "scipp/linalg/detail.hpp"
 
-namespace scypp::interpolate {
+namespace scipp::interpolate {
 namespace {
-namespace sd = scypp::linalg::detail;
+namespace sd = scipp::linalg::detail;
 }
 
 RegularGridInterpolator::RegularGridInterpolator(std::vector<ndarray> points, const ndarray& values,
@@ -23,7 +23,7 @@ RegularGridInterpolator::RegularGridInterpolator(std::vector<ndarray> points, co
   const double* vp = v.typed_data<double>();
   values_.assign(vp, vp + v.size());
   if (shape_.size() != grids_.size())
-    throw scypp::value_error("RegularGridInterpolator: values rank must match number of axes");
+    throw scipp::value_error("RegularGridInterpolator: values rank must match number of axes");
 }
 
 ndarray RegularGridInterpolator::operator()(const ndarray& xi) const {
@@ -75,4 +75,4 @@ ndarray interpn(std::vector<ndarray> points, const ndarray& values, const ndarra
   return RegularGridInterpolator(std::move(points), values, std::move(method))(xi);
 }
 
-}  // namespace scypp::interpolate
+}  // namespace scipp::interpolate

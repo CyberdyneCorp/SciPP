@@ -2,14 +2,14 @@
 
 ## Context
 
-`scypp::fft` ports `scipy.fft` on top of NumPP. NumPP's FFTs already match SciPy's
+`scipp::fft` ports `scipy.fft` on top of NumPP. NumPP's FFTs already match SciPy's
 API and `norm` conventions exactly, so the complex/real transforms are thin
 forwarding wrappers. The work in this phase is the **DCT/DST family**, which NumPP
 does not provide, plus `next_fast_len` and the `fftpack` alias surface.
 
 ## FFTs — delegation
 
-`scypp::fft::fft(a, n, axis, norm)` forwards to `numpp::fft::fft` with identical
+`scipp::fft::fft(a, n, axis, norm)` forwards to `numpp::fft::fft` with identical
 argument semantics; likewise `ifft`/`rfft`/`irfft`/`hfft`/`ihfft`, the N-D
 variants, and `fftfreq`/`rfftfreq`/`fftshift`/`ifftshift`. GPU-accelerated FFT is
 inherited from NumPP when present; this change adds no device code.
@@ -52,8 +52,8 @@ upward. The real-FFT variant uses the same set.
 
 ## fftpack
 
-`scypp::fftpack` re-exports the common legacy entry points (`fft`/`ifft`/`rfft`/
-`irfft`/`dct`/`idct`/`dst`/`idst`) as inline wrappers over `scypp::fft`, matching
+`scipp::fftpack` re-exports the common legacy entry points (`fft`/`ifft`/`rfft`/
+`irfft`/`dct`/`idct`/`dst`/`idst`) as inline wrappers over `scipp::fft`, matching
 SciPy's "`fftpack` is the legacy predecessor" relationship without duplicating
 logic.
 

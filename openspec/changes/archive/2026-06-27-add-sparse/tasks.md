@@ -1,7 +1,7 @@
 # Tasks — sparse (Phase 9)
 
 ## 1. Module scaffold + formats
-- [x] `include/scypp/sparse/sparse.hpp`; `src/sparse/*.cpp` in `src/CMakeLists.txt`; export from `scypp/scypp.hpp`
+- [x] `include/scipp/sparse/sparse.hpp`; `src/sparse/*.cpp` in `src/CMakeLists.txt`; export from `scipp/scipp.hpp`
 - [x] `CooMatrix`, `CsrMatrix`, `CscMatrix`; `from_coo` (dedup+sort), `from_dense`, `toarray`, `nnz`, conversions, `transpose`, `diagonal`
 
 ## 2. Constructors + arithmetic
@@ -11,7 +11,7 @@
 - [x] CPU `spmv`/`spmm`; backend dispatch via NumPP `CapabilityRegistry`; `last_backend()`; CPU-reference device path for equivalence
 
 ## 4. sparse.linalg
-- [x] `spsolve` (dense factorization via `scypp::linalg::solve`), `cg`, `gmres` (matrix-free), `norm`
+- [x] `spsolve` (dense factorization via `scipp::linalg::solve`), `cg`, `gmres` (matrix-free), `norm`
 
 ## 5. sparse.csgraph
 - [x] `dijkstra` (heap), `bellman_ford`, `floyd_warshall`, `connected_components`, `minimum_spanning_tree`
@@ -20,4 +20,4 @@
 - [x] Extend `tests/oracle/generate.py`; regenerate
 - [x] `tests/test_sparse.cpp`: formats/round-trip, spmv/spmm + dispatch equivalence, solvers, csgraph vs SciPy
 - [x] CPU build green; full suite green; `openspec validate add-sparse --strict`
-- [x] Check off Phase 9 in `bootstrap-scypp-foundation/tasks.md`; update README
+- [x] Check off Phase 9 in `bootstrap-scipp-foundation/tasks.md`; update README

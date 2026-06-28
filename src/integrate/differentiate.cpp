@@ -1,16 +1,16 @@
 // Finite-difference differentiation: derivative (Richardson extrapolation),
 // jacobian and hessian (central differences).
-#include "scypp/differentiate/differentiate.hpp"
+#include "scipp/differentiate/differentiate.hpp"
 
 #include <cmath>
 #include <vector>
 
 #include "numpp/core/dtype.hpp"
-#include "scypp/linalg/detail.hpp"
+#include "scipp/linalg/detail.hpp"
 
-namespace scypp::differentiate {
+namespace scipp::differentiate {
 namespace {
-namespace sd = scypp::linalg::detail;
+namespace sd = scipp::linalg::detail;
 }
 
 DerivativeResult derivative(const ScalarFn& f, double x, double initial_step) {
@@ -76,4 +76,4 @@ ndarray hessian(const ObjFn& f, const ndarray& x) {
   return sd::from_mat(H, n, n);
 }
 
-}  // namespace scypp::differentiate
+}  // namespace scipp::differentiate

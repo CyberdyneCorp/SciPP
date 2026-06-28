@@ -1,10 +1,10 @@
 // FFT family — forward to numpp::fft (identical SciPy norm conventions) — plus
 // helpers, next_fast_len, and the legacy fftpack re-exports.
-#include "scypp/fft/fft.hpp"
+#include "scipp/fft/fft.hpp"
 
 #include "numpp/fft/fft.hpp"
 
-namespace scypp::fft {
+namespace scipp::fft {
 
 ndarray fft(const ndarray& a, std::optional<int64_t> n, int64_t axis, const std::string& norm) {
   return numpp::fft::fft(a, n, axis, norm);
@@ -64,10 +64,10 @@ int64_t next_fast_len(int64_t n, bool /*real*/) {
   }
 }
 
-}  // namespace scypp::fft
+}  // namespace scipp::fft
 
-namespace scypp::fftpack {
-namespace f = scypp::fft;
+namespace scipp::fftpack {
+namespace f = scipp::fft;
 ndarray fft(const ndarray& a, std::optional<int64_t> n, int64_t axis) { return f::fft(a, n, axis); }
 ndarray ifft(const ndarray& a, std::optional<int64_t> n, int64_t axis) { return f::ifft(a, n, axis); }
 ndarray rfft(const ndarray& a, std::optional<int64_t> n, int64_t axis) { return f::rfft(a, n, axis); }
@@ -76,4 +76,4 @@ ndarray dct(const ndarray& a, int type, int64_t axis) { return f::dct(a, type, a
 ndarray idct(const ndarray& a, int type, int64_t axis) { return f::idct(a, type, axis); }
 ndarray dst(const ndarray& a, int type, int64_t axis) { return f::dst(a, type, axis); }
 ndarray idst(const ndarray& a, int type, int64_t axis) { return f::idst(a, type, axis); }
-}  // namespace scypp::fftpack
+}  // namespace scipp::fftpack

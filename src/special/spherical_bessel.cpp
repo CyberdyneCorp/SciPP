@@ -9,11 +9,11 @@
 // k_{n+1}=k_{n-1}+(2n+1)/x k_n seeded by k_0=(pi/2x)e^{-x}, k_1=k_0(1+1/x),
 // which is the analytic continuation SciPy reports.
 
-#include "scypp/special/special.hpp"
+#include "scipp/special/special.hpp"
 
 #include <cmath>
 
-namespace scypp::special {
+namespace scipp::special {
 namespace {
 
 constexpr double kPi = 3.14159265358979323846;
@@ -62,4 +62,4 @@ double spherical_kn(int n, double x) {
   return km;
 }
 
-}  // namespace scypp::special
+}  // namespace scipp::special

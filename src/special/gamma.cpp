@@ -4,13 +4,13 @@
 // standard asymptotic series with a recurrence shift; polygamma(n>=1) uses the
 // Hurwitz zeta relation psi^(n)(x) = (-1)^(n+1) n! zeta(n+1, x).
 
-#include "scypp/special/special.hpp"
+#include "scipp/special/special.hpp"
 
 #include <cmath>
 
-#include "scypp/detail/elementwise.hpp"
+#include "scipp/detail/elementwise.hpp"
 
-namespace scypp::special {
+namespace scipp::special {
 namespace {
 
 constexpr double kPi = 3.141592653589793238462643383279502884;
@@ -94,4 +94,4 @@ ndarray polygamma(int n, const ndarray& x) {
   return detail::map(x, [n](double v) { return polygamma(n, v); });
 }
 
-}  // namespace scypp::special
+}  // namespace scipp::special

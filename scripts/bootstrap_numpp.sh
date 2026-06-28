@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Build and install the pinned NumPP dependency into ScyPP/.deps/numpp so that
+# Build and install the pinned NumPP dependency into SciPP/.deps/numpp so that
 # `find_package(NumPP)` resolves it. In production NumPP comes from a
 # Conan/vcpkg package; this is the local-development convenience path.
 #

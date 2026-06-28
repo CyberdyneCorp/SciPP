@@ -4,7 +4,7 @@
 
 ### Requirement: Implicit stiff ODE solvers
 
-`scypp::integrate::solve_ivp` SHALL provide the implicit methods `"Radau"`,
+`scipp::integrate::solve_ivp` SHALL provide the implicit methods `"Radau"`,
 `"BDF"` and `"LSODA"` for stiff initial-value problems, each using a Jacobian
 (finite-difference by default, or user-supplied) and a Newton iteration per step,
 matching SciPy within documented tolerance. A legacy `odeint` entry point SHALL
@@ -25,7 +25,7 @@ also be provided. (oracle: scipy/integrate/_ivp, scipy/integrate/odepack)
 
 ### Requirement: Boundary-value problem solver
 
-`scypp::integrate` SHALL provide `solve_bvp` for two-point boundary-value problems
+`scipp::integrate` SHALL provide `solve_bvp` for two-point boundary-value problems
 via collocation with a Newton residual solve and mesh refinement, matching SciPy
 within documented tolerance. (oracle: scipy/integrate/_bvp.py)
 
@@ -37,7 +37,7 @@ within documented tolerance. (oracle: scipy/integrate/_bvp.py)
 
 ### Requirement: Multidimensional and additional quadrature
 
-`scypp::integrate` SHALL provide `dblquad`, `tplquad` and `nquad` (nested adaptive
+`scipp::integrate` SHALL provide `dblquad`, `tplquad` and `nquad` (nested adaptive
 quadrature) and `romberg`, matching SciPy within the requested tolerance. (oracle:
 scipy/integrate/_quadpack_py.py)
 

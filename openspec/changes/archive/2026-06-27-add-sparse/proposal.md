@@ -2,7 +2,7 @@
 
 ## Why
 
-Phase 9 of the ScyPP roadmap. `scipy.sparse` provides sparse matrix formats,
+Phase 9 of the SciPP roadmap. `scipy.sparse` provides sparse matrix formats,
 sparse linear algebra, and graph algorithms — essential for large systems where
 dense storage is infeasible. It is also the **first subpackage with a GPU
 acceleration target**: CSR sparse matrix-vector product (SpMV), the kernel that
@@ -16,7 +16,7 @@ the Phase-2 GEMM path is.
 
 ## What changes
 
-Adds the **sparse** capability — `scypp::sparse`, validated against the SciPy
+Adds the **sparse** capability — `scipp::sparse`, validated against the SciPy
 oracle:
 
 - **Formats**: `CooMatrix`, `CsrMatrix`, `CscMatrix` with construction (from
@@ -34,10 +34,10 @@ oracle:
 ## Impact
 
 - Affected specs: **adds** the `sparse` capability.
-- Affected code: new `include/scypp/sparse/`, `src/sparse/`,
-  `tests/test_sparse.cpp`, extended oracle generator. Reuses `scypp::linalg` for
+- Affected code: new `include/scipp/sparse/`, `src/sparse/`,
+  `tests/test_sparse.cpp`, extended oracle generator. Reuses `scipp::linalg` for
   the `spsolve` factorization.
-- Roadmap: checks off Phase 9 in `bootstrap-scypp-foundation/tasks.md`.
+- Roadmap: checks off Phase 9 in `bootstrap-scipp-foundation/tasks.md`.
 
 ## Non-goals (deferred)
 

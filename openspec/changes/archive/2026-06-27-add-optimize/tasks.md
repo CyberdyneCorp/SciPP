@@ -1,7 +1,7 @@
 # Tasks — optimize (Phase 4)
 
 ## 1. Module scaffold
-- [x] `include/scypp/optimize/optimize.hpp` (callable typedefs + result structs); `src/optimize/*.cpp` in `src/CMakeLists.txt`; export from `scypp/scypp.hpp`
+- [x] `include/scipp/optimize/optimize.hpp` (callable typedefs + result structs); `src/optimize/*.cpp` in `src/CMakeLists.txt`; export from `scipp/scipp.hpp`
 - [x] Shared finite-difference helpers `num_gradient`, `num_jacobian`
 
 ## 2. Scalar root finding
@@ -25,4 +25,4 @@
 - [x] `tests/test_optimize.cpp`: roots, scalar/multivariate minima, curve_fit/least_squares/fsolve vs SciPy + identities (`f(root)≈0`, `‖grad‖≈0`)
 - [x] CPU build green; full suite green
 - [x] `openspec validate add-optimize --strict` green
-- [x] Check off Phase 4 in `bootstrap-scypp-foundation/tasks.md`; update README
+- [x] Check off Phase 4 in `bootstrap-scipp-foundation/tasks.md`; update README

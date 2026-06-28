@@ -5,7 +5,7 @@ TBD - created by archiving change add-fft. Update Purpose after archive.
 ## Requirements
 ### Requirement: Discrete Fourier transforms
 
-`scypp::fft` SHALL provide `fft`/`ifft`, `rfft`/`irfft`, `hfft`/`ihfft` and the
+`scipp::fft` SHALL provide `fft`/`ifft`, `rfft`/`irfft`, `hfft`/`ihfft` and the
 N-D variants `fft2`/`ifft2`, `fftn`/`ifftn`, `rfftn`/`irfftn`, with `n`/`s`,
 `axis`/`axes` and `norm` (`backward`/`ortho`/`forward`) arguments matching SciPy.
 (oracle: scipy/fft)
@@ -28,7 +28,7 @@ N-D variants `fft2`/`ifft2`, `fftn`/`ifftn`, `rfftn`/`irfftn`, with `n`/`s`,
 
 ### Requirement: Discrete cosine and sine transforms
 
-`scypp::fft` SHALL provide `dct`/`idct` and `dst`/`idst` for types I–IV over a
+`scipp::fft` SHALL provide `dct`/`idct` and `dst`/`idst` for types I–IV over a
 selectable `axis`, with `norm` in {`"backward"` (default), `"ortho"`,
 `"forward"`} matching SciPy. `"ortho"` SHALL produce the orthogonalized variant
 (SciPy's `orthogonalize=True` default). An unknown `norm` SHALL raise
@@ -64,7 +64,7 @@ selectable `axis`, with `norm` in {`"backward"` (default), `"ortho"`,
 
 ### Requirement: Helper functions
 
-`scypp::fft` SHALL provide `fftfreq`, `rfftfreq`, `fftshift`, `ifftshift` and
+`scipp::fft` SHALL provide `fftfreq`, `rfftfreq`, `fftshift`, `ifftshift` and
 `next_fast_len`, matching SciPy. `next_fast_len(n)` SHALL return the smallest
 11-smooth integer ≥ n. (oracle: scipy/fft/_helper.py)
 
@@ -82,18 +82,18 @@ selectable `axis`, with `norm` in {`"backward"` (default), `"ortho"`,
 
 ### Requirement: Legacy fftpack namespace
 
-`scypp::fftpack` SHALL re-export `fft`/`ifft`/`rfft`/`irfft`/`dct`/`idct`/`dst`/
+`scipp::fftpack` SHALL re-export `fft`/`ifft`/`rfft`/`irfft`/`dct`/`idct`/`dst`/
 `idst` as the legacy API surface, producing results identical to the
-corresponding `scypp::fft` functions. (oracle: scipy/fftpack)
+corresponding `scipp::fft` functions. (oracle: scipy/fftpack)
 
 #### Scenario: fftpack delegates to fft
 - GIVEN a signal
-- WHEN a `scypp::fftpack` function and its `scypp::fft` counterpart are called
+- WHEN a `scipp::fftpack` function and its `scipp::fft` counterpart are called
 - THEN they return identical results
 
 ### Requirement: N-D cosine and sine transforms
 
-`scypp::fft` SHALL provide `dctn`/`idctn` and `dstn`/`idstn` that apply the 1-D
+`scipp::fft` SHALL provide `dctn`/`idctn` and `dstn`/`idstn` that apply the 1-D
 DCT/DST of a given `type` and `norm` over a selectable list of `axes`, defaulting
 to all axes, matching SciPy. (oracle: scipy/fft/_realtransforms.py)
 

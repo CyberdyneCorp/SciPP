@@ -3,9 +3,9 @@
 ## ADDED Requirements
 
 ### Requirement: Normality tests (Shapiro-Wilk and Anderson-Darling)
-The system SHALL provide `scypp::stats::shapiro`, computing the Shapiro-Wilk W
+The system SHALL provide `scipp::stats::shapiro`, computing the Shapiro-Wilk W
 statistic and its p-value via Royston's AS R94 algorithm, and
-`scypp::stats::anderson`, computing the Anderson-Darling A^2 statistic for the
+`scipp::stats::anderson`, computing the Anderson-Darling A^2 statistic for the
 normal distribution together with SciPy's critical values and significance
 levels, both matching `scipy.stats` to oracle tolerance.
 

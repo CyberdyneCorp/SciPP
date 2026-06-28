@@ -10,15 +10,15 @@
 // (2(N-1) for DCT-I, 2(N+1) for DST-I, otherwise 2N). When norm=="ortho" the
 // transform is also orthogonalized: boundary samples are scaled by sqrt(2) so
 // the coefficient matrix becomes orthonormal.
-#include "scypp/fft/fft.hpp"
+#include "scipp/fft/fft.hpp"
 
 #include <cmath>
 #include <vector>
 
 #include "numpp/core/dtype.hpp"
-#include "scypp/error.hpp"
+#include "scipp/error.hpp"
 
-namespace scypp::fft {
+namespace scipp::fft {
 namespace {
 
 constexpr double kPi = 3.141592653589793238462643383279502884;
@@ -54,7 +54,7 @@ std::vector<double> dct_line(const std::vector<double>& x, int type) {
       y[k] = 2.0 * s;
     }
   } else {
-    throw scypp::value_error("dct: type must be 1..4");
+    throw scipp::value_error("dct: type must be 1..4");
   }
   return y;
 }
@@ -88,7 +88,7 @@ std::vector<double> dst_line(const std::vector<double>& x, int type) {
       y[k] = 2.0 * s;
     }
   } else {
-    throw scypp::value_error("dst: type must be 1..4");
+    throw scipp::value_error("dst: type must be 1..4");
   }
   return y;
 }
@@ -98,7 +98,7 @@ int norm_code(const std::string& norm) {
   if (norm == "backward") return 0;
   if (norm == "ortho") return 1;
   if (norm == "forward") return 2;
-  throw scypp::value_error("dct/dst: norm must be \"backward\", \"ortho\" or \"forward\"");
+  throw scipp::value_error("dct/dst: norm must be \"backward\", \"ortho\" or \"forward\"");
 }
 
 // Inverse swaps DCT/DST type 2<->3 (1 and 4 are their own inverse type).
@@ -108,7 +108,7 @@ int inverse_type(int type) {
     case 2: return 3;
     case 3: return 2;
     case 4: return 4;
-    default: throw scypp::value_error("idct/idst: type must be 1..4");
+    default: throw scipp::value_error("idct/idst: type must be 1..4");
   }
 }
 
@@ -158,7 +158,7 @@ ndarray apply_axis(const ndarray& a, int64_t axis, LineFn fn) {
   Shape sh = ac.shape();
   int nd = static_cast<int>(sh.size());
   if (axis < 0) axis += nd;
-  if (axis < 0 || axis >= nd) throw scypp::value_error("axis out of range");
+  if (axis < 0 || axis >= nd) throw scipp::value_error("axis out of range");
   auto st = c_strides(sh);
   int64_t L = sh[axis], stride = st[axis];
   ndarray out(sh, numpp::kFloat64);
@@ -194,7 +194,7 @@ std::vector<int64_t> resolve_axes(const ndarray& a, const std::optional<std::vec
   std::vector<int64_t> out;
   for (int64_t ax : *axes) {
     int64_t a2 = ax < 0 ? ax + nd : ax;
-    if (a2 < 0 || a2 >= nd) throw scypp::value_error("axis out of range");
+    if (a2 < 0 || a2 >= nd) throw scipp::value_error("axis out of range");
     out.push_back(a2);
   }
   return out;
@@ -256,4 +256,4 @@ ndarray idstn(const ndarray& a, int type, std::optional<std::vector<int64_t>> ax
   return r2rn(a, inverse_type(type), axes, 2 - code, code == 1, /*is_dst=*/true);
 }
 
-}  // namespace scypp::fft
+}  // namespace scipp::fft

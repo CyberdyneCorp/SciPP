@@ -4,7 +4,7 @@
 
 ### Requirement: Discrete Fourier transforms
 
-`scypp::fft` SHALL provide `fft`/`ifft`, `rfft`/`irfft`, `hfft`/`ihfft` and the
+`scipp::fft` SHALL provide `fft`/`ifft`, `rfft`/`irfft`, `hfft`/`ihfft` and the
 N-D variants `fft2`/`ifft2`, `fftn`/`ifftn`, `rfftn`/`irfftn`, with `n`/`s`,
 `axis`/`axes` and `norm` (`backward`/`ortho`/`forward`) arguments matching SciPy.
 (oracle: scipy/fft)
@@ -27,7 +27,7 @@ N-D variants `fft2`/`ifft2`, `fftn`/`ifftn`, `rfftn`/`irfftn`, with `n`/`s`,
 
 ### Requirement: Discrete cosine and sine transforms
 
-`scypp::fft` SHALL provide `dct`/`idct` and `dst`/`idst` for types I–IV over a
+`scipp::fft` SHALL provide `dct`/`idct` and `dst`/`idst` for types I–IV over a
 selectable `axis`, with the default `norm=None` ("backward") normalization
 matching SciPy. (oracle: scipy/fft/_realtransforms.py)
 
@@ -48,7 +48,7 @@ matching SciPy. (oracle: scipy/fft/_realtransforms.py)
 
 ### Requirement: Helper functions
 
-`scypp::fft` SHALL provide `fftfreq`, `rfftfreq`, `fftshift`, `ifftshift` and
+`scipp::fft` SHALL provide `fftfreq`, `rfftfreq`, `fftshift`, `ifftshift` and
 `next_fast_len`, matching SciPy. `next_fast_len(n)` SHALL return the smallest
 11-smooth integer ≥ n. (oracle: scipy/fft/_helper.py)
 
@@ -66,11 +66,11 @@ matching SciPy. (oracle: scipy/fft/_realtransforms.py)
 
 ### Requirement: Legacy fftpack namespace
 
-`scypp::fftpack` SHALL re-export `fft`/`ifft`/`rfft`/`irfft`/`dct`/`idct`/`dst`/
+`scipp::fftpack` SHALL re-export `fft`/`ifft`/`rfft`/`irfft`/`dct`/`idct`/`dst`/
 `idst` as the legacy API surface, producing results identical to the
-corresponding `scypp::fft` functions. (oracle: scipy/fftpack)
+corresponding `scipp::fft` functions. (oracle: scipy/fftpack)
 
 #### Scenario: fftpack delegates to fft
 - GIVEN a signal
-- WHEN a `scypp::fftpack` function and its `scypp::fft` counterpart are called
+- WHEN a `scipp::fftpack` function and its `scipp::fft` counterpart are called
 - THEN they return identical results

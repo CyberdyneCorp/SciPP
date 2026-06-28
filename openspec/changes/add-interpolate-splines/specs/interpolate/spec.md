@@ -3,7 +3,7 @@
 ## ADDED Requirements
 
 ### Requirement: B-splines and smoothing splines
-`scypp::interpolate` SHALL provide `BSpline`, `make_interp_spline`, `splrep`/`splev`
+`scipp::interpolate` SHALL provide `BSpline`, `make_interp_spline`, `splrep`/`splev`
 and `UnivariateSpline`/`InterpolatedUnivariateSpline` (FITPACK smoothing splines),
 matching SciPy within documented tolerance. (oracle: scipy/interpolate/_bsplines.py, _fitpack_py.py)
 
@@ -18,7 +18,7 @@ matching SciPy within documented tolerance. (oracle: scipy/interpolate/_bsplines
 - THEN the result matches SciPy's spline within tolerance
 
 ### Requirement: Scattered-data interpolation
-`scypp::interpolate` SHALL provide `griddata` (`linear`/`cubic`),
+`scipp::interpolate` SHALL provide `griddata` (`linear`/`cubic`),
 `LinearNDInterpolator`, `NearestNDInterpolator` and `CloughTocher2DInterpolator`,
 built on Delaunay triangulation, matching SciPy within tolerance. (oracle: scipy/interpolate/_ndgriddata.py)
 

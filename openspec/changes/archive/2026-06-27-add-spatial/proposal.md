@@ -2,7 +2,7 @@
 
 ## Why
 
-Phase 10 of the ScyPP roadmap. `scipy.spatial` provides spatial data structures
+Phase 10 of the SciPP roadmap. `scipy.spatial` provides spatial data structures
 and computational geometry — nearest-neighbor search, distance computations,
 convex hulls / triangulations, and 3-D rotations. Its pairwise-distance kernels
 (`cdist`/`pdist`) are a **GPU acceleration target** (dense, embarrassingly
@@ -14,7 +14,7 @@ deterministic core (distances, KD-tree, 2-D convex hull / Delaunay, and the full
 
 ## What changes
 
-Adds the **spatial** capability — `scypp::spatial`, validated against the SciPy
+Adds the **spatial** capability — `scipp::spatial`, validated against the SciPy
 oracle:
 
 - **Distances** (`spatial.distance`): `pdist`, `cdist`, `squareform`,
@@ -30,9 +30,9 @@ oracle:
 ## Impact
 
 - Affected specs: **adds** the `spatial` capability.
-- Affected code: new `include/scypp/spatial/`, `src/spatial/`,
+- Affected code: new `include/scipp/spatial/`, `src/spatial/`,
   `tests/test_spatial.cpp`, extended oracle generator.
-- Roadmap: checks off Phase 10 in `bootstrap-scypp-foundation/tasks.md`.
+- Roadmap: checks off Phase 10 in `bootstrap-scipp-foundation/tasks.md`.
 
 ## Non-goals (deferred)
 

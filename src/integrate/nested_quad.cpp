@@ -1,6 +1,6 @@
 // Nested and extended quadrature built on the adaptive `quad`: romberg,
 // quad_vec, dblquad, tplquad, nquad — mirroring scipy.integrate.
-#include "scypp/integrate/integrate.hpp"
+#include "scipp/integrate/integrate.hpp"
 
 #include <cmath>
 #include <functional>
@@ -8,7 +8,7 @@
 
 #include "numpp/core/dtype.hpp"
 
-namespace scypp::integrate {
+namespace scipp::integrate {
 
 double romberg(const Integrand& f, double a, double b, double tol, double rtol, int divmax) {
   std::vector<double> prev(divmax + 1), cur(divmax + 1);
@@ -89,4 +89,4 @@ QuadResult nquad(const IntegrandN& f, const std::vector<std::pair<double, double
   return quad(top, ranges[0].first, ranges[0].second, epsabs, epsrel);
 }
 
-}  // namespace scypp::integrate
+}  // namespace scipp::integrate

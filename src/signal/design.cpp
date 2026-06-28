@@ -1,6 +1,6 @@
 // Filter design: IIR (butter/cheby1/cheby2 via analog prototype + bilinear),
 // FIR (firwin), and representation conversions (tf2zpk/zpk2tf/zpk2sos/tf2sos).
-#include "scypp/signal/signal.hpp"
+#include "scipp/signal/signal.hpp"
 
 #include <algorithm>
 #include <cmath>
@@ -9,12 +9,12 @@
 
 #include "numpp/core/dtype.hpp"
 #include "numpp/linalg/linalg.hpp"
-#include "scypp/error.hpp"
-#include "scypp/linalg/detail.hpp"
+#include "scipp/error.hpp"
+#include "scipp/linalg/detail.hpp"
 
-namespace scypp::signal {
+namespace scipp::signal {
 namespace {
-namespace sd = scypp::linalg::detail;
+namespace sd = scipp::linalg::detail;
 using cd = std::complex<double>;
 constexpr double kPi = 3.141592653589793238462643383279502884;
 
@@ -151,7 +151,7 @@ BA iir_design(ZPK proto, const std::vector<double>& Wn, const std::string& btype
     double bw = warped[1] - warped[0], wo = std::sqrt(warped[0] * warped[1]);
     if (btype == "bandpass" || btype == "band") t = lp2bp(proto, wo, bw);
     else if (btype == "bandstop" || btype == "stop") t = lp2bs(proto, wo, bw);
-    else throw scypp::value_error("unknown btype " + btype);
+    else throw scipp::value_error("unknown btype " + btype);
   }
   return zpk2tf_internal(bilinear(t, fs));
 }
@@ -288,4 +288,4 @@ ndarray tf2sos(const ndarray& b, const ndarray& a) {
   return zpk2sos(zpk.z, zpk.p, zpk.k);
 }
 
-}  // namespace scypp::signal
+}  // namespace scipp::signal

@@ -6,10 +6,10 @@
 #include "golden.hpp"
 #include "numpp/core/dtype.hpp"
 #include "numpp/core/ndarray.hpp"
-#include "scypp/integrate/integrate.hpp"
-#include "scypp_test.hpp"
+#include "scipp/integrate/integrate.hpp"
+#include "scipp_test.hpp"
 
-namespace ig = scypp::integrate;
+namespace ig = scipp::integrate;
 
 TEST_CASE("romberg") {
   CHECK_CLOSE(ig::romberg([](double x) { return std::sin(x); }, 0.0, M_PI),

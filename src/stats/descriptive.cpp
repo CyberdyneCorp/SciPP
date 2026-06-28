@@ -1,6 +1,6 @@
 // Summary statistics: gmean, hmean, moment, skew, kurtosis, sem, variation,
 // iqr, zscore, rankdata, mode, describe.
-#include "scypp/stats/stats.hpp"
+#include "scipp/stats/stats.hpp"
 
 #include <algorithm>
 #include <cmath>
@@ -8,11 +8,11 @@
 #include <numeric>
 #include <vector>
 
-#include "scypp/linalg/detail.hpp"
+#include "scipp/linalg/detail.hpp"
 
-namespace scypp::stats {
+namespace scipp::stats {
 namespace {
-namespace sd = scypp::linalg::detail;
+namespace sd = scipp::linalg::detail;
 
 double mean_of(const std::vector<double>& v) {
   double s = 0; for (double x : v) s += x; return s / v.size();
@@ -126,4 +126,4 @@ DescribeResult describe(const ndarray& a) {
   return r;
 }
 
-}  // namespace scypp::stats
+}  // namespace scipp::stats

@@ -3,7 +3,7 @@
 ## ADDED Requirements
 
 ### Requirement: Discrete distributions
-`scypp::stats` SHALL provide the discrete distributions `binom`, `poisson`,
+`scipp::stats` SHALL provide the discrete distributions `binom`, `poisson`,
 `geom`, `bernoulli`, `nbinom` and `hypergeom` with `pmf`/`logpmf`/`cdf`/`sf`/`ppf`
 and `mean`/`var`, matching SciPy. (oracle: scipy/stats/_discrete_distns.py)
 
@@ -18,7 +18,7 @@ and `mean`/`var`, matching SciPy. (oracle: scipy/stats/_discrete_distns.py)
 - THEN `cdf(ppf(q)) >= q` and it matches SciPy's `ppf`
 
 ### Requirement: Nonparametric rank tests
-`scypp::stats` SHALL provide `mannwhitneyu`, `wilcoxon`, `kruskal` and
+`scipp::stats` SHALL provide `mannwhitneyu`, `wilcoxon`, `kruskal` and
 `kendalltau`, returning a statistic and an asymptotic p-value (with tie
 correction) matching SciPy. (oracle: scipy/stats/_stats_py.py, _mannwhitneyu.py)
 

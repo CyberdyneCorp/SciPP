@@ -1,23 +1,23 @@
 # scipy-oracle Specification
 
 ## Purpose
-TBD - created by archiving change bootstrap-scypp-foundation. Update Purpose after archive.
+TBD - created by archiving change bootstrap-scipp-foundation. Update Purpose after archive.
 ## Requirements
 ### Requirement: SciPy as the numerical oracle
 
-ScyPP tests SHALL validate numeric results against real Python SciPy
-(`/home/leonardo/work/scipy`) as the oracle, asserting the ScyPP result is
+SciPP tests SHALL validate numeric results against real Python SciPy
+(`/home/leonardo/work/scipy`) as the oracle, asserting the SciPP result is
 `allclose` to the SciPy reference within per-domain tolerances, mirroring how NumPP
 validates against NumPy and SymPP against SymPy.
 
 #### Scenario: Result matches SciPy reference
-- GIVEN a ScyPP routine and a set of inputs
+- GIVEN a SciPP routine and a set of inputs
 - WHEN the test runs the corresponding Python SciPy call to produce reference values
-- THEN the ScyPP result is asserted `allclose` to the SciPy result within the
+- THEN the SciPP result is asserted `allclose` to the SciPy result within the
   documented tolerance for that domain
 
 #### Scenario: Specs cite the ported source
-- WHEN a ScyPP requirement is written
+- WHEN a SciPP requirement is written
 - THEN it cites the SciPy source it ports as a breadcrumb (e.g.
   `(oracle: scipy/linalg/_decomp_lu.py)`)
 

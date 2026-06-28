@@ -1,19 +1,19 @@
 // Filters: correlate1d/convolve1d, correlate/convolve, uniform/gaussian,
 // median/minimum/maximum, sobel/prewitt/laplace.
-#include "scypp/ndimage/ndimage.hpp"
+#include "scipp/ndimage/ndimage.hpp"
 
 #include <algorithm>
 #include <cmath>
 #include <vector>
 
 #include "numpp/backend/backend.hpp"
-#include "scypp/linalg/detail.hpp"
-#include "scypp/ndimage/detail.hpp"
+#include "scipp/linalg/detail.hpp"
+#include "scipp/ndimage/detail.hpp"
 
-namespace scypp::ndimage {
+namespace scipp::ndimage {
 namespace d = detail;
 namespace {
-namespace ld = scypp::linalg::detail;
+namespace ld = scipp::linalg::detail;
 thread_local Backend g_last = Backend::Cpu;
 
 // Correlate a 1-D weight set along `axis` of a 2-D image.
@@ -164,4 +164,4 @@ ndarray laplace(const ndarray& input, const std::string& mode, double cval) {
   return d::to_nd(a);
 }
 
-}  // namespace scypp::ndimage
+}  // namespace scipp::ndimage

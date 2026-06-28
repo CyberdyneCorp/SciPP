@@ -3,7 +3,7 @@
 ## ADDED Requirements
 
 ### Requirement: B-spline representation and interpolation
-The system SHALL provide a `scypp::interpolate::BSpline` type holding the FITPACK
+The system SHALL provide a `scipp::interpolate::BSpline` type holding the FITPACK
 `(t, c, k)` representation, evaluated by the de Boor recursion, together with
 `make_interp_spline(x, y, k)` for the default interpolating spline and a
 `splev(x, tck)` evaluation wrapper. `BSpline` SHALL expose `t()`, `c()`, and

@@ -1,15 +1,15 @@
-// Oracle tests for scypp::optimize against frozen SciPy golden data.
+// Oracle tests for scipp::optimize against frozen SciPy golden data.
 #include <cmath>
 #include <vector>
 
 #include "golden.hpp"
 #include "numpp/core/dtype.hpp"
 #include "numpp/core/ndarray.hpp"
-#include "scypp/error.hpp"
-#include "scypp/optimize/optimize.hpp"
-#include "scypp_test.hpp"
+#include "scipp/error.hpp"
+#include "scipp/optimize/optimize.hpp"
+#include "scipp_test.hpp"
 
-namespace op = scypp::optimize;
+namespace op = scipp::optimize;
 
 namespace {
 constexpr double R = 1e-6, A = 1e-8;
@@ -36,7 +36,7 @@ TEST_CASE("scalar root finding") {
               golden::opt_newton, 1e-9, 1e-11);
   // root identity and invalid bracket
   CHECK(std::fabs(sq2(op::brentq(sq2, 0.0, 2.0))) < 1e-10);
-  CHECK_THROWS_AS(op::brentq(sq2, 2.0, 3.0), scypp::value_error);
+  CHECK_THROWS_AS(op::brentq(sq2, 2.0, 3.0), scipp::value_error);
 }
 
 TEST_CASE("scalar minimization") {

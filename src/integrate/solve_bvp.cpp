@@ -12,18 +12,18 @@
 // equations, i.e. n*m equations in n*m unknowns, solved by Newton iteration with
 // a finite-difference Jacobian and dense Gaussian elimination. No adaptive mesh
 // refinement (see Non-goals).
-#include "scypp/integrate/integrate.hpp"
+#include "scipp/integrate/integrate.hpp"
 
 #include <cmath>
 #include <vector>
 
 #include "numpp/core/dtype.hpp"
-#include "scypp/error.hpp"
-#include "scypp/linalg/detail.hpp"
+#include "scipp/error.hpp"
+#include "scipp/linalg/detail.hpp"
 
-namespace scypp::integrate {
+namespace scipp::integrate {
 namespace {
-namespace sd = scypp::linalg::detail;
+namespace sd = scipp::linalg::detail;
 
 // Dense linear solve A x = b (N×N, row-major) via Gaussian elimination with
 // partial pivoting. A and b are consumed; returns x.
@@ -37,7 +37,7 @@ std::vector<double> dense_solve(std::vector<double> A, std::vector<double> b, in
       std::swap(b[col], b[piv]);
     }
     double d = A[col * N + col];
-    if (d == 0.0) throw scypp::value_error("solve_bvp: singular Jacobian");
+    if (d == 0.0) throw scipp::value_error("solve_bvp: singular Jacobian");
     for (int r = col + 1; r < N; ++r) {
       double fct = A[r * N + col] / d;
       for (int j = col; j < N; ++j) A[r * N + j] -= fct * A[col * N + j];
@@ -88,7 +88,7 @@ struct Residual {
     }
     std::vector<double> bcr = sd::to_vec(bc(node(u, 0), node(u, m - 1)));
     if (static_cast<int>(bcr.size()) != n)
-      throw scypp::value_error("solve_bvp: bc must return n residuals");
+      throw scipp::value_error("solve_bvp: bc must return n residuals");
     for (int c = 0; c < n; ++c) r[(m - 1) * n + c] = bcr[c];
     return r;
   }
@@ -106,12 +106,12 @@ BvpResult solve_bvp(const BvpFn& fun, const BcFn& bc, const ndarray& x, const nd
                     double tol, int max_iter) {
   std::vector<double> xs = sd::to_vec(x);
   int m = static_cast<int>(xs.size());
-  if (m < 2) throw scypp::value_error("solve_bvp: mesh needs at least 2 nodes");
-  if (y.ndim() != 2) throw scypp::value_error("solve_bvp: y guess must be 2-D (n, m)");
+  if (m < 2) throw scipp::value_error("solve_bvp: mesh needs at least 2 nodes");
+  if (y.ndim() != 2) throw scipp::value_error("solve_bvp: y guess must be 2-D (n, m)");
   numpp::ndarray yc = y.astype(numpp::kFloat64).ascontiguousarray();
   int n = static_cast<int>(yc.shape()[0]);
   if (static_cast<int>(yc.shape()[1]) != m)
-    throw scypp::value_error("solve_bvp: y guess columns must match mesh length");
+    throw scipp::value_error("solve_bvp: y guess columns must match mesh length");
 
   // Flatten the guess into the unknown layout u[i*n + c] = y_c(x_i).
   const double* yp = yc.typed_data<double>();
@@ -163,4 +163,4 @@ BvpResult solve_bvp(const BvpFn& fun, const BcFn& bc, const ndarray& x, const nd
   return out;
 }
 
-}  // namespace scypp::integrate
+}  // namespace scipp::integrate

@@ -4,7 +4,7 @@
 
 ### Requirement: Airy functions
 
-`scypp::special` SHALL provide `airy(x)` returning `(Ai, Aip, Bi, Bip)` and the
+`scipp::special` SHALL provide `airy(x)` returning `(Ai, Aip, Bi, Bip)` and the
 exponentially-scaled `airye(x)`, evaluated for real `x` and matching SciPy within
 documented tolerance (~1e-9). Out-of-domain behavior follows SciPy: `airye`
 returns `nan` for the scaled `Ai`/`Aip` at `x < 0` while `Bi`/`Bip` are unscaled.
@@ -29,7 +29,7 @@ returns `nan` for the scaled `Ai`/`Aip` at `x < 0` while `Bi`/`Bip` are unscaled
 
 ### Requirement: Elliptic integrals
 
-`scypp::special` SHALL provide the complete elliptic integrals `ellipk(m)`,
+`scipp::special` SHALL provide the complete elliptic integrals `ellipk(m)`,
 `ellipkm1(p)` (= `ellipk(1-p)`) and `ellipe(m)` via the arithmetic-geometric-mean
 iteration, the incomplete integrals `ellipkinc(phi, m)` and `ellipeinc(phi, m)`
 via the Carlson symmetric forms, and the Jacobi elliptic functions

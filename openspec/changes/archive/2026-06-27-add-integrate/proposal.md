@@ -2,7 +2,7 @@
 
 ## Why
 
-Phase 5 of the ScyPP roadmap. `scipy.integrate` provides numerical quadrature and
+Phase 5 of the SciPP roadmap. `scipy.integrate` provides numerical quadrature and
 ODE integration — the backbone of physics/engineering simulation — and
 `scipy.differentiate` provides finite-difference derivatives. Both are pure
 algorithm (like `optimize`), building on `numpp::ndarray` and `std::function`
@@ -14,7 +14,7 @@ boundary-value solver, which need Newton/Jacobian machinery of their own.
 
 ## What changes
 
-Adds the **integrate** capability — `scypp::integrate` and `scypp::differentiate`,
+Adds the **integrate** capability — `scipp::integrate` and `scipp::differentiate`,
 validated against the SciPy oracle:
 
 - **Fixed-sample quadrature**: `trapezoid`, `simpson`, `cumulative_trapezoid`.
@@ -25,17 +25,17 @@ validated against the SciPy oracle:
   `"RK45"` (Dormand–Prince 5(4)) and `"RK23"` (Bogacki–Shampine 3(2)), adaptive
   step-size control, and evaluation at requested `t_eval` points, returning an
   `OdeResult`.
-- **Differentiation**: `scypp::differentiate::derivative` (central differences
+- **Differentiation**: `scipp::differentiate::derivative` (central differences
   with Richardson extrapolation), `jacobian`, and `hessian`.
 
 ## Impact
 
 - Affected specs: **adds** the `integrate` capability (covering both
-  `scypp::integrate` and `scypp::differentiate`).
-- Affected code: new `include/scypp/integrate/`, `include/scypp/differentiate/`,
+  `scipp::integrate` and `scipp::differentiate`).
+- Affected code: new `include/scipp/integrate/`, `include/scipp/differentiate/`,
   `src/integrate/`, `tests/test_integrate.cpp`, extended oracle generator. Reuses
   the Phase 1–4 foundation.
-- Roadmap: checks off Phase 5 in `bootstrap-scypp-foundation/tasks.md`.
+- Roadmap: checks off Phase 5 in `bootstrap-scipp-foundation/tasks.md`.
 
 ## Non-goals (deferred)
 

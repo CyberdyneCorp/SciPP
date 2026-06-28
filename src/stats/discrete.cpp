@@ -1,12 +1,12 @@
 // Discrete distributions: binom, poisson, geom, bernoulli, nbinom, hypergeom.
-#include "scypp/stats/stats.hpp"
+#include "scipp/stats/stats.hpp"
 
 #include <algorithm>
 #include <cmath>
 
-#include "scypp/stats/detail.hpp"
+#include "scipp/stats/detail.hpp"
 
-namespace scypp::stats {
+namespace scipp::stats {
 namespace d = detail;
 namespace {
 double lchoose(double n, double k) { return std::lgamma(n + 1) - std::lgamma(k + 1) - std::lgamma(n - k + 1); }
@@ -85,4 +85,4 @@ double hypergeom::var(int M, int n, int N) {
   return Nd * (nd / Md) * ((Md - nd) / Md) * ((Md - Nd) / (Md - 1));
 }
 
-}  // namespace scypp::stats
+}  // namespace scipp::stats

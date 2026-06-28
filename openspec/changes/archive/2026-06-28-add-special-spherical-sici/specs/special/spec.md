@@ -4,7 +4,7 @@
 
 ### Requirement: Spherical Bessel functions
 
-`scypp::special` SHALL provide the spherical Bessel functions of integer order
+`scipp::special` SHALL provide the spherical Bessel functions of integer order
 `n >= 0` — `spherical_jn(n, x)`, `spherical_yn(n, x)`, `spherical_in(n, x)` and
 `spherical_kn(n, x)` — for real `x`, via the half-integer relation
 `f_n(x) = sqrt(pi/(2x)) F_{n+1/2}(x)` to the cylindrical kernels, matching SciPy
@@ -36,7 +36,7 @@ closed-form recurrence). (oracle: scipy/special/_spherical_bessel.pyx)
 
 ### Requirement: Sine and cosine integrals
 
-`scypp::special` SHALL provide `sici(x)` returning `(Si, Ci)` and `shichi(x)`
+`scipp::special` SHALL provide `sici(x)` returning `(Si, Ci)` and `shichi(x)`
 returning `(Shi, Chi)` for real `x`, matching SciPy within documented tolerance
 (~1e-10, with `Ci` validated on an absolute tolerance near its zeros).
 `Si`/`Shi` are odd and `Ci`/`Chi` are even; `Si(0)=Shi(0)=0` while

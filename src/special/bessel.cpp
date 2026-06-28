@@ -2,13 +2,13 @@
 // which matches SciPy/Cephes within tolerance. Negative arguments are declined
 // to nan (SciPy returns nan for real-order jv/yv at x < 0).
 
-#include "scypp/special/special.hpp"
+#include "scipp/special/special.hpp"
 
 #include <cmath>
 
-#include "scypp/detail/elementwise.hpp"
+#include "scipp/detail/elementwise.hpp"
 
-namespace scypp::special {
+namespace scipp::special {
 namespace {
 inline bool bad(double x) { return x < 0.0; }
 }  // namespace
@@ -35,4 +35,4 @@ ndarray i1(const ndarray& x) { return detail::map(x, [](double t) { return i1(t)
 ndarray k0(const ndarray& x) { return detail::map(x, [](double t) { return k0(t); }); }
 ndarray k1(const ndarray& x) { return detail::map(x, [](double t) { return k1(t); }); }
 
-}  // namespace scypp::special
+}  // namespace scipp::special

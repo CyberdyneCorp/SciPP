@@ -2,12 +2,12 @@
 // arithmetic and falls back to the gamma-based float path on overflow; inexact
 // mode uses lgamma, matching SciPy.
 
-#include "scypp/special/special.hpp"
+#include "scipp/special/special.hpp"
 
 #include <cmath>
 #include <limits>
 
-namespace scypp::special {
+namespace scipp::special {
 namespace {
 
 constexpr unsigned __int128 kU128Max = ~static_cast<unsigned __int128>(0);
@@ -66,4 +66,4 @@ double comb(int n, int k, bool exact) {
   return std::exp(std::lgamma(n + 1.0) - std::lgamma(k + 1.0) - std::lgamma(n - k + 1.0));
 }
 
-}  // namespace scypp::special
+}  // namespace scipp::special

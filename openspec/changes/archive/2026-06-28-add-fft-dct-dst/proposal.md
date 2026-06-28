@@ -1,8 +1,8 @@
-# Add DCT/DST normalizations and N-D transforms to scypp::fft
+# Add DCT/DST normalizations and N-D transforms to scipp::fft
 
 ## Why
 
-`scypp::fft` already ships `dct`/`idct` and `dst`/`idst` for types I–IV, but only
+`scipp::fft` already ships `dct`/`idct` and `dst`/`idst` for types I–IV, but only
 under the default `norm="backward"` normalization. SciPy's `scipy.fft` exposes
 three normalizations — `backward`, `ortho`, `forward` — and the `ortho` variant
 is the orthogonalized transform widely used in signal/image processing (it is
@@ -15,7 +15,7 @@ and an axis-loop driver.
 
 ## What changes
 
-Extends the **fft** capability — `scypp::fft` — validated against `scipy.fft`:
+Extends the **fft** capability — `scipp::fft` — validated against `scipy.fft`:
 
 - **`norm="ortho"` and `norm="forward"`** for `dct`/`idct`/`dst`/`idst`, types
   I–IV. The norm is mapped to SciPy's `inorm` code (backward=0, ortho=1,
@@ -37,9 +37,9 @@ Extends the **fft** capability — `scypp::fft` — validated against `scipy.fft
   requirement with the three norms; adds an N-D requirement).
 - Affected code: rewrites the normalization layer of `src/fft/realtransforms.cpp`
   (shared `r2r_line` kernel + axis-loop driver), adds the four N-D declarations to
-  `include/scypp/fft/fft.hpp`, extends `tests/oracle/generate.py` and
+  `include/scipp/fft/fft.hpp`, extends `tests/oracle/generate.py` and
   `tests/test_fft.cpp`. No change to the existing `backward` behavior or the
-  `scypp::fftpack` re-exports.
+  `scipp::fftpack` re-exports.
 - Trims the DCT/DST normalization and `dctn`/`idctn` items from the
   `add-fft-extras` backlog.
 

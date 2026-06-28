@@ -1,13 +1,13 @@
-// Oracle tests for scypp::optimize linear programming and NNLS.
+// Oracle tests for scipp::optimize linear programming and NNLS.
 #include <vector>
 
 #include "golden.hpp"
 #include "numpp/core/dtype.hpp"
 #include "numpp/core/ndarray.hpp"
-#include "scypp/optimize/optimize.hpp"
-#include "scypp_test.hpp"
+#include "scipp/optimize/optimize.hpp"
+#include "scipp_test.hpp"
 
-namespace opt = scypp::optimize;
+namespace opt = scipp::optimize;
 namespace {
 numpp::ndarray vec(const double* d, int n) {
   numpp::ndarray a(numpp::Shape{n}, numpp::kFloat64);

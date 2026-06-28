@@ -10,7 +10,7 @@ trapezoidal rule — no NumPP changes — so they are low-risk, high-coverage dr
 
 ## What changes
 
-Extends the **integrate** capability — `scypp::integrate`, validated against the
+Extends the **integrate** capability — `scipp::integrate`, validated against the
 SciPy oracle:
 
 - **`romberg(f, a, b)`**: Richardson-extrapolated trapezoidal rule.
@@ -26,7 +26,7 @@ SciPy oracle:
 
 - Affected specs: **modifies** the `integrate` capability (adds one requirement).
 - Affected code: new `src/integrate/nested_quad.cpp`, new type aliases and decls
-  in `include/scypp/integrate/integrate.hpp`, `tests/test_integrate_nested.cpp`,
+  in `include/scipp/integrate/integrate.hpp`, `tests/test_integrate_nested.cpp`,
   extended oracle generator. Built entirely on the existing `quad`.
 - Trims the multidimensional-quadrature items from the `add-integrate-stiff-bvp`
   backlog.

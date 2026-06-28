@@ -4,7 +4,7 @@
 
 ### Requirement: One-dimensional interpolation
 
-`scypp::interpolate` SHALL provide `Interp1d`, a callable built from sorted sample
+`scipp::interpolate` SHALL provide `Interp1d`, a callable built from sorted sample
 points supporting kinds `"linear"`, `"nearest"`, `"previous"` and `"next"`, with
 out-of-bounds handling via `fill_value`, matching SciPy. (oracle:
 scipy/interpolate/_interpolate.py)
@@ -23,7 +23,7 @@ scipy/interpolate/_interpolate.py)
 
 ### Requirement: Cubic spline interpolation
 
-`scypp::interpolate` SHALL provide `CubicSpline` with boundary conditions
+`scipp::interpolate` SHALL provide `CubicSpline` with boundary conditions
 `"not-a-knot"` (default), `"natural"` and `"clamped"`, exposing evaluation of the
 spline and its derivatives, matching SciPy. (oracle:
 scipy/interpolate/_cubic.py)
@@ -41,7 +41,7 @@ scipy/interpolate/_cubic.py)
 
 ### Requirement: Monotone and Akima piecewise interpolation
 
-`scypp::interpolate` SHALL provide `PchipInterpolator` (monotone cubic Hermite) and
+`scipp::interpolate` SHALL provide `PchipInterpolator` (monotone cubic Hermite) and
 `Akima1DInterpolator`, matching SciPy. (oracle: scipy/interpolate/_cubic.py)
 
 #### Scenario: PCHIP is shape-preserving and matches SciPy
@@ -57,7 +57,7 @@ scipy/interpolate/_cubic.py)
 
 ### Requirement: Regular-grid N-D interpolation
 
-`scypp::interpolate` SHALL provide `RegularGridInterpolator` (methods `"linear"`
+`scipp::interpolate` SHALL provide `RegularGridInterpolator` (methods `"linear"`
 and `"nearest"`) over an N-D rectilinear grid, and the `interpn` convenience
 wrapper, matching SciPy. (oracle: scipy/interpolate/_rgi.py)
 
@@ -74,7 +74,7 @@ wrapper, matching SciPy. (oracle: scipy/interpolate/_rgi.py)
 
 ### Requirement: Radial-basis-function interpolation
 
-`scypp::interpolate` SHALL provide `RBFInterpolator` for scattered data with
+`scipp::interpolate` SHALL provide `RBFInterpolator` for scattered data with
 kernels `thin_plate_spline`, `multiquadric`, `linear`, `cubic` and `gaussian` and a
 polynomial tail, matching SciPy. (oracle: scipy/interpolate/_rbfinterp.py)
 

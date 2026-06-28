@@ -1,4 +1,4 @@
-// Oracle tests for scypp::fft against frozen SciPy golden data.
+// Oracle tests for scipp::fft against frozen SciPy golden data.
 #include <vector>
 
 #include "golden.hpp"
@@ -6,11 +6,11 @@
 #include "numpp/core/dtype.hpp"
 #include "numpp/core/ndarray.hpp"
 #include "numpp/umath/ufunc.hpp"  // numpp::real / numpp::imag
-#include "scypp/error.hpp"
-#include "scypp/fft/fft.hpp"
-#include "scypp_test.hpp"
+#include "scipp/error.hpp"
+#include "scipp/fft/fft.hpp"
+#include "scipp_test.hpp"
 
-namespace ff = scypp::fft;
+namespace ff = scipp::fft;
 
 namespace {
 constexpr double R = 1e-9, A = 1e-11;
@@ -116,7 +116,7 @@ TEST_CASE("DCT / DST round-trip under every norm") {
 
 TEST_CASE("dct/dst reject an unknown norm") {
   auto x = vec(V(fft_x));
-  CHECK_THROWS_AS(ff::dct(x, 2, -1, "bogus"), scypp::value_error);
+  CHECK_THROWS_AS(ff::dct(x, 2, -1, "bogus"), scipp::value_error);
 }
 
 TEST_CASE("dctn / dstn over all axes match SciPy") {
@@ -167,10 +167,10 @@ TEST_CASE("helpers and next_fast_len") {
 
 TEST_CASE("fftpack delegates to fft") {
   auto x = vec(V(fft_x));
-  auto a = contig(numpp::real(scypp::fftpack::fft(x)));
+  auto a = contig(numpp::real(scipp::fftpack::fft(x)));
   auto b = contig(numpp::real(ff::fft(x)));
   for (size_t i = 0; i < a.size(); ++i) CHECK_CLOSE(a[i], b[i], 1e-12, 1e-12);
-  auto c = contig(scypp::fftpack::dct(x, 2));
+  auto c = contig(scipp::fftpack::dct(x, 2));
   auto e = contig(ff::dct(x, 2));
   for (size_t i = 0; i < c.size(); ++i) CHECK_CLOSE(c[i], e[i], 1e-12, 1e-12);
 }

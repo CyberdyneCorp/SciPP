@@ -4,7 +4,7 @@
 
 ### Requirement: Matrix Market I/O
 
-`scypp::io` SHALL provide `mmread` and `mmwrite` for the Matrix Market format,
+`scipp::io` SHALL provide `mmread` and `mmwrite` for the Matrix Market format,
 matching SciPy. (oracle: scipy/io/_mmio.py)
 
 #### Scenario: Read and round-trip Matrix Market
@@ -15,7 +15,7 @@ matching SciPy. (oracle: scipy/io/_mmio.py)
 
 ### Requirement: WAV audio I/O
 
-`scypp::io` SHALL provide `wavread` and `wavwrite` for integer-PCM WAV files,
+`scipp::io` SHALL provide `wavread` and `wavwrite` for integer-PCM WAV files,
 matching SciPy. (oracle: scipy/io/wavfile.py)
 
 #### Scenario: Read and round-trip WAV
@@ -26,7 +26,7 @@ matching SciPy. (oracle: scipy/io/wavfile.py)
 
 ### Requirement: ARFF loading
 
-`scypp::io` SHALL provide `loadarff` for the numeric attributes of an ARFF file,
+`scipp::io` SHALL provide `loadarff` for the numeric attributes of an ARFF file,
 matching SciPy. (oracle: scipy/io/arff)
 
 #### Scenario: Load ARFF numeric data

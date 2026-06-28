@@ -1,5 +1,5 @@
 // 3-D rotations: Rotation (quat/matrix/euler/rotvec) + Slerp.
-#include "scypp/spatial/spatial.hpp"
+#include "scipp/spatial/spatial.hpp"
 
 #include <algorithm>
 #include <cctype>
@@ -7,12 +7,12 @@
 #include <vector>
 
 #include "numpp/core/dtype.hpp"
-#include "scypp/error.hpp"
-#include "scypp/linalg/detail.hpp"
+#include "scipp/error.hpp"
+#include "scipp/linalg/detail.hpp"
 
-namespace scypp::spatial {
+namespace scipp::spatial {
 namespace {
-namespace sd = scypp::linalg::detail;
+namespace sd = scipp::linalg::detail;
 constexpr double kPi = 3.141592653589793238462643383279502884;
 int axis_index(char c) { return c == 'x' || c == 'X' ? 0 : (c == 'y' || c == 'Y' ? 1 : 2); }
 
@@ -171,4 +171,4 @@ Rotation Slerp::operator()(double t) const {
   return make(s0 * q0.x_ + s1 * q1.x_, s0 * q0.y_ + s1 * q1.y_, s0 * q0.z_ + s1 * q1.z_, s0 * q0.w_ + s1 * q1.w_);
 }
 
-}  // namespace scypp::spatial
+}  // namespace scipp::spatial

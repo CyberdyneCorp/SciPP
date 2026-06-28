@@ -1,9 +1,9 @@
 // Oracle tests for spherical Bessel functions and sine/cosine integrals.
 #include "golden.hpp"
-#include "scypp/special/special.hpp"
-#include "scypp_test.hpp"
+#include "scipp/special/special.hpp"
+#include "scipp_test.hpp"
 
-namespace sp = scypp::special;
+namespace sp = scipp::special;
 
 namespace {
 constexpr double R = 1e-10, A = 1e-12;

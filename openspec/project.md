@@ -1,19 +1,19 @@
-# ScyPP — Project Context
+# SciPP — Project Context
 
 ## What this is
-ScyPP is a clean-room **C++20 port of [SciPy](https://github.com/scipy/scipy)** —
+SciPP is a clean-room **C++20 port of [SciPy](https://github.com/scipy/scipy)** —
 the scientific-computing layer that sits on top of NumPy. It is the SciPy sibling
 of two existing ports:
 
 - **[NumPP](https://github.com/CyberdyneCorp/NumPP)** — the NumPy port (N-D
   `ndarray`, dtypes, ufuncs, linalg, fft, random) with a tiered acceleration
   layer (portable CPU kernel + optional weak-linked BLAS/LAPACK and **CUDA /
-  OpenCL / Metal** GPU backends selected at runtime). ScyPP is **built on top of
+  OpenCL / Metal** GPU backends selected at runtime). SciPP is **built on top of
   NumPP**: NumPP is the array engine and the backend-dispatch substrate.
 - **[SymPP](https://github.com/leonardoaraujosantos/SymPP)** — the SymPy port
   (symbolic math). Available for closed-form/special-function needs.
 
-Just as SciPy is validated against textbook math, ScyPP uses **real Python SciPy
+Just as SciPy is validated against textbook math, SciPP uses **real Python SciPy
 as the numerical oracle**: tests assert `allclose` against values produced by the
 reference implementation, exactly as NumPP validates against NumPy and SymPP
 against SymPy.
@@ -22,13 +22,13 @@ against SymPy.
 The upstream SciPy checkout at `/home/leonardo/work/scipy` is the **oracle and
 reference implementation**. Its own OpenSpec baseline
 (`/home/leonardo/work/scipy/openspec/specs/`) documents the observed behavior of
-each public subpackage and is the behavioral contract ScyPP ports against. ScyPP
+each public subpackage and is the behavioral contract SciPP ports against. SciPP
 re-implements the *algorithms* in portable C++ (no CPython C-API, no `PyObject`)
 and adds GPU acceleration where SciPy has none.
 
 ## Capability map
 Each capability corresponds to a public SciPy subpackage (`scipy/<name>/`),
-ported into the `scypp::<name>` namespace:
+ported into the `scipp::<name>` namespace:
 
 | Capability | SciPy subpackage | Scope |
 |------------|------------------|-------|
@@ -50,7 +50,7 @@ ported into the `scypp::<name>` namespace:
 | special | `scipy/special` | Special functions (gamma, Bessel, erf, orthogonal polynomials) |
 | stats | `scipy/stats` | Probability distributions, statistical tests, QMC, KDE |
 
-## What ScyPP does differently from SciPy
+## What SciPP does differently from SciPy
 - **One portable source tree, three build profiles** — mobile (CPU-only, zero
   extra deps; builds on iOS/Android), desktop (+BLAS/LAPACK), workstation/server
   (+GPU). Acceleration is strictly additive; a portable CPU kernel is always
@@ -62,14 +62,14 @@ ported into the `scypp::<name>` namespace:
 
 ## Conventions worth knowing
 - **Build system**: CMake ≥ 3.25, C++20, Conan + vcpkg packaging — mirrors
-  NumPP/SymPP. Backend feature flags follow NumPP: `SCYPP_WITH_BLAS`,
-  `SCYPP_WITH_LAPACK`, `SCYPP_WITH_CUDA`, `SCYPP_WITH_OPENCL`, `SCYPP_WITH_METAL`,
+  NumPP/SymPP. Backend feature flags follow NumPP: `SCIPP_WITH_BLAS`,
+  `SCIPP_WITH_LAPACK`, `SCIPP_WITH_CUDA`, `SCIPP_WITH_OPENCL`, `SCIPP_WITH_METAL`,
   all default OFF.
 - **Namespacing**: implementation in `src/<subpackage>/`, public headers in
-  `include/scypp/<subpackage>/`, umbrella header `scypp/scypp.hpp`.
+  `include/scipp/<subpackage>/`, umbrella header `scipp/scipp.hpp`.
 - **Oracle breadcrumbs**: spec requirements cite the SciPy source they port,
   e.g. `(oracle: scipy/linalg/_decomp_lu.py)`.
-- **Backend reuse**: ScyPP does not re-invent device management — it consumes
+- **Backend reuse**: SciPP does not re-invent device management — it consumes
   NumPP's `CapabilityRegistry`, `last_backend()`, `NUMPP_GPU_TARGET`, and device
   buffer pool, and registers SciPy-specific kernels into the same vtable shape.
 

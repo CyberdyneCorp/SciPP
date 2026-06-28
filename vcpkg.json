@@ -1,5 +1,5 @@
 {
-  "name": "scypp",
+  "name": "scipp",
   "version": "1.0.0",
   "description": "Modern C++20 port of SciPy, built on NumPP",
   "license": "MIT",

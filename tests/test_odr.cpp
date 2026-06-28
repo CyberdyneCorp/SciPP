@@ -1,14 +1,14 @@
-// Oracle tests for scypp::odr against frozen scipy.odr golden data.
+// Oracle tests for scipp::odr against frozen scipy.odr golden data.
 #include <cmath>
 #include <vector>
 
 #include "golden.hpp"
 #include "numpp/core/dtype.hpp"
 #include "numpp/core/ndarray.hpp"
-#include "scypp/odr/odr.hpp"
-#include "scypp_test.hpp"
+#include "scipp/odr/odr.hpp"
+#include "scipp_test.hpp"
 
-namespace odr = scypp::odr;
+namespace odr = scipp::odr;
 
 namespace {
 

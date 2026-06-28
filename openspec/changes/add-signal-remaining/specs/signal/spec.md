@@ -3,7 +3,7 @@
 ## ADDED Requirements
 
 ### Requirement: Discrete-time LTI systems
-`scypp::signal` SHALL provide discrete-time LTI analysis `dstep`, `dimpulse`,
+`scipp::signal` SHALL provide discrete-time LTI analysis `dstep`, `dimpulse`,
 `dlsim`, `dbode`, `dfreqresp` and `cont2discrete`, matching SciPy. (oracle: scipy/signal/_ltisys.py)
 
 #### Scenario: Discrete step response
@@ -12,7 +12,7 @@
 - THEN the response matches SciPy
 
 ### Requirement: Continuous-to-discrete conversion
-`scypp::signal::cont2discrete` SHALL convert a continuous system to discrete via
+`scipp::signal::cont2discrete` SHALL convert a continuous system to discrete via
 the supported methods (`zoh`, `bilinear`, `euler`), matching SciPy. (oracle: scipy/signal/_lti_conversion.py)
 
 #### Scenario: ZOH discretization
@@ -21,7 +21,7 @@ the supported methods (`zoh`, `bilinear`, `euler`), matching SciPy. (oracle: sci
 - THEN the discrete system matches SciPy
 
 ### Requirement: Separable 2-D filtering
-`scypp::signal::sepfir2d` SHALL apply a separable 2-D FIR filter, matching SciPy. (oracle: scipy/signal/_spline.pyx)
+`scipp::signal::sepfir2d` SHALL apply a separable 2-D FIR filter, matching SciPy. (oracle: scipy/signal/_spline.pyx)
 
 #### Scenario: Separable filter matches the full 2-D convolution
 - GIVEN an image and separable row/column kernels

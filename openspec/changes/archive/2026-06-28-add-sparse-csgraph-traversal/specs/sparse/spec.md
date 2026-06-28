@@ -4,7 +4,7 @@
 
 ### Requirement: csgraph traversal and flow algorithms
 The system SHALL provide `breadth_first_order`, `depth_first_order`, `johnson`,
-`maximum_flow`, and `maximum_bipartite_matching` in `scypp::sparse::csgraph`,
+`maximum_flow`, and `maximum_bipartite_matching` in `scipp::sparse::csgraph`,
 operating on CSR graphs and matching `scipy.sparse.csgraph` to integer exactness
 for orders/matchings/flow values and to `allclose` tolerance (~1e-12) for
 distances.

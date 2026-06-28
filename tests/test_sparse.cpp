@@ -1,14 +1,14 @@
-// Oracle tests for scypp::sparse against frozen SciPy golden data.
+// Oracle tests for scipp::sparse against frozen SciPy golden data.
 #include <cmath>
 #include <vector>
 
 #include "golden.hpp"
 #include "numpp/core/dtype.hpp"
 #include "numpp/core/ndarray.hpp"
-#include "scypp/sparse/sparse.hpp"
-#include "scypp_test.hpp"
+#include "scipp/sparse/sparse.hpp"
+#include "scipp_test.hpp"
 
-namespace sp = scypp::sparse;
+namespace sp = scipp::sparse;
 namespace {
 numpp::ndarray vec(const double* d, int n) {
   numpp::ndarray a(numpp::Shape{n}, numpp::kFloat64);

@@ -4,7 +4,7 @@
 
 ### Requirement: Confluent hypergeometric limit 0F1
 
-`scypp::special` SHALL provide `hyp0f1(b, x)` returning the confluent limit
+`scipp::special` SHALL provide `hyp0f1(b, x)` returning the confluent limit
 `sum_n x^n / ((b)_n n!)` for real `b` and `x` via term-recurrence summation,
 matching `scipy.special.hyp0f1(b, x)` within documented tolerance (~1e-9). A
 non-positive integer `b` (a pole) returns `nan` (no throw); `hyp0f1(b, 0) = 1`.
@@ -22,7 +22,7 @@ non-positive integer `b` (a pole) returns `nan` (no throw); `hyp0f1(b, 0) = 1`.
 
 ### Requirement: Kummer confluent hypergeometric 1F1
 
-`scypp::special` SHALL provide `hyp1f1(a, b, x)` returning Kummer's confluent
+`scipp::special` SHALL provide `hyp1f1(a, b, x)` returning Kummer's confluent
 `M(a, b, x) = sum_n (a)_n/((b)_n n!) x^n` for real `a, b, x`, using Kummer's
 transformation `M(a,b,x) = e^x M(b-a,b,-x)` for `x < 0`, matching
 `scipy.special.hyp1f1(a, b, x)` within documented tolerance (~1e-9) over
@@ -42,7 +42,7 @@ moderate `|a|, |b|, |x|`. A non-positive integer `b` returns `nan` (no throw);
 
 ### Requirement: Gauss hypergeometric 2F1
 
-`scypp::special` SHALL provide `hyp2f1(a, b, c, z)` returning the Gauss
+`scipp::special` SHALL provide `hyp2f1(a, b, c, z)` returning the Gauss
 `sum_n (a)_n(b)_n/((c)_n n!) z^n` for real `a, b, c` and real `z` in `(-1, 1]`,
 using the direct series, the Pfaff transformation for `z <= -1/2`, the `1 - z`
 reflection for `z` in `(1/2, 1)` with non-integer `c - a - b`, and the Gauss
@@ -68,7 +68,7 @@ throw); `hyp2f1(a, b, c, 0) = 1`.
 
 ### Requirement: Tricomi confluent hypergeometric U
 
-`scypp::special` SHALL provide `hyperu(a, b, x)` returning Tricomi's confluent
+`scipp::special` SHALL provide `hyperu(a, b, x)` returning Tricomi's confluent
 `U(a, b, x)` for real `a`, non-integer real `b`, and `x > 0`, built from the two
 `1F1` solutions
 `U = pi/sin(pi b) [M(a,b,x)/(Gamma(a-b+1)Gamma(b)) - x^{1-b} M(a-b+1,2-b,x)/(Gamma(a)Gamma(2-b))]`,

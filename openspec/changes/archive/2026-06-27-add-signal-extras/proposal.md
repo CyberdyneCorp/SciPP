@@ -7,12 +7,12 @@ Phase 8 (`add-signal`, archived) delivered the DSP core but deferred several
 objects, resampling, the remaining IIR families, and 2-D/statistical filters.
 These are everyday tools, not edge cases, so this change completes
 `scipy.signal`'s commonly-used surface. It builds directly on Phase 8 (the
-`_spectral` helper, `cheby1`, `filtfilt`, `freqz`) and on `scypp::linalg`
+`_spectral` helper, `cheby1`, `filtfilt`, `freqz`) and on `scipp::linalg`
 (`expm`/`lstsq` for state-space simulation and Savitzky–Golay).
 
 ## What changes
 
-Extends the **signal** capability — `scypp::signal`, validated against the SciPy
+Extends the **signal** capability — `scipp::signal`, validated against the SciPy
 oracle:
 
 - **Advanced spectral**: `csd`, `coherence`, `spectrogram`, `stft`, `istft`.
@@ -32,7 +32,7 @@ oracle:
 - Affected specs: extends the `signal` capability (merged into the baseline on
   archive).
 - Affected code: new `src/signal/*` translation units, additions to
-  `include/scypp/signal/signal.hpp`, `tests/test_signal_extras.cpp`, extended
+  `include/scipp/signal/signal.hpp`, `tests/test_signal_extras.cpp`, extended
   oracle generator.
 
 ## Non-goals

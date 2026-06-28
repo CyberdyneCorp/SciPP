@@ -1,16 +1,16 @@
-// Oracle tests for scypp::integrate and scypp::differentiate.
+// Oracle tests for scipp::integrate and scipp::differentiate.
 #include <cmath>
 #include <vector>
 
 #include "golden.hpp"
 #include "numpp/core/dtype.hpp"
 #include "numpp/core/ndarray.hpp"
-#include "scypp/differentiate/differentiate.hpp"
-#include "scypp/integrate/integrate.hpp"
-#include "scypp_test.hpp"
+#include "scipp/differentiate/differentiate.hpp"
+#include "scipp/integrate/integrate.hpp"
+#include "scipp_test.hpp"
 
-namespace ig = scypp::integrate;
-namespace df = scypp::differentiate;
+namespace ig = scipp::integrate;
+namespace df = scipp::differentiate;
 
 namespace {
 constexpr double kPi = 3.141592653589793238462643383279502884;

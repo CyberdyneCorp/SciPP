@@ -1,13 +1,13 @@
-// Oracle tests for scypp::stats discrete distributions and rank tests.
+// Oracle tests for scipp::stats discrete distributions and rank tests.
 #include <vector>
 
 #include "golden.hpp"
 #include "numpp/core/dtype.hpp"
 #include "numpp/core/ndarray.hpp"
-#include "scypp/stats/stats.hpp"
-#include "scypp_test.hpp"
+#include "scipp/stats/stats.hpp"
+#include "scipp_test.hpp"
 
-namespace st = scypp::stats;
+namespace st = scipp::stats;
 namespace {
 numpp::ndarray vec(const double* d, int n) {
   numpp::ndarray a(numpp::Shape{n}, numpp::kFloat64);

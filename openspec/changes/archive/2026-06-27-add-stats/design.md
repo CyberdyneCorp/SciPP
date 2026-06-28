@@ -2,7 +2,7 @@
 
 ## Context
 
-`scypp::stats` ports the deterministic core of `scipy.stats`. Distribution CDFs
+`scipp::stats` ports the deterministic core of `scipy.stats`. Distribution CDFs
 reduce to the regularized incomplete gamma/beta integrals, so this change first
 implements those special-function enablers (which Phase 1 did not cover) and then
 builds the distributions, statistics, tests, and KDE on top. Everything is
@@ -26,7 +26,7 @@ Each distribution is a struct of static methods mirroring SciPy's
 `dist.method(x, *shape, loc=0, scale=1)`:
 
 ```cpp
-namespace scypp::stats {
+namespace scipp::stats {
 struct norm {
   static double pdf(double x, double loc = 0, double scale = 1);
   static double logpdf(double x, double loc = 0, double scale = 1);

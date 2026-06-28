@@ -1,6 +1,6 @@
 // 2-D computational geometry: ConvexHull (monotone chain) and Delaunay
 // (Bowyer-Watson incremental).
-#include "scypp/spatial/spatial.hpp"
+#include "scipp/spatial/spatial.hpp"
 
 #include <algorithm>
 #include <cmath>
@@ -10,11 +10,11 @@
 #include <vector>
 
 #include "numpp/core/dtype.hpp"
-#include "scypp/linalg/detail.hpp"
+#include "scipp/linalg/detail.hpp"
 
-namespace scypp::spatial {
+namespace scipp::spatial {
 namespace {
-namespace sd = scypp::linalg::detail;
+namespace sd = scipp::linalg::detail;
 double cross(double ox, double oy, double ax, double ay, double bx, double by) {
   return (ax - ox) * (by - oy) - (ay - oy) * (bx - ox);
 }
@@ -140,4 +140,4 @@ int64_t Delaunay::find_simplex(const ndarray& p) const {
   return -1;
 }
 
-}  // namespace scypp::spatial
+}  // namespace scipp::spatial

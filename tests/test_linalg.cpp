@@ -1,4 +1,4 @@
-// Oracle tests for scypp::linalg against frozen SciPy golden data, plus
+// Oracle tests for scipp::linalg against frozen SciPy golden data, plus
 // reconstruction checks for the decompositions.
 #include <vector>
 
@@ -7,10 +7,10 @@
 #include "numpp/core/dtype.hpp"
 #include "numpp/core/error.hpp"
 #include "numpp/core/ndarray.hpp"
-#include "scypp/linalg/linalg.hpp"
-#include "scypp_test.hpp"
+#include "scipp/linalg/linalg.hpp"
+#include "scipp_test.hpp"
 
-namespace ll = scypp::linalg;
+namespace ll = scipp::linalg;
 
 namespace {
 constexpr double R = 1e-9, A = 1e-11;

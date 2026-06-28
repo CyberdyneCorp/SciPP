@@ -2,8 +2,8 @@ from conan import ConanFile
 from conan.tools.cmake import CMakeToolchain, CMake, cmake_layout
 
 
-class ScyPPConan(ConanFile):
-    name = "scypp"
+class SciPPConan(ConanFile):
+    name = "scipp"
     version = "1.0.0"
     license = "MIT"
     description = "Modern C++20 port of SciPy, built on NumPP"
@@ -36,7 +36,7 @@ class ScyPPConan(ConanFile):
     def generate(self):
         tc = CMakeToolchain(self)
         for opt in ("blas", "lapack", "cuda", "opencl", "metal"):
-            tc.variables[f"SCYPP_WITH_{opt.upper()}"] = bool(getattr(self.options, f"with_{opt}"))
+            tc.variables[f"SCIPP_WITH_{opt.upper()}"] = bool(getattr(self.options, f"with_{opt}"))
         tc.generate()
 
     def build(self):
@@ -49,4 +49,4 @@ class ScyPPConan(ConanFile):
         cmake.install()
 
     def package_info(self):
-        self.cpp_info.libs = ["scypp"]
+        self.cpp_info.libs = ["scipp"]

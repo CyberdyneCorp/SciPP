@@ -3,7 +3,7 @@
 ## ADDED Requirements
 
 ### Requirement: Orthonormal and forward DCT/DST normalization
-`scypp::fft` SHALL support the `ortho` and `forward` normalizations for
+`scipp::fft` SHALL support the `ortho` and `forward` normalizations for
 `dct`/`idct`/`dst`/`idst` (types I–IV), matching SciPy. (oracle: scipy/fft/_realtransforms.py)
 
 #### Scenario: Orthonormal DCT is energy-preserving
@@ -12,7 +12,7 @@
 - THEN it matches SciPy and the transform preserves the L2 norm
 
 ### Requirement: N-D cosine/sine transforms
-`scypp::fft` SHALL provide `dctn`, `idctn`, `dstn` and `idstn` over multiple axes,
+`scipp::fft` SHALL provide `dctn`, `idctn`, `dstn` and `idstn` over multiple axes,
 matching SciPy. (oracle: scipy/fft/_realtransforms.py)
 
 #### Scenario: N-D DCT round-trips
@@ -21,7 +21,7 @@ matching SciPy. (oracle: scipy/fft/_realtransforms.py)
 - THEN the result is `allclose` to `x` and `dctn` matches SciPy
 
 ### Requirement: Hankel and chirp-z transforms
-`scypp::fft` SHALL provide `fht`/`ifht` (Hankel) and `czt`/`zoom_fft` (chirp-z),
+`scipp::fft` SHALL provide `fht`/`ifht` (Hankel) and `czt`/`zoom_fft` (chirp-z),
 matching SciPy within documented tolerance. (oracle: scipy/fft/_fftlog.py, scipy/signal/_czt.py)
 
 #### Scenario: Chirp-z matches the DFT on the unit circle

@@ -4,7 +4,7 @@
 
 ### Requirement: Lambert W real branches
 
-`scypp::special` SHALL provide `lambertw(x, k)` returning the real Lambert W
+`scipp::special` SHALL provide `lambertw(x, k)` returning the real Lambert W
 branches — the principal branch `k = 0` (defined for `x >= -1/e`) and the
 `k = -1` branch (defined on `[-1/e, 0)`) — for real `x`, via Halley iteration,
 matching the real part of `scipy.special.lambertw(x, k)` within documented
@@ -29,7 +29,7 @@ tolerance (~1e-10). Out-of-domain input returns `nan` (no throw); `lambertw(0, 0
 
 ### Requirement: Riemann zeta
 
-`scypp::special` SHALL provide `zeta(x)` (Riemann zeta, equivalently Hurwitz
+`scipp::special` SHALL provide `zeta(x)` (Riemann zeta, equivalently Hurwitz
 zeta with `q = 1`) and `zetac(x) = zeta(x) - 1` for real `x` via Euler-Maclaurin
 summation, matching `scipy.special.zeta(x)` / `scipy.special.zetac(x)` within
 documented tolerance (~1e-10). `zeta` has a pole at `x = 1` returning `+inf`
@@ -48,7 +48,7 @@ documented tolerance (~1e-10). `zeta` has a pole at `x = 1` returning `+inf`
 
 ### Requirement: Struve and modified Struve functions
 
-`scypp::special` SHALL provide `struve(v, x)` (Struve `H_v`) and
+`scipp::special` SHALL provide `struve(v, x)` (Struve `H_v`) and
 `modstruve(v, x)` (modified Struve `L_v`) for real order `v` and argument `x`,
 using the convergent power series for small `|x|` and the Bessel-based
 asymptotic expansion for large `|x|`, matching `scipy.special.struve` /
@@ -71,7 +71,7 @@ SciPy.
 
 ### Requirement: Spence's dilogarithm
 
-`scypp::special` SHALL provide `spence(x)` returning Spence's dilogarithm
+`scipp::special` SHALL provide `spence(x)` returning Spence's dilogarithm
 `Li_2(1 - x)` (SciPy convention) for real `x >= 0`, matching
 `scipy.special.spence(x)` within documented tolerance (~1e-10). For `x < 0` the
 result is `nan` (no throw).

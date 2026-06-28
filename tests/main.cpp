@@ -1,3 +1,3 @@
-#include "scypp_test.hpp"
+#include "scipp_test.hpp"
 
 SPT_MAIN()

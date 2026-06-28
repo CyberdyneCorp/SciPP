@@ -1,13 +1,13 @@
 // Sparse products (spmv/spmm) and the backend-dispatch hook.
-#include "scypp/sparse/sparse.hpp"
+#include "scipp/sparse/sparse.hpp"
 
 #include <vector>
 
 #include "numpp/backend/backend.hpp"
 #include "numpp/core/dtype.hpp"
-#include "scypp/sparse/detail.hpp"
+#include "scipp/sparse/detail.hpp"
 
-namespace scypp::sparse {
+namespace scipp::sparse {
 namespace d = detail;
 namespace {
 thread_local Backend g_last = Backend::Cpu;
@@ -51,4 +51,4 @@ ndarray spmv(const CsrMatrix& A, const ndarray& x, Backend forced) {
   return A.spmv(x);
 }
 
-}  // namespace scypp::sparse
+}  // namespace scipp::sparse

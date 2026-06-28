@@ -2,9 +2,9 @@
 
 ## Context
 
-First implemented slice of ScyPP. It realizes two SciPy subpackages and, because
+First implemented slice of SciPP. It realizes two SciPy subpackages and, because
 the repo is greenfield, the minimal Phase 0 foundation they need to compile. The
-foundation architecture is already specified in `bootstrap-scypp-foundation`; this
+foundation architecture is already specified in `bootstrap-scipp-foundation`; this
 change *implements the subset* that `special`/`constants` exercise and defers the
 rest (GPU dispatch shims, BLAS/LAPACK wiring) to the phases that need it.
 
@@ -46,7 +46,7 @@ Element-wise functions accept and return `numpp::ndarray` and also offer a scala
 `double` overload (the common call site):
 
 ```cpp
-namespace scypp::special {
+namespace scipp::special {
   double  gamma(double x);
   ndarray gamma(const ndarray& x);          // elementwise via numpp broadcast
   double  jv(double v, double x);
@@ -66,7 +66,7 @@ namespace scypp::special {
   matching SciPy.
 - Domain handling matches SciPy: out-of-domain returns `nan`/`inf` (e.g.
   `gamma` at non-positive integers → `inf`/`nan`), **not** exceptions — SciPy's
-  special functions do not throw. `scypp::error` is reserved for genuine misuse
+  special functions do not throw. `scipp::error` is reserved for genuine misuse
   (e.g. mismatched shapes from NumPP).
 
 ## constants design
@@ -74,7 +74,7 @@ namespace scypp::special {
 - A single generated header table `physical_constants` — `name → {value, unit,
   uncertainty}` — transcribed from SciPy's CODATA-2022 dataset, with
   `value(name)`, `unit(name)`, `precision(name)` accessors throwing
-  `scypp::value_error` on unknown keys (matching SciPy's `KeyError`).
+  `scipp::value_error` on unknown keys (matching SciPy's `KeyError`).
 - Top-level `constexpr double` scale constants (`pi`, `c`, `h`, `hbar`, `G`, `e`,
   `k`, `N_A`, `R`, `g`, `atm`, …) and named unit factors (`kilo`, `milli`,
   `inch`, `bar`, `hour`, `eV`, …) as `constexpr`.
@@ -84,18 +84,18 @@ namespace scypp::special {
 ## Foundation subset implemented here
 
 ```
-CMakeLists.txt           # C++20, SCYPP_WITH_* flags (OFF), find_package(numpp)
+CMakeLists.txt           # C++20, SCIPP_WITH_* flags (OFF), find_package(numpp)
 cmake/                   # config.hpp.in, helpers
 conanfile.py vcpkg.json  # pinned numpp/<ver> dependency
-include/scypp/
-  scypp.hpp  fwd.hpp  version.hpp.in  error.hpp
+include/scipp/
+  scipp.hpp  fwd.hpp  version.hpp.in  error.hpp
   special/*.hpp  constants/*.hpp
 src/special/  src/constants/
 tests/                   # Catch2 + oracle harness, golden/ frozen data
 ```
 
 - **NumPP** is pinned (Conan/vcpkg) and resolved with `find_package(numpp
-  CONFIG REQUIRED)`; configure fails fast if a requested `SCYPP_WITH_<GPU>` has no
+  CONFIG REQUIRED)`; configure fails fast if a requested `SCIPP_WITH_<GPU>` has no
   matching NumPP variant (no GPU is requested this phase).
 - **Oracle harness**: a Python generator script runs real SciPy
   (`/home/leonardo/work/scipy`) over the test inputs and writes
@@ -108,7 +108,7 @@ tests/                   # Catch2 + oracle harness, golden/ frozen data
 - **Cephes accuracy ceiling**: a few functions (large-order Bessel, deep wings)
   are only ~1e-10 in SciPy itself; tests use matching per-function tolerances
   rather than a global `1e-12`.
-- **`factorial(exact=True)` overflow**: SciPy returns Python bigints; ScyPP caps
+- **`factorial(exact=True)` overflow**: SciPy returns Python bigints; SciPP caps
   exact mode at the `unsigned __int128` range and switches to the float/`gamma`
   path beyond, documented in the spec.
 - **CODATA version drift**: pin to the same CODATA release the vendored SciPy uses

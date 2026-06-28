@@ -1,5 +1,5 @@
 // Hierarchical clustering: linkage (Lance-Williams), fcluster, cophenet.
-#include "scypp/cluster/cluster.hpp"
+#include "scipp/cluster/cluster.hpp"
 
 #include <algorithm>
 #include <cmath>
@@ -8,11 +8,11 @@
 #include <vector>
 
 #include "numpp/core/dtype.hpp"
-#include "scypp/linalg/detail.hpp"
+#include "scipp/linalg/detail.hpp"
 
-namespace scypp::cluster {
+namespace scipp::cluster {
 namespace {
-namespace sd = scypp::linalg::detail;
+namespace sd = scipp::linalg::detail;
 constexpr double kInf = std::numeric_limits<double>::infinity();
 
 // Build the n×n distance matrix from observations or a condensed vector.
@@ -129,4 +129,4 @@ ndarray fcluster(const ndarray& Zin, double t, const std::string& criterion) {
   return sd::from_vec(lab);
 }
 
-}  // namespace scypp::cluster
+}  // namespace scipp::cluster

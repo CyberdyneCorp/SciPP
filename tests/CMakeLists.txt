@@ -1,4 +1,4 @@
-add_executable(scypp_tests
+add_executable(scipp_tests
   main.cpp
   test_special.cpp
   test_special_airy_elliptic.cpp
@@ -33,12 +33,12 @@ add_executable(scypp_tests
   test_stats_normality.cpp
   test_odr.cpp)
 
-target_link_libraries(scypp_tests PRIVATE scypp::scypp numpp::numpp)
+target_link_libraries(scipp_tests PRIVATE scipp::scipp numpp::numpp)
 
-target_include_directories(scypp_tests PRIVATE
+target_include_directories(scipp_tests PRIVATE
   ${CMAKE_CURRENT_SOURCE_DIR}
   ${CMAKE_CURRENT_SOURCE_DIR}/golden)
 
-target_compile_definitions(scypp_tests PRIVATE SCYPP_GOLDEN_DIR="${CMAKE_CURRENT_SOURCE_DIR}/golden")
+target_compile_definitions(scipp_tests PRIVATE SCIPP_GOLDEN_DIR="${CMAKE_CURRENT_SOURCE_DIR}/golden")
 
-add_test(NAME scypp_tests COMMAND scypp_tests)
+add_test(NAME scipp_tests COMMAND scipp_tests)

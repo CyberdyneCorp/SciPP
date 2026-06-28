@@ -1,4 +1,4 @@
-// Oracle tests for scypp::signal against frozen SciPy golden data.
+// Oracle tests for scipp::signal against frozen SciPy golden data.
 #include <cmath>
 #include <complex>
 #include <vector>
@@ -6,10 +6,10 @@
 #include "golden.hpp"
 #include "numpp/core/dtype.hpp"
 #include "numpp/core/ndarray.hpp"
-#include "scypp/signal/signal.hpp"
-#include "scypp_test.hpp"
+#include "scipp/signal/signal.hpp"
+#include "scipp_test.hpp"
 
-namespace sg = scypp::signal;
+namespace sg = scipp::signal;
 
 namespace {
 constexpr double R = 1e-7, A = 1e-9;

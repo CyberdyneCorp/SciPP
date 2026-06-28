@@ -1,5 +1,5 @@
 // Savitzky-Golay, median, Wiener, and 2-D convolution/correlation.
-#include "scypp/signal/signal.hpp"
+#include "scipp/signal/signal.hpp"
 
 #include <algorithm>
 #include <cmath>
@@ -7,12 +7,12 @@
 
 #include "numpp/core/dtype.hpp"
 #include "numpp/linalg/linalg.hpp"
-#include "scypp/error.hpp"
-#include "scypp/linalg/detail.hpp"
+#include "scipp/error.hpp"
+#include "scipp/linalg/detail.hpp"
 
-namespace scypp::signal {
+namespace scipp::signal {
 namespace {
-namespace sd = scypp::linalg::detail;
+namespace sd = scipp::linalg::detail;
 
 // Least-squares solve A c = y for the savgol/edge polynomial fits.
 std::vector<double> lstsq_solve(const std::vector<double>& A, int rows, int cols,
@@ -135,7 +135,7 @@ ndarray conv2d_impl(const ndarray& a, const ndarray& b, const std::string& mode,
   if (mode == "full") { oM = FM; oN = FN; r0 = c0 = 0; }
   else if (mode == "same") { oM = M; oN = N; r0 = (FM - M) / 2; c0 = (FN - N) / 2; }
   else if (mode == "valid") { oM = M - P + 1; oN = N - Q + 1; r0 = P - 1; c0 = Q - 1; }
-  else throw scypp::value_error("convolve2d: unknown mode " + mode);
+  else throw scipp::value_error("convolve2d: unknown mode " + mode);
   std::vector<double> out(static_cast<size_t>(oM) * oN);
   for (int i = 0; i < oM; ++i)
     for (int j = 0; j < oN; ++j) out[i * oN + j] = full[(r0 + i) * FN + (c0 + j)];
@@ -152,4 +152,4 @@ ndarray correlate2d(const ndarray& a, const ndarray& b, const std::string& mode,
   return conv2d_impl(a, b, mode, /*correlate=*/true);
 }
 
-}  // namespace scypp::signal
+}  // namespace scipp::signal

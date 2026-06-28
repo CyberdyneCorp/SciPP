@@ -2,7 +2,7 @@
 
 ## Why
 
-Phase 7 of the ScyPP roadmap. `scipy.stats` is the statistics workhorse —
+Phase 7 of the SciPP roadmap. `scipy.stats` is the statistics workhorse —
 probability distributions, summary statistics, correlation/regression, hypothesis
 tests, and density estimation. It builds directly on the special functions from
 Phase 1 (the distribution CDFs are incomplete gamma/beta integrals) and on
@@ -15,7 +15,7 @@ fitting, QMC, discrete distributions, and rank-based tests).
 
 ## What changes
 
-Adds the **stats** capability — `scypp::stats`, validated against the SciPy oracle:
+Adds the **stats** capability — `scipp::stats`, validated against the SciPy oracle:
 
 - **Special-function enablers** (internal): regularized incomplete gamma
   `gammainc`/`gammaincc` and incomplete beta `betainc`, plus their inverses —
@@ -33,10 +33,10 @@ Adds the **stats** capability — `scypp::stats`, validated against the SciPy or
 ## Impact
 
 - Affected specs: **adds** the `stats` capability.
-- Affected code: new `include/scypp/stats/`, `src/stats/`, `tests/test_stats.cpp`,
+- Affected code: new `include/scipp/stats/`, `src/stats/`, `tests/test_stats.cpp`,
   extended oracle generator. Reuses Phase 1 special functions and Phase 2 linalg
   (KDE covariance).
-- Roadmap: checks off Phase 7 in `bootstrap-scypp-foundation/tasks.md`.
+- Roadmap: checks off Phase 7 in `bootstrap-scipp-foundation/tasks.md`.
 
 ## Non-goals (deferred to a later stats change)
 

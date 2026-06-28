@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Generate frozen oracle data for ScyPP tests from the reference SciPy.
+"""Generate frozen oracle data for SciPP tests from the reference SciPy.
 
 Outputs (committed so CI runs without Python):
   tests/golden/golden.hpp        - input/expected vectors for special + constants

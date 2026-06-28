@@ -1,13 +1,13 @@
-// Oracle tests for scypp::interpolate::griddata (scattered 2-D interpolation).
+// Oracle tests for scipp::interpolate::griddata (scattered 2-D interpolation).
 #include <cmath>
 
 #include "golden.hpp"
 #include "numpp/core/dtype.hpp"
 #include "numpp/core/ndarray.hpp"
-#include "scypp/interpolate/interpolate.hpp"
-#include "scypp_test.hpp"
+#include "scipp/interpolate/interpolate.hpp"
+#include "scipp_test.hpp"
 
-namespace ip = scypp::interpolate;
+namespace ip = scipp::interpolate;
 namespace {
 numpp::ndarray vec(const double* d, int n) {
   numpp::ndarray a(numpp::Shape{n}, numpp::kFloat64);

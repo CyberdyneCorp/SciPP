@@ -5,7 +5,7 @@ TBD - created by archiving change add-optimize. Update Purpose after archive.
 ## Requirements
 ### Requirement: Scalar root finding
 
-`scypp::optimize` SHALL provide `brentq`, `bisect` and `newton` for finding a root
+`scipp::optimize` SHALL provide `brentq`, `bisect` and `newton` for finding a root
 of a scalar function, matching SciPy within documented tolerance. `brentq`/`bisect`
 SHALL require a sign-changing bracket and raise an error otherwise. (oracle:
 scipy/optimize/_zeros_py.py)
@@ -28,7 +28,7 @@ scipy/optimize/_zeros_py.py)
 
 ### Requirement: Scalar minimization
 
-`scypp::optimize` SHALL provide `minimize_scalar` with methods `"brent"` and
+`scipp::optimize` SHALL provide `minimize_scalar` with methods `"brent"` and
 `"bounded"`, matching SciPy within documented tolerance. (oracle:
 scipy/optimize/_optimize.py)
 
@@ -44,7 +44,7 @@ scipy/optimize/_optimize.py)
 
 ### Requirement: Multivariate minimization
 
-`scypp::optimize` SHALL provide `minimize` with methods `"Nelder-Mead"` and
+`scipp::optimize` SHALL provide `minimize` with methods `"Nelder-Mead"` and
 `"BFGS"`, returning an `OptimizeResult` with `x`, `fun`, `success`, `nit` and
 `nfev`. Non-convergence SHALL be reported via `success=false`, not an exception.
 (oracle: scipy/optimize/_optimize.py)
@@ -62,7 +62,7 @@ scipy/optimize/_optimize.py)
 
 ### Requirement: Nonlinear least squares and curve fitting
 
-`scypp::optimize` SHALL provide `least_squares` (Levenberg–Marquardt),
+`scipp::optimize` SHALL provide `least_squares` (Levenberg–Marquardt),
 `curve_fit` (model fitting with parameter covariance) and `fsolve` (multivariate
 root finding), matching SciPy within documented tolerance. (oracle:
 scipy/optimize/_lsq, _minpack_py.py)

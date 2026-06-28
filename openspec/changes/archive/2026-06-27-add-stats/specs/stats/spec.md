@@ -4,7 +4,7 @@
 
 ### Requirement: Continuous probability distributions
 
-`scypp::stats` SHALL provide the continuous distributions `norm`, `expon`,
+`scipp::stats` SHALL provide the continuous distributions `norm`, `expon`,
 `uniform`, `gamma`, `chi2`, `beta`, `t` and `f`, each exposing `pdf`, `logpdf`,
 `cdf`, `sf`, `ppf` and the moments `mean`/`var`/`std`/`median`, parameterized by
 `loc`/`scale` (and shape parameters), matching SciPy within documented tolerance.
@@ -27,7 +27,7 @@
 
 ### Requirement: Summary statistics
 
-`scypp::stats` SHALL provide `gmean`, `hmean`, `describe`, `moment`, `skew`,
+`scipp::stats` SHALL provide `gmean`, `hmean`, `describe`, `moment`, `skew`,
 `kurtosis`, `sem`, `variation`, `zscore`, `iqr`, `rankdata` and `mode`, matching
 SciPy. (oracle: scipy/stats/_stats_py.py)
 
@@ -45,7 +45,7 @@ SciPy. (oracle: scipy/stats/_stats_py.py)
 
 ### Requirement: Correlation and regression
 
-`scypp::stats` SHALL provide `pearsonr`, `spearmanr` and `linregress`, returning
+`scipp::stats` SHALL provide `pearsonr`, `spearmanr` and `linregress`, returning
 the coefficient/slope and associated p-value/statistics, matching SciPy. (oracle:
 scipy/stats/_stats_py.py)
 
@@ -61,7 +61,7 @@ scipy/stats/_stats_py.py)
 
 ### Requirement: Parametric hypothesis tests
 
-`scypp::stats` SHALL provide `ttest_1samp`, `ttest_ind`, `ttest_rel`, `f_oneway`,
+`scipp::stats` SHALL provide `ttest_1samp`, `ttest_ind`, `ttest_rel`, `f_oneway`,
 `ks_2samp`, `chi2_contingency` and `normaltest`, each returning a statistic and a
 p-value matching SciPy within documented tolerance. (oracle: scipy/stats/_stats_py.py)
 
@@ -82,7 +82,7 @@ p-value matching SciPy within documented tolerance. (oracle: scipy/stats/_stats_
 
 ### Requirement: Gaussian kernel density estimation
 
-`scypp::stats` SHALL provide `gaussian_kde` with Scott and Silverman bandwidth
+`scipp::stats` SHALL provide `gaussian_kde` with Scott and Silverman bandwidth
 selection, evaluating the estimated density at query points, matching SciPy.
 (oracle: scipy/stats/_kde.py)
 

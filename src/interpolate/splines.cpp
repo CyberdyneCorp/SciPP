@@ -1,18 +1,18 @@
 // Piecewise-cubic interpolators: CubicSpline (tridiagonal moment solve),
 // PchipInterpolator (Fritsch-Carlson), Akima1DInterpolator. Shared evaluation.
-#include "scypp/interpolate/interpolate.hpp"
+#include "scipp/interpolate/interpolate.hpp"
 
 #include <algorithm>
 #include <cmath>
 #include <vector>
 
 #include "numpp/linalg/linalg.hpp"
-#include "scypp/error.hpp"
-#include "scypp/linalg/detail.hpp"
+#include "scipp/error.hpp"
+#include "scipp/linalg/detail.hpp"
 
-namespace scypp::interpolate {
+namespace scipp::interpolate {
 namespace {
-namespace sd = scypp::linalg::detail;
+namespace sd = scipp::linalg::detail;
 
 int sgn(double v) { return (v > 0) - (v < 0); }
 
@@ -56,7 +56,7 @@ CubicSpline::CubicSpline(const ndarray& x, const ndarray& y, std::string bc_type
   std::vector<double> yv = sd::to_vec(y);
   int n = static_cast<int>(x_.size());
   if (n < 2 || static_cast<int>(yv.size()) != n)
-    throw scypp::value_error("CubicSpline: need matching x,y of length >= 2");
+    throw scipp::value_error("CubicSpline: need matching x,y of length >= 2");
   std::vector<double> h(n - 1);
   for (int i = 0; i < n - 1; ++i) h[i] = x_[i + 1] - x_[i];
 
@@ -157,4 +157,4 @@ Akima1DInterpolator::Akima1DInterpolator(const ndarray& x, const ndarray& y) {
   for (int i = 0; i < n - 1; ++i) hermite(yv[i], yv[i + 1], m[i], m[i + 1], h[i], &c_[4 * i]);
 }
 
-}  // namespace scypp::interpolate
+}  // namespace scipp::interpolate

@@ -1,16 +1,16 @@
 // Vector quantization: whiten, vq, kmeans2 (explicit-init Lloyd iteration).
-#include "scypp/cluster/cluster.hpp"
+#include "scipp/cluster/cluster.hpp"
 
 #include <cmath>
 #include <limits>
 #include <vector>
 
 #include "numpp/core/dtype.hpp"
-#include "scypp/linalg/detail.hpp"
+#include "scipp/linalg/detail.hpp"
 
-namespace scypp::cluster {
+namespace scipp::cluster {
 namespace {
-namespace sd = scypp::linalg::detail;
+namespace sd = scipp::linalg::detail;
 struct Mat { std::vector<double> d; int64_t r, c; };
 Mat to_mat(const ndarray& a) {
   numpp::ndarray ac = a.astype(numpp::kFloat64).ascontiguousarray();
@@ -72,4 +72,4 @@ KMeans2Result kmeans2(const ndarray& data, const ndarray& init, int iter) {
   return {sd::from_mat(cb.d, cb.r, cb.c), sd::from_vec(labelf)};
 }
 
-}  // namespace scypp::cluster
+}  // namespace scipp::cluster

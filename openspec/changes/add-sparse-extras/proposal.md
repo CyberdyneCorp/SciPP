@@ -13,7 +13,7 @@ Adds (as target requirements) to the **sparse** capability:
 
 - **GPU CSR SpMV device kernel**: a real CUDA/OpenCL/Metal CSR matrix-vector
   kernel registered into NumPP's weak-linked device vtable (requires a NumPP
-  sparse backend), behind `SCYPP_WITH_*` flags with the CPU fallback.
+  sparse backend), behind `SCIPP_WITH_*` flags with the CPU fallback.
 - **Eigensolvers**: `sparse.linalg.eigsh`, `eigs`, `svds` (Lanczos/Arnoldi).
 - **Direct factorizations**: `splu`, `spilu`, `factorized`.
 - **Additional formats**: `DIA`, `LIL`, `BSR` with full operations.

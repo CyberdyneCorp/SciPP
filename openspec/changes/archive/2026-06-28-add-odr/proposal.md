@@ -4,21 +4,21 @@
 
 `scipy.odr` (orthogonal distance regression / Deming regression) fits a model when
 BOTH variables carry error, minimizing orthogonal distance rather than vertical
-residuals. ScyPP had no `odr` capability at all — it was the one whole SciPy module,
+residuals. SciPP had no `odr` capability at all — it was the one whole SciPy module,
 besides the trivial `datasets`, that was entirely unscoped. It is moderate value and
-builds directly on the existing `scypp::optimize` least-squares machinery; pure CPU,
+builds directly on the existing `scipp::optimize` least-squares machinery; pure CPU,
 no NumPP changes.
 
 ## What changes
 
-Adds a new **odr** capability — `scypp::odr` — validated against the SciPy oracle:
+Adds a new **odr** capability — `scipp::odr` — validated against the SciPy oracle:
 
 - A `Model` (the fitting function `f(beta, x)`), a `Data` (x, y with optional
   per-point standard deviations sx, sy), and an `ODR` driver whose `run()` returns
   the estimated parameters, their standard errors, the parameter covariance, the
   residual variance, and the sum of squares — mirroring `scipy.odr.ODR(...).run()`.
 - The fit is cast as an augmented Levenberg-Marquardt least-squares problem over
-  `[beta, delta]` (the per-point x-offsets), reusing `scypp::optimize::least_squares`.
+  `[beta, delta]` (the per-point x-offsets), reusing `scipp::optimize::least_squares`.
   Equal weights reduce to ordinary total least squares; per-point sx/sy give the
   weighted ODRPACK fit.
 - Oracle tests against `scipy.odr` on a linear model, a nonlinear (`b0·exp(b1·x)`)

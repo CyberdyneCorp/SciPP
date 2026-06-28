@@ -5,7 +5,7 @@ TBD - created by archiving change add-stats. Update Purpose after archive.
 ## Requirements
 ### Requirement: Continuous probability distributions
 
-`scypp::stats` SHALL provide the continuous distributions `norm`, `expon`,
+`scipp::stats` SHALL provide the continuous distributions `norm`, `expon`,
 `uniform`, `gamma`, `chi2`, `beta`, `t` and `f`, each exposing `pdf`, `logpdf`,
 `cdf`, `sf`, `ppf` and the moments `mean`/`var`/`std`/`median`, parameterized by
 `loc`/`scale` (and shape parameters), matching SciPy within documented tolerance.
@@ -28,7 +28,7 @@ TBD - created by archiving change add-stats. Update Purpose after archive.
 
 ### Requirement: Summary statistics
 
-`scypp::stats` SHALL provide `gmean`, `hmean`, `describe`, `moment`, `skew`,
+`scipp::stats` SHALL provide `gmean`, `hmean`, `describe`, `moment`, `skew`,
 `kurtosis`, `sem`, `variation`, `zscore`, `iqr`, `rankdata` and `mode`, matching
 SciPy. (oracle: scipy/stats/_stats_py.py)
 
@@ -46,7 +46,7 @@ SciPy. (oracle: scipy/stats/_stats_py.py)
 
 ### Requirement: Correlation and regression
 
-`scypp::stats` SHALL provide `pearsonr`, `spearmanr` and `linregress`, returning
+`scipp::stats` SHALL provide `pearsonr`, `spearmanr` and `linregress`, returning
 the coefficient/slope and associated p-value/statistics, matching SciPy. (oracle:
 scipy/stats/_stats_py.py)
 
@@ -62,7 +62,7 @@ scipy/stats/_stats_py.py)
 
 ### Requirement: Parametric hypothesis tests
 
-`scypp::stats` SHALL provide `ttest_1samp`, `ttest_ind`, `ttest_rel`, `f_oneway`,
+`scipp::stats` SHALL provide `ttest_1samp`, `ttest_ind`, `ttest_rel`, `f_oneway`,
 `ks_2samp`, `chi2_contingency` and `normaltest`, each returning a statistic and a
 p-value matching SciPy within documented tolerance. (oracle: scipy/stats/_stats_py.py)
 
@@ -83,7 +83,7 @@ p-value matching SciPy within documented tolerance. (oracle: scipy/stats/_stats_
 
 ### Requirement: Gaussian kernel density estimation
 
-`scypp::stats` SHALL provide `gaussian_kde` with Scott and Silverman bandwidth
+`scipp::stats` SHALL provide `gaussian_kde` with Scott and Silverman bandwidth
 selection, evaluating the estimated density at query points, matching SciPy.
 (oracle: scipy/stats/_kde.py)
 
@@ -94,7 +94,7 @@ selection, evaluating the estimated density at query points, matching SciPy.
   density integrates to approximately 1
 
 ### Requirement: Discrete distributions
-`scypp::stats` SHALL provide the discrete distributions `binom`, `poisson`,
+`scipp::stats` SHALL provide the discrete distributions `binom`, `poisson`,
 `geom`, `bernoulli`, `nbinom` and `hypergeom` with `pmf`/`logpmf`/`cdf`/`sf`/`ppf`
 and `mean`/`var`, matching SciPy. (oracle: scipy/stats/_discrete_distns.py)
 
@@ -109,7 +109,7 @@ and `mean`/`var`, matching SciPy. (oracle: scipy/stats/_discrete_distns.py)
 - THEN `cdf(ppf(q)) >= q` and it matches SciPy's `ppf`
 
 ### Requirement: Nonparametric rank tests
-`scypp::stats` SHALL provide `mannwhitneyu`, `wilcoxon`, `kruskal` and
+`scipp::stats` SHALL provide `mannwhitneyu`, `wilcoxon`, `kruskal` and
 `kendalltau`, returning a statistic and an asymptotic p-value (with tie
 correction) matching SciPy. (oracle: scipy/stats/_stats_py.py, _mannwhitneyu.py)
 
@@ -125,9 +125,9 @@ correction) matching SciPy. (oracle: scipy/stats/_stats_py.py, _mannwhitneyu.py)
 - THEN the tau-b coefficient and p-value are `allclose` to SciPy's
 
 ### Requirement: Normality tests (Shapiro-Wilk and Anderson-Darling)
-The system SHALL provide `scypp::stats::shapiro`, computing the Shapiro-Wilk W
+The system SHALL provide `scipp::stats::shapiro`, computing the Shapiro-Wilk W
 statistic and its p-value via Royston's AS R94 algorithm, and
-`scypp::stats::anderson`, computing the Anderson-Darling A^2 statistic for the
+`scipp::stats::anderson`, computing the Anderson-Darling A^2 statistic for the
 normal distribution together with SciPy's critical values and significance
 levels, both matching `scipy.stats` to oracle tolerance.
 

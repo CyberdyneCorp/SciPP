@@ -1,17 +1,17 @@
 // Measurements: label, center_of_mass, sum/mean/maximum/minimum, find_objects.
-#include "scypp/ndimage/ndimage.hpp"
+#include "scipp/ndimage/ndimage.hpp"
 
 #include <algorithm>
 #include <functional>
 #include <map>
 #include <vector>
 
-#include "scypp/linalg/detail.hpp"
-#include "scypp/ndimage/detail.hpp"
+#include "scipp/linalg/detail.hpp"
+#include "scipp/ndimage/detail.hpp"
 
-namespace scypp::ndimage {
+namespace scipp::ndimage {
 namespace d = detail;
-namespace ld = scypp::linalg::detail;
+namespace ld = scipp::linalg::detail;
 
 LabelResult label(const ndarray& input) {
   d::Img im = d::to_img(input);
@@ -70,4 +70,4 @@ ndarray labeled(const ndarray& input, const ndarray& labels, const std::vector<i
 ndarray sum_labels(const ndarray& input, const ndarray& labels, const std::vector<int>& index) { return labeled(input, labels, index, false); }
 ndarray mean(const ndarray& input, const ndarray& labels, const std::vector<int>& index) { return labeled(input, labels, index, true); }
 
-}  // namespace scypp::ndimage
+}  // namespace scipp::ndimage

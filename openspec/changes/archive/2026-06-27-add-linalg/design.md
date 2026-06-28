@@ -2,9 +2,9 @@
 
 ## Context
 
-`scypp::linalg` ports `scipy.linalg` on top of NumPP. NumPP already implements the
+`scipp::linalg` ports `scipy.linalg` on top of NumPP. NumPP already implements the
 core dense decompositions (LAPACK-style `solve`/`inv`/`det`/`qr`/`svd`/`eig`/
-`eigh`/`lstsq`/`pinv`/`norm`) and a GPU-routable `matmul`. ScyPP therefore
+`eigh`/`lstsq`/`pinv`/`norm`) and a GPU-routable `matmul`. SciPP therefore
 **wraps and re-conventions** those, and **adds** the SciPy-only routines that
 NumPP lacks. No new device code is written; acceleration is inherited through
 NumPP's `matmul`/BLAS path.
@@ -61,7 +61,7 @@ accelerated path.
 - `cholesky` defaults to the **upper** factor (SciPy), unlike NumPy's lower —
   a `lower` flag selects the other.
 - Singular/non-conformable inputs raise `numpp::linalg_error` (surfaced from
-  NumPP) or `scypp::value_error` for bad arguments, matching SciPy's `LinAlgError`
+  NumPP) or `scipp::value_error` for bad arguments, matching SciPy's `LinAlgError`
   / `ValueError` split.
 
 ## Oracle strategy

@@ -1,16 +1,16 @@
 # Tasks — special + constants (Phase 1)
 
 ## 1. Foundation (minimal Phase 0 subset)
-- [x] Root `CMakeLists.txt`: C++20, `SCYPP_WITH_{BLAS,LAPACK,CUDA,OPENCL,METAL}` options (default OFF), `cmake/config.hpp.in` generated to `scypp/config.hpp`
+- [x] Root `CMakeLists.txt`: C++20, `SCIPP_WITH_{BLAS,LAPACK,CUDA,OPENCL,METAL}` options (default OFF), `cmake/config.hpp.in` generated to `scipp/config.hpp`
 - [x] `find_package(NumPP CONFIG REQUIRED)`; `conanfile.py` + `vcpkg.json` pin an exact NumPP version; configure fails fast if a requested GPU flag has no matching NumPP variant
-- [x] `include/scypp/scypp.hpp` umbrella, `fwd.hpp`, `version.hpp.in`
-- [x] `include/scypp/error.hpp`: `scypp::error` aligned with `numpp::error`; `value_error`, `not_implemented_error` (linalg_error reserved for later phases)
+- [x] `include/scipp/scipp.hpp` umbrella, `fwd.hpp`, `version.hpp.in`
+- [x] `include/scipp/error.hpp`: `scipp::error` aligned with `numpp::error`; `value_error`, `not_implemented_error` (linalg_error reserved for later phases)
 - [x] `elementwise()` helper lifting scalar `double(double)` / `double(double,double)` kernels over `numpp::ndarray` via NumPP broadcasting (no per-function loops)
 - [x] CPU-only build green with all backend flags OFF
 - [x] `scripts/bootstrap_numpp.sh` to build+install the pinned NumPP into `.deps/`
 
 ## 2. SciPy oracle harness
-- [x] Self-contained test harness (`scypp_test.hpp`, mirrors NumPP's) wired via CMake/CTest
+- [x] Self-contained test harness (`scipp_test.hpp`, mirrors NumPP's) wired via CMake/CTest
 - [x] Python generator (`tests/oracle/generate.py`) runs real SciPy at `/home/leonardo/work/scipy` over declared inputs → frozen `tests/golden/golden.hpp` + `src/constants/codata_table.inc`
 - [x] `CHECK_CLOSE`/`CHECK_ARR` `allclose` assertions with per-function `rtol`/`atol`; loads frozen golden data (runs Python-free in CI)
 - [x] Regeneration flow documented in the generator (refresh + review diff)
@@ -42,7 +42,7 @@
 - [x] Oracle tests: scale constants & unit factors equal SciPy; table lookup triple; temperature & wavelength round-trips
 
 ## 8. Wire-up & validation
-- [x] Export `special` + `constants` headers from `scypp/scypp.hpp`
+- [x] Export `special` + `constants` headers from `scipp/scipp.hpp`
 - [x] `openspec validate add-special-constants --strict` green
 - [x] Full CPU test suite green against frozen oracle data (11 cases / 248 checks)
-- [x] Check off Phase 1 in `bootstrap-scypp-foundation/tasks.md`; update README status (Phase 1 ✅)
+- [x] Check off Phase 1 in `bootstrap-scipp-foundation/tasks.md`; update README status (Phase 1 ✅)

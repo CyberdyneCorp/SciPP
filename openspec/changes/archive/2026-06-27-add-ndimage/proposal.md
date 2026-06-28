@@ -2,7 +2,7 @@
 
 ## Why
 
-Phase 11 of the ScyPP roadmap. `scipy.ndimage` provides N-dimensional image
+Phase 11 of the SciPP roadmap. `scipy.ndimage` provides N-dimensional image
 processing — filtering, morphology, measurements, and geometric transforms. Its
 **separable convolution** (Gaussian/uniform filters) is a GPU acceleration target,
 routed like the Phase-9/10 kernels through NumPP's capability registry.
@@ -14,7 +14,7 @@ and defers cubic-spline (order ≥ 2) interpolation and the Fourier filters.
 
 ## What changes
 
-Adds the **ndimage** capability — `scypp::ndimage`, validated against the SciPy
+Adds the **ndimage** capability — `scipp::ndimage`, validated against the SciPy
 oracle:
 
 - **Filters**: `correlate1d`/`convolve1d`, `correlate`/`convolve`,
@@ -32,9 +32,9 @@ oracle:
 ## Impact
 
 - Affected specs: **adds** the `ndimage` capability.
-- Affected code: new `include/scypp/ndimage/`, `src/ndimage/`,
+- Affected code: new `include/scipp/ndimage/`, `src/ndimage/`,
   `tests/test_ndimage.cpp`, extended oracle generator.
-- Roadmap: checks off Phase 11 in `bootstrap-scypp-foundation/tasks.md`.
+- Roadmap: checks off Phase 11 in `bootstrap-scipp-foundation/tasks.md`.
 
 ## Non-goals (deferred)
 

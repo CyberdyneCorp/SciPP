@@ -2,13 +2,13 @@
 // Ei is taken from libstdc++ std::expint; E1(x) = -Ei(-x). E_n uses the
 // Numerical-Recipes series/continued-fraction split.
 
-#include "scypp/special/special.hpp"
+#include "scipp/special/special.hpp"
 
 #include <cmath>
 
-#include "scypp/detail/elementwise.hpp"
+#include "scipp/detail/elementwise.hpp"
 
-namespace scypp::special {
+namespace scipp::special {
 namespace {
 
 constexpr double kEuler = 0.5772156649015328606065120900824024;
@@ -71,4 +71,4 @@ ndarray expi(const ndarray& x) { return detail::map(x, [](double v) { return exp
 ndarray exp1(const ndarray& x) { return detail::map(x, [](double v) { return exp1(v); }); }
 ndarray exprel(const ndarray& x) { return detail::map(x, [](double v) { return exprel(v); }); }
 
-}  // namespace scypp::special
+}  // namespace scipp::special

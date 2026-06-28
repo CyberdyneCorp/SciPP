@@ -1,16 +1,16 @@
 // Window functions matching scipy.signal.windows (symmetric/periodic).
-#include "scypp/signal/signal.hpp"
+#include "scipp/signal/signal.hpp"
 
 #include <cmath>
 #include <vector>
 
-#include "scypp/error.hpp"
-#include "scypp/linalg/detail.hpp"
-#include "scypp/special/special.hpp"
+#include "scipp/error.hpp"
+#include "scipp/linalg/detail.hpp"
+#include "scipp/special/special.hpp"
 
-namespace scypp::signal {
+namespace scipp::signal {
 namespace {
-namespace sd = scypp::linalg::detail;
+namespace sd = scipp::linalg::detail;
 constexpr double kPi = 3.141592653589793238462643383279502884;
 
 // Periodic windows are the symmetric window of length M+1 with the last point
@@ -103,7 +103,7 @@ ndarray get_window(const std::string& window, int64_t Nx, bool fftbins) {
   if (window == "blackmanharris") return blackmanharris(Nx, sym);
   if (window == "flattop") return flattop(Nx, sym);
   if (window == "tukey") return tukey(Nx, 0.5, sym);
-  throw scypp::value_error("get_window: unknown window " + window);
+  throw scipp::value_error("get_window: unknown window " + window);
 }
 
-}  // namespace scypp::signal
+}  // namespace scipp::signal

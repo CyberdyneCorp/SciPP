@@ -1,15 +1,15 @@
 // Convolution and correlation (full / same / valid).
-#include "scypp/signal/signal.hpp"
+#include "scipp/signal/signal.hpp"
 
 #include <algorithm>
 #include <vector>
 
-#include "scypp/error.hpp"
-#include "scypp/linalg/detail.hpp"
+#include "scipp/error.hpp"
+#include "scipp/linalg/detail.hpp"
 
-namespace scypp::signal {
+namespace scipp::signal {
 namespace {
-namespace sd = scypp::linalg::detail;
+namespace sd = scipp::linalg::detail;
 
 std::vector<double> full_conv(const std::vector<double>& a, const std::vector<double>& v) {
   int n = static_cast<int>(a.size()), m = static_cast<int>(v.size());
@@ -31,7 +31,7 @@ std::vector<double> crop(const std::vector<double>& full, int n, int m, const st
     int start = std::min(n, m) - 1;
     return std::vector<double>(full.begin() + start, full.begin() + start + outn);
   }
-  throw scypp::value_error("convolve: unknown mode " + mode);
+  throw scipp::value_error("convolve: unknown mode " + mode);
 }
 }  // namespace
 
@@ -52,4 +52,4 @@ ndarray fftconvolve(const ndarray& a, const ndarray& v, const std::string& mode)
   return sd::from_vec(crop(full_conv(av, vv), av.size(), vv.size(), mode));
 }
 
-}  // namespace scypp::signal
+}  // namespace scipp::signal

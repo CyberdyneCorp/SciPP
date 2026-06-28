@@ -42,7 +42,7 @@
 
 The generator writes golden sample files (`sample.mtx`, `sample.wav`,
 `sample.arff`) into `tests/golden/` (committed) and emits the expected parsed
-values. The C++ tests read those files via a `SCYPP_GOLDEN_DIR` compile definition,
+values. The C++ tests read those files via a `SCIPP_GOLDEN_DIR` compile definition,
 and round-trip writes through a temp path. Cluster routines compare to SciPy's
 `whiten`/`vq`/`kmeans2`/`linkage`/`fcluster`/`cophenet` outputs.
 

@@ -5,7 +5,7 @@ TBD - created by archiving change add-special-constants. Update Purpose after ar
 ## Requirements
 ### Requirement: Mathematical and SI scale constants
 
-`scypp::constants` SHALL expose the standard mathematical and SI physical
+`scipp::constants` SHALL expose the standard mathematical and SI physical
 constants as `constexpr double` values matching SciPy's `scipy.constants`,
 including at least `pi`, `golden`, `c` (speed of light), `h`, `hbar`, `G`, `e`
 (elementary charge), `k` (Boltzmann), `N_A` (Avogadro), `R` (gas), `g`
@@ -17,11 +17,11 @@ including at least `pi`, `golden`, `c` (speed of light), `h`, `hbar`, `G`, `e`
 
 ### Requirement: CODATA physical-constants table
 
-`scypp::constants` SHALL provide a `physical_constants` table mapping a constant's
+`scipp::constants` SHALL provide a `physical_constants` table mapping a constant's
 name to its value, unit and relative precision, with `value(name)`, `unit(name)`
 and `precision(name)` accessors. The table SHALL be transcribed from the same
 CODATA release SciPy uses (recorded in the table). Unknown names SHALL raise
-`scypp::value_error`. (oracle: scipy/constants/_codata.py)
+`scipp::value_error`. (oracle: scipy/constants/_codata.py)
 
 #### Scenario: Lookup matches SciPy
 - GIVEN a valid CODATA constant name (e.g. "electron mass")
@@ -31,11 +31,11 @@ CODATA release SciPy uses (recorded in the table). Unknown names SHALL raise
 #### Scenario: Unknown constant name
 - GIVEN a name not present in the table
 - WHEN `value(name)` is queried
-- THEN `scypp::value_error` is raised (mirroring SciPy's `KeyError`)
+- THEN `scipp::value_error` is raised (mirroring SciPy's `KeyError`)
 
 ### Requirement: Named unit scale factors
 
-`scypp::constants` SHALL expose the named unit scale factors as `constexpr double`
+`scipp::constants` SHALL expose the named unit scale factors as `constexpr double`
 matching SciPy, including SI prefixes (`kilo`, `mega`, `milli`, `micro`, `nano`,
 …), and common units (`minute`, `hour`, `day`, `inch`, `foot`, `mile`, `bar`,
 `atm`, `eV`, `gram`, `lb`). (oracle: scipy/constants/_constants.py)
@@ -46,7 +46,7 @@ matching SciPy, including SI prefixes (`kilo`, `mega`, `milli`, `micro`, `nano`,
 
 ### Requirement: Unit-conversion helpers
 
-`scypp::constants` SHALL provide `convert_temperature`, `lambda2nu` and
+`scipp::constants` SHALL provide `convert_temperature`, `lambda2nu` and
 `nu2lambda`, operating element-wise over `numpp::ndarray` with scalar overloads,
 matching SciPy. (oracle: scipy/constants/_constants.py)
 

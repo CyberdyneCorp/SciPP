@@ -2,18 +2,18 @@
 
 ## Why
 
-Phase 3 of the ScyPP roadmap. `scipy.fft` is the spectral-analysis backbone for
+Phase 3 of the SciPP roadmap. `scipy.fft` is the spectral-analysis backbone for
 `signal`, and its discrete cosine/sine transforms (DCT/DST) are needed across
 signal processing and compression. NumPP already provides the complex/real FFT
 core (`fft`/`ifft`/`rfft`/`irfft`/`hfft`/`ihfft`, the N-D variants, and
 `fftfreq`/`fftshift`) with the **exact SciPy `norm` conventions**
-(`backward`/`ortho`/`forward`). ScyPP therefore delegates the FFTs and **adds the
+(`backward`/`ortho`/`forward`). SciPP therefore delegates the FFTs and **adds the
 SciPy-only DCT/DST family** plus the `next_fast_len` helper and the legacy
 `fftpack` alias namespace.
 
 ## What changes
 
-Adds the **fft** capability — `scypp::fft` (and a thin `scypp::fftpack`):
+Adds the **fft** capability — `scipp::fft` (and a thin `scipp::fftpack`):
 
 - **FFTs (delegate to NumPP, identical signatures)**: `fft`/`ifft`,
   `rfft`/`irfft`, `hfft`/`ihfft`, `fft2`/`ifft2`, `fftn`/`ifftn`,
@@ -22,15 +22,15 @@ Adds the **fft** capability — `scypp::fft` (and a thin `scypp::fftpack`):
   default `norm=None` ("backward") normalization, applied along a selectable axis.
 - **Helpers**: `fftfreq`, `rfftfreq`, `fftshift`, `ifftshift` (delegate), and
   `next_fast_len` (smallest 11-smooth length ≥ n, implemented).
-- **fftpack**: a `scypp::fftpack` namespace re-exporting `fft`/`ifft`/`rfft`/
+- **fftpack**: a `scipp::fftpack` namespace re-exporting `fft`/`ifft`/`rfft`/
   `irfft`/`dct`/`idct`/`dst`/`idst` for the legacy API surface.
 
 ## Impact
 
 - Affected specs: **adds** the `fft` capability.
-- Affected code: new `include/scypp/fft/`, `src/fft/`, `tests/test_fft.cpp`,
+- Affected code: new `include/scipp/fft/`, `src/fft/`, `tests/test_fft.cpp`,
   extended oracle generator. Reuses the Phase 1–2 foundation unchanged.
-- Roadmap: checks off Phase 3 in `bootstrap-scypp-foundation/tasks.md`.
+- Roadmap: checks off Phase 3 in `bootstrap-scipp-foundation/tasks.md`.
 
 ## Non-goals (deferred)
 

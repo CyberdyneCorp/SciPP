@@ -1,14 +1,14 @@
 // Morphology: binary/grey erosion & dilation, opening/closing, and the exact
 // Euclidean distance transform.
-#include "scypp/ndimage/ndimage.hpp"
+#include "scipp/ndimage/ndimage.hpp"
 
 #include <cmath>
 #include <limits>
 #include <vector>
 
-#include "scypp/ndimage/detail.hpp"
+#include "scipp/ndimage/detail.hpp"
 
-namespace scypp::ndimage {
+namespace scipp::ndimage {
 namespace d = detail;
 namespace {
 // 3x3 connectivity-1 structuring element (center + 4 edge neighbours).
@@ -93,4 +93,4 @@ ndarray distance_transform_edt(const ndarray& input) {
   return d::to_nd(out);
 }
 
-}  // namespace scypp::ndimage
+}  // namespace scipp::ndimage

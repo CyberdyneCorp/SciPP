@@ -4,11 +4,11 @@
 
 Phase 12 — the final roadmap phase — ports `scipy.cluster` (vector quantization
 and hierarchical clustering) and `scipy.io` (file I/O), completing the
-commonly-used SciPy surface for ScyPP's v1.0.
+commonly-used SciPy surface for SciPP's v1.0.
 
 ## What changes
 
-Adds the **cluster** and **io** capabilities — `scypp::cluster` and `scypp::io`,
+Adds the **cluster** and **io** capabilities — `scipp::cluster` and `scipp::io`,
 validated against the SciPy oracle:
 
 - **`cluster.vq`**: `whiten`, `vq` (vector quantization / nearest-centroid
@@ -21,10 +21,10 @@ validated against the SciPy oracle:
 ## Impact
 
 - Affected specs: **adds** the `cluster` and `io` capabilities.
-- Affected code: new `include/scypp/cluster/`, `include/scypp/io/`,
+- Affected code: new `include/scipp/cluster/`, `include/scipp/io/`,
   `src/cluster/`, `src/io/`, `tests/test_cluster_io.cpp`, golden sample files
   (`.mtx`/`.wav`/`.arff`), extended oracle generator.
-- Roadmap: checks off Phase 12 in `bootstrap-scypp-foundation/tasks.md`.
+- Roadmap: checks off Phase 12 in `bootstrap-scipp-foundation/tasks.md`.
 
 ## Non-goals (deferred)
 

@@ -1,4 +1,4 @@
-// Oracle tests for scypp::spatial against frozen SciPy golden data.
+// Oracle tests for scipp::spatial against frozen SciPy golden data.
 #include <algorithm>
 #include <cmath>
 #include <vector>
@@ -6,10 +6,10 @@
 #include "golden.hpp"
 #include "numpp/core/dtype.hpp"
 #include "numpp/core/ndarray.hpp"
-#include "scypp/spatial/spatial.hpp"
-#include "scypp_test.hpp"
+#include "scipp/spatial/spatial.hpp"
+#include "scipp_test.hpp"
 
-namespace sa = scypp::spatial;
+namespace sa = scipp::spatial;
 namespace {
 numpp::ndarray vec(std::vector<double> v) {
   numpp::ndarray a(numpp::Shape{(int64_t)v.size()}, numpp::kFloat64);

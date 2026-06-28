@@ -1,7 +1,7 @@
 # Tasks — spatial (Phase 10)
 
 ## 1. Module scaffold
-- [x] `include/scypp/spatial/spatial.hpp`; `src/spatial/*.cpp` in `src/CMakeLists.txt`; export from `scypp/scypp.hpp`
+- [x] `include/scipp/spatial/spatial.hpp`; `src/spatial/*.cpp` in `src/CMakeLists.txt`; export from `scipp/scipp.hpp`
 
 ## 2. Distances
 - [x] metrics (euclidean/sqeuclidean/cityblock/chebyshev/minkowski/cosine/correlation/hamming/jaccard)
@@ -22,4 +22,4 @@
 - [x] Extend `tests/oracle/generate.py`; regenerate
 - [x] `tests/test_spatial.cpp`: distances + dispatch, KD-tree, hull/Delaunay, Rotation vs SciPy
 - [x] CPU build green; full suite green; `openspec validate add-spatial --strict`
-- [x] Check off Phase 10 in `bootstrap-scypp-foundation/tasks.md`; update README
+- [x] Check off Phase 10 in `bootstrap-scipp-foundation/tasks.md`; update README

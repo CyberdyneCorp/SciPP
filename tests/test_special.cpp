@@ -1,13 +1,13 @@
-// Oracle tests for scypp::special against frozen SciPy golden data.
+// Oracle tests for scipp::special against frozen SciPy golden data.
 #include <vector>
 
 #include "golden.hpp"
 #include "numpp/core/dtype.hpp"
 #include "numpp/core/ndarray.hpp"
-#include "scypp/special/special.hpp"
-#include "scypp_test.hpp"
+#include "scipp/special/special.hpp"
+#include "scipp_test.hpp"
 
-namespace sp = scypp::special;
+namespace sp = scipp::special;
 
 namespace {
 numpp::ndarray make1d(const std::vector<double>& v) {

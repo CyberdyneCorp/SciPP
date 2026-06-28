@@ -1,9 +1,9 @@
 // Eigenvalue problems — delegate to numpp::linalg.
-#include "scypp/linalg/linalg.hpp"
+#include "scipp/linalg/linalg.hpp"
 
 #include "numpp/linalg/linalg.hpp"
 
-namespace scypp::linalg {
+namespace scipp::linalg {
 
 EigResult eig(const ndarray& a) {
   numpp::linalg::EigResult r = numpp::linalg::eig(a);
@@ -19,4 +19,4 @@ EighResult eigh(const ndarray& a) {
 
 ndarray eigvalsh(const ndarray& a) { return numpp::linalg::eigvalsh(a); }
 
-}  // namespace scypp::linalg
+}  // namespace scipp::linalg

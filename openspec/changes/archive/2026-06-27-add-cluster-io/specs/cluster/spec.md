@@ -4,7 +4,7 @@
 
 ### Requirement: Vector quantization
 
-`scypp::cluster` SHALL provide `whiten`, `vq` and `kmeans2` (with explicit initial
+`scipp::cluster` SHALL provide `whiten`, `vq` and `kmeans2` (with explicit initial
 centroids), matching SciPy. (oracle: scipy/cluster/vq.py)
 
 #### Scenario: whiten and vq match SciPy
@@ -21,7 +21,7 @@ centroids), matching SciPy. (oracle: scipy/cluster/vq.py)
 
 ### Requirement: Hierarchical clustering
 
-`scypp::cluster` SHALL provide `linkage` (`single`/`complete`/`average`/`ward`),
+`scipp::cluster` SHALL provide `linkage` (`single`/`complete`/`average`/`ward`),
 `fcluster` (`distance`/`maxclust`) and `cophenet`, matching SciPy. (oracle:
 scipy/cluster/hierarchy.py)
 

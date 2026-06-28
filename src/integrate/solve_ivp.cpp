@@ -1,18 +1,18 @@
 // Initial-value ODE integration: solve_ivp with explicit embedded Runge-Kutta
 // methods RK45 (Dormand-Prince) and RK23 (Bogacki-Shampine), adaptive stepping.
-#include "scypp/integrate/integrate.hpp"
+#include "scipp/integrate/integrate.hpp"
 
 #include <algorithm>
 #include <cmath>
 #include <vector>
 
 #include "numpp/core/dtype.hpp"
-#include "scypp/error.hpp"
-#include "scypp/linalg/detail.hpp"
+#include "scipp/error.hpp"
+#include "scipp/linalg/detail.hpp"
 
-namespace scypp::integrate {
+namespace scipp::integrate {
 namespace {
-namespace sd = scypp::linalg::detail;
+namespace sd = scipp::linalg::detail;
 
 struct Tableau {
   int stages;
@@ -426,7 +426,7 @@ OdeResult solve_ivp(const OdeFn& f, std::pair<double, double> t_span, const ndar
   Tableau tab;
   if (method == "RK45") tab = rk45();
   else if (method == "RK23") tab = rk23();
-  else throw scypp::value_error("solve_ivp: unknown method " + method);
+  else throw scipp::value_error("solve_ivp: unknown method " + method);
 
   double t0 = t_span.first, tf = t_span.second;
   std::vector<double> y = sd::to_vec(y0);
@@ -516,4 +516,4 @@ OdeResult solve_ivp(const OdeFn& f, std::pair<double, double> t_span, const ndar
   return r;
 }
 
-}  // namespace scypp::integrate
+}  // namespace scipp::integrate

@@ -9,7 +9,7 @@ NumPP changes, so they are high value-per-effort backlog drawdown.
 
 ## What changes
 
-Extends the **optimize** capability — `scypp::optimize`, validated against the
+Extends the **optimize** capability — `scipp::optimize`, validated against the
 SciPy oracle:
 
 - **`linprog(c, A_ub, b_ub, A_eq, b_eq)`**: minimize `c·x` subject to
@@ -23,7 +23,7 @@ SciPy oracle:
 
 - Affected specs: **modifies** the `optimize` capability (adds two requirements).
 - Affected code: new `src/optimize/linprog.cpp`, `src/optimize/nnls.cpp`,
-  header decls in `include/scypp/optimize/optimize.hpp`, `tests/test_optimize_lp.cpp`,
+  header decls in `include/scipp/optimize/optimize.hpp`, `tests/test_optimize_lp.cpp`,
   extended oracle generator.
 - Trims the `linprog`/`nnls` items from the `add-optimize-advanced` backlog.
 

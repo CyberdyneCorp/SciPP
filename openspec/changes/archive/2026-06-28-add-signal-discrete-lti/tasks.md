@@ -1,6 +1,6 @@
 # Tasks — discrete-time LTI
 
-- [x] `DiscreteStateSpace` struct + entry points in `include/scypp/signal/signal.hpp`
+- [x] `DiscreteStateSpace` struct + entry points in `include/scipp/signal/signal.hpp`
 - [x] `cont2discrete` (zoh via expm block formula; bilinear/euler/backward_diff via alpha formula) in `src/signal/dlti.cpp`
 - [x] `dstep`/`dimpulse`/`dlsim` discrete state recursion
 - [x] `dfreqresp` (complex `(zI-Ad)^-1` solve) and `dbode` (dB magnitude + unwrapped phase)

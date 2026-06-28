@@ -4,7 +4,7 @@
 
 ### Requirement: Fixed-sample quadrature
 
-`scypp::integrate` SHALL provide `trapezoid`, `simpson` and `cumulative_trapezoid`
+`scipp::integrate` SHALL provide `trapezoid`, `simpson` and `cumulative_trapezoid`
 over a sampled `y` array with optional sample points `x` or uniform spacing `dx`,
 matching SciPy. (oracle: scipy/integrate/_quadrature.py)
 
@@ -21,7 +21,7 @@ matching SciPy. (oracle: scipy/integrate/_quadrature.py)
 
 ### Requirement: Adaptive and fixed-order quadrature
 
-`scypp::integrate` SHALL provide `quad` (adaptive Gauss–Kronrod returning a value
+`scipp::integrate` SHALL provide `quad` (adaptive Gauss–Kronrod returning a value
 and error estimate) and `fixed_quad` (Gauss–Legendre of given order), matching
 SciPy within the requested tolerance. (oracle: scipy/integrate/_quadpack_py.py)
 
@@ -38,7 +38,7 @@ SciPy within the requested tolerance. (oracle: scipy/integrate/_quadpack_py.py)
 
 ### Requirement: Initial-value ODE integration
 
-`scypp::integrate` SHALL provide `solve_ivp` with the explicit Runge–Kutta methods
+`scipp::integrate` SHALL provide `solve_ivp` with the explicit Runge–Kutta methods
 `"RK45"` and `"RK23"`, adaptive step-size control, `rtol`/`atol` tolerances, and
 evaluation at requested `t_eval` points, returning an `OdeResult` with `t`, `y`
 (shaped `n_states × n_times`), and `success`. (oracle: scipy/integrate/_ivp)
@@ -61,7 +61,7 @@ evaluation at requested `t_eval` points, returning an `OdeResult` with `t`, `y`
 
 ### Requirement: Finite-difference differentiation
 
-`scypp::differentiate` SHALL provide `derivative` (scalar, central differences with
+`scipp::differentiate` SHALL provide `derivative` (scalar, central differences with
 Richardson extrapolation), `jacobian` and `hessian`, matching closed-form
 derivatives within documented tolerance. (oracle: scipy/differentiate)
 

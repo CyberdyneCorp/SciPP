@@ -4,25 +4,25 @@
 // parameter vector [beta, delta], where delta holds the per-point x-offsets:
 //   r_eps_i = (f(beta, x_i + delta_i) - y_i) / sy_i      (n entries)
 //   r_del_i =  delta_i / sx_i                            (n entries)
-// Minimizing 1/2 sum r^2 with Levenberg-Marquardt (scypp::optimize) yields the
+// Minimizing 1/2 sum r^2 with Levenberg-Marquardt (scipp::optimize) yields the
 // orthogonal-distance solution. The parameter covariance is the top-left p-block
 // of (J^T J)^-1 evaluated at the solution; res_var scales it to the standard
 // errors, matching ODRPACK.
-#include "scypp/odr/odr.hpp"
+#include "scipp/odr/odr.hpp"
 
 #include <cmath>
 #include <vector>
 
 #include "numpp/linalg/linalg.hpp"
-#include "scypp/error.hpp"
-#include "scypp/linalg/detail.hpp"
-#include "scypp/optimize/detail.hpp"
-#include "scypp/optimize/optimize.hpp"
+#include "scipp/error.hpp"
+#include "scipp/linalg/detail.hpp"
+#include "scipp/optimize/detail.hpp"
+#include "scipp/optimize/optimize.hpp"
 
-namespace scypp::odr {
+namespace scipp::odr {
 namespace {
 
-namespace sd = scypp::linalg::detail;
+namespace sd = scipp::linalg::detail;
 using sd::from_mat;
 using sd::from_vec;
 using sd::to_vec;
@@ -37,7 +37,7 @@ std::vector<double> inv_weights(const std::optional<ndarray>& s, int n) {
     for (int i = 0; i < n; ++i) w[i] = 1.0 / sv[0];
   } else {
     if (static_cast<int>(sv.size()) != n)
-      throw scypp::value_error("odr: sx/sy length must match data");
+      throw scipp::value_error("odr: sx/sy length must match data");
     for (int i = 0; i < n; ++i) w[i] = 1.0 / sv[i];
   }
   return w;
@@ -46,7 +46,7 @@ std::vector<double> inv_weights(const std::optional<ndarray>& s, int n) {
 }  // namespace
 
 Output ODR::run() {
-  namespace opt = scypp::optimize;
+  namespace opt = scipp::optimize;
 
   std::vector<double> xv = to_vec(data_.x);
   std::vector<double> yv = to_vec(data_.y);
@@ -54,7 +54,7 @@ Output ODR::run() {
   const int n = static_cast<int>(xv.size());
   const int p = static_cast<int>(b0.size());
   if (static_cast<int>(yv.size()) != n)
-    throw scypp::value_error("odr: x and y must have the same length");
+    throw scipp::value_error("odr: x and y must have the same length");
 
   const std::vector<double> swe = inv_weights(data_.sy, n);  // 1/sy
   const std::vector<double> swd = inv_weights(data_.sx, n);  // 1/sx
@@ -119,4 +119,4 @@ Output ODR::run() {
   return o;
 }
 
-}  // namespace scypp::odr
+}  // namespace scipp::odr

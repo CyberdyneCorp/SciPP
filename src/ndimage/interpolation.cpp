@@ -1,18 +1,18 @@
 // Geometric transforms: map_coordinates, affine_transform, shift, zoom, rotate
 // (interpolation orders 0 and 1).
-#include "scypp/ndimage/ndimage.hpp"
+#include "scipp/ndimage/ndimage.hpp"
 
 #include <cmath>
 #include <vector>
 
 #include "numpp/core/dtype.hpp"
-#include "scypp/linalg/detail.hpp"
-#include "scypp/ndimage/detail.hpp"
+#include "scipp/linalg/detail.hpp"
+#include "scipp/ndimage/detail.hpp"
 
-namespace scypp::ndimage {
+namespace scipp::ndimage {
 namespace d = detail;
 namespace {
-namespace ld = scypp::linalg::detail;
+namespace ld = scipp::linalg::detail;
 constexpr double kPi = 3.141592653589793238462643383279502884;
 
 double sample(const d::Img& im, double y, double x, int order, const std::string& mode, double cval) {
@@ -97,4 +97,4 @@ ndarray rotate(const ndarray& input, double angle, int order, const std::string&
   return d::to_nd(out);
 }
 
-}  // namespace scypp::ndimage
+}  // namespace scipp::ndimage

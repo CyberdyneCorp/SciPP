@@ -2,7 +2,7 @@
 
 ## Context
 
-`scypp::optimize` ports the unconstrained core of `scipy.optimize`. Unlike the
+`scipp::optimize` ports the unconstrained core of `scipy.optimize`. Unlike the
 earlier phases it implements real iterative algorithms rather than wrapping
 NumPP. Callables are passed as `std::function`; vectors are `numpp::ndarray`.
 Linear systems inside Levenberg–Marquardt and Newton root finding use
@@ -11,7 +11,7 @@ Linear systems inside Levenberg–Marquardt and Newton root finding use
 ## API shape
 
 ```cpp
-namespace scypp::optimize {
+namespace scipp::optimize {
 using ScalarFn = std::function<double(double)>;
 using ObjFn    = std::function<double(const ndarray&)>;     // Rⁿ → R
 using VecFn    = std::function<ndarray(const ndarray&)>;     // Rⁿ → Rᵐ

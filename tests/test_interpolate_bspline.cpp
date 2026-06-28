@@ -1,15 +1,15 @@
-// Oracle tests for scypp::interpolate B-splines against frozen SciPy golden data.
+// Oracle tests for scipp::interpolate B-splines against frozen SciPy golden data.
 #include <cmath>
 #include <vector>
 
 #include "golden.hpp"
 #include "numpp/core/dtype.hpp"
 #include "numpp/core/ndarray.hpp"
-#include "scypp/error.hpp"
-#include "scypp/interpolate/interpolate.hpp"
-#include "scypp_test.hpp"
+#include "scipp/error.hpp"
+#include "scipp/interpolate/interpolate.hpp"
+#include "scipp_test.hpp"
 
-namespace ip = scypp::interpolate;
+namespace ip = scipp::interpolate;
 
 namespace {
 numpp::ndarray vv(const double* d, int n) {
@@ -79,8 +79,8 @@ TEST_CASE("make_interp_spline matches scipy") {
 TEST_CASE("BSpline input validation") {
   double t[] = {0, 0, 1, 2, 3, 3};
   double c[] = {1, 2, 3, 4};
-  CHECK_THROWS_AS(ip::BSpline(vv(t, 6), vv(c, 4), -1), scypp::value_error);
+  CHECK_THROWS_AS(ip::BSpline(vv(t, 6), vv(c, 4), -1), scipp::value_error);
   // len(t) too short for the claimed degree/coeffs.
   double tshort[] = {0, 1, 2};
-  CHECK_THROWS_AS(ip::BSpline(vv(tshort, 3), vv(c, 4), 3), scypp::value_error);
+  CHECK_THROWS_AS(ip::BSpline(vv(tshort, 3), vv(c, 4), 3), scipp::value_error);
 }

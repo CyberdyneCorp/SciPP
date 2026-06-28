@@ -2,16 +2,16 @@
 // max-shift trick. Axis handling operates on a contiguous float64 copy with
 // explicit C-order stride arithmetic.
 
-#include "scypp/special/special.hpp"
+#include "scipp/special/special.hpp"
 
 #include <algorithm>
 #include <cmath>
 #include <vector>
 
 #include "numpp/core/dtype.hpp"
-#include "scypp/error.hpp"
+#include "scipp/error.hpp"
 
-namespace scypp::special {
+namespace scipp::special {
 namespace {
 
 using numpp::ndarray;
@@ -28,7 +28,7 @@ double logsumexp_line(const std::vector<double>& v) {
 
 int norm_axis(int axis, int nd) {
   if (axis < 0) axis += nd;
-  if (axis < 0 || axis >= nd) throw scypp::value_error("axis out of range");
+  if (axis < 0 || axis >= nd) throw scipp::value_error("axis out of range");
   return axis;
 }
 
@@ -138,4 +138,4 @@ ndarray log_softmax(const ndarray& a, std::optional<int> axis) {
   return sm;
 }
 
-}  // namespace scypp::special
+}  // namespace scipp::special

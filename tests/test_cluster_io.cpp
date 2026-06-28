@@ -1,16 +1,16 @@
-// Oracle tests for scypp::cluster and scypp::io against frozen SciPy golden data.
+// Oracle tests for scipp::cluster and scipp::io against frozen SciPy golden data.
 #include <string>
 #include <vector>
 
 #include "golden.hpp"
 #include "numpp/core/dtype.hpp"
 #include "numpp/core/ndarray.hpp"
-#include "scypp/cluster/cluster.hpp"
-#include "scypp/io/io.hpp"
-#include "scypp_test.hpp"
+#include "scipp/cluster/cluster.hpp"
+#include "scipp/io/io.hpp"
+#include "scipp_test.hpp"
 
-namespace cl = scypp::cluster;
-namespace io = scypp::io;
+namespace cl = scipp::cluster;
+namespace io = scipp::io;
 namespace {
 numpp::ndarray mat(const double* d, int r, int c) {
   numpp::ndarray a(numpp::Shape{r, c}, numpp::kFloat64);
@@ -27,7 +27,7 @@ void cv(const numpp::ndarray& got, const double* exp, int n, double rtol = 1e-9,
   auto g = tov(got);
   for (int i = 0; i < n && i < (int)g.size(); ++i) CHECK_CLOSE(g[i], exp[i], rtol, atol);
 }
-std::string gp(const char* name) { return std::string(SCYPP_GOLDEN_DIR) + "/" + name; }
+std::string gp(const char* name) { return std::string(SCIPP_GOLDEN_DIR) + "/" + name; }
 }  // namespace
 #define M(name) mat(golden::name##_d, golden::name##_r, golden::name##_c)
 #define MN(name) (golden::name##_r * golden::name##_c)
@@ -63,7 +63,7 @@ TEST_CASE("io: Matrix Market") {
   auto a = io::mmread(gp("sample.mtx"));
   cv(a, golden::io_mm_d, MN(io_mm));
   // round-trip
-  std::string tmp = std::string(SCYPP_GOLDEN_DIR) + "/_rt.mtx";
+  std::string tmp = std::string(SCIPP_GOLDEN_DIR) + "/_rt.mtx";
   io::mmwrite(tmp, a);
   cv(io::mmread(tmp), golden::io_mm_d, MN(io_mm));
   std::remove(tmp.c_str());
@@ -74,7 +74,7 @@ TEST_CASE("io: WAV") {
   CHECK(w.rate == static_cast<int>(golden::io_wav_rate));
   cv(w.data, G(io_wav), 0, 0);
   // round-trip
-  std::string tmp = std::string(SCYPP_GOLDEN_DIR) + "/_rt.wav";
+  std::string tmp = std::string(SCIPP_GOLDEN_DIR) + "/_rt.wav";
   io::wavwrite(tmp, w.rate, w.data);
   auto w2 = io::wavread(tmp);
   CHECK(w2.rate == w.rate);

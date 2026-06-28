@@ -4,11 +4,11 @@
 // via J_{1/3}/Y_{1/3} (negative orders removed via the reflection formula).
 // x == 0 returns the exact values. Matches scipy.special.airy/airye.
 
-#include "scypp/special/special.hpp"
+#include "scipp/special/special.hpp"
 
 #include <cmath>
 
-namespace scypp::special {
+namespace scipp::special {
 namespace {
 
 constexpr double kPi = 3.14159265358979323846;
@@ -76,4 +76,4 @@ airy_t airye(double x) {
   return r;
 }
 
-}  // namespace scypp::special
+}  // namespace scipp::special

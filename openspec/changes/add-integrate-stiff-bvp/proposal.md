@@ -11,8 +11,8 @@ implemented or archived yet**.
 
 Each area below should graduate into its own focused change (or be implemented
 together) when scheduled. They are grouped here because they share the
-prerequisite ScyPP already has: `numpp::linalg::solve` for the Newton systems and
-`scypp::differentiate` for numerical Jacobians.
+prerequisite SciPP already has: `numpp::linalg::solve` for the Newton systems and
+`scipp::differentiate` for numerical Jacobians.
 
 ## What changes
 

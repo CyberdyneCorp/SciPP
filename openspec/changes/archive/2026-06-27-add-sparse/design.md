@@ -5,7 +5,7 @@
 Three classes over `numpp::ndarray`-backed coefficient arrays:
 
 ```cpp
-namespace scypp::sparse {
+namespace scipp::sparse {
 struct CooMatrix { ndarray data, row, col; int64_t rows, cols; };   // triplets
 class CsrMatrix {                                                    // workhorse
  public:
@@ -44,7 +44,7 @@ kernel is out of scope here (needs a NumPP sparse backend) and tracked separatel
 
 ## sparse.linalg
 
-- `spsolve(A, b)` — convert `A` to dense and solve via `scypp::linalg::solve` (a
+- `spsolve(A, b)` — convert `A` to dense and solve via `scipp::linalg::solve` (a
   true sparse LU is a follow-up; the result matches SciPy for the supported sizes).
 - `cg(A, b)` — conjugate gradient, matrix-free through `spmv`, for SPD `A`.
 - `gmres(A, b)` — restarted GMRES, matrix-free through `spmv`.

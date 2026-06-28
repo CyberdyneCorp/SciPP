@@ -25,7 +25,7 @@ algorithms.
 polyval(num, jω)/polyval(den, jω)`; `bode` returns magnitude (dB) and phase
 (deg). `tf2ss` builds the controllable canonical state space `(A,B,C,D)`. `lsim`
 simulates by **zero-order-hold discretization**: `Ad = expm(A·dt)`,
-`Bd = A⁻¹(Ad−I)B` (using `scypp::linalg::expm`/`solve`), then iterates the state and
+`Bd = A⁻¹(Ad−I)B` (using `scipp::linalg::expm`/`solve`), then iterates the state and
 outputs `y = C·x + D·u`. `step`/`impulse` are `lsim` with the step / impulse input.
 
 ## Resampling
@@ -53,7 +53,7 @@ outputs `y = C·x + D·u`. `step`/`impulse` are `lsim` with the step / impulse i
 ## Other filtering
 
 - `savgol_coeffs(window, polyorder)` — least-squares polynomial filter via the
-  Vandermonde pseudo-inverse (`scypp::linalg::lstsq`); `savgol_filter` convolves
+  Vandermonde pseudo-inverse (`scipp::linalg::lstsq`); `savgol_filter` convolves
   with `mode="interp"` end handling (fit the boundary polynomial).
 - `medfilt(x, k)` — sliding-window median (zero-padded edges).
 - `wiener(x, size)` — local mean/variance adaptive filter.

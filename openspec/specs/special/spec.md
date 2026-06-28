@@ -5,7 +5,7 @@ TBD - created by archiving change add-special-constants. Update Purpose after ar
 ## Requirements
 ### Requirement: Gamma and related functions
 
-`scypp::special` SHALL provide `gamma`, `gammaln`, `loggamma`, `digamma`,
+`scipp::special` SHALL provide `gamma`, `gammaln`, `loggamma`, `digamma`,
 `polygamma`, `beta` and `betaln`, evaluated element-wise over `numpp::ndarray`
 with a scalar `double` overload, matching SciPy within documented tolerance.
 (oracle: scipy/special/_basic.py, scipy/special/cephes)
@@ -34,7 +34,7 @@ with a scalar `double` overload, matching SciPy within documented tolerance.
 
 ### Requirement: Error functions
 
-`scypp::special` SHALL provide `erf`, `erfc`, `erfinv` and `erfcinv`,
+`scipp::special` SHALL provide `erf`, `erfc`, `erfinv` and `erfcinv`,
 element-wise over `numpp::ndarray` with scalar overloads, matching SciPy within
 documented tolerance. (oracle: scipy/special/cephes/ndtr.c)
 
@@ -51,7 +51,7 @@ documented tolerance. (oracle: scipy/special/cephes/ndtr.c)
 
 ### Requirement: Exponential and logarithmic integrals
 
-`scypp::special` SHALL provide `expn`, `exp1`, `expi` and `exprel`, element-wise
+`scipp::special` SHALL provide `expn`, `exp1`, `expi` and `exprel`, element-wise
 with scalar overloads, matching SciPy within documented tolerance. `exprel` SHALL
 be numerically stable near zero. (oracle: scipy/special/cephes/expn.c)
 
@@ -68,7 +68,7 @@ be numerically stable near zero. (oracle: scipy/special/cephes/expn.c)
 
 ### Requirement: Bessel functions
 
-`scypp::special` SHALL provide the Bessel functions `jv`, `yv`, `iv`, `kv`,
+`scipp::special` SHALL provide the Bessel functions `jv`, `yv`, `iv`, `kv`,
 integer-order `jn`/`yn`, and the common cases `i0`, `i1`, `k0`, `k1`, element-wise
 over the argument with scalar overloads, matching SciPy within documented
 tolerance. (oracle: scipy/special/cephes/jv.c, iv.c, kv.c)
@@ -86,7 +86,7 @@ tolerance. (oracle: scipy/special/cephes/jv.c, iv.c, kv.c)
 
 ### Requirement: Orthogonal polynomial evaluators
 
-`scypp::special` SHALL provide `eval_legendre`, `eval_chebyt`, `eval_hermite`,
+`scipp::special` SHALL provide `eval_legendre`, `eval_chebyt`, `eval_hermite`,
 `eval_laguerre` and `eval_genlaguerre`, evaluating the degree-`n` polynomial at
 the given points via a stable recurrence, matching SciPy within documented
 tolerance. (oracle: scipy/special/_orthogonal.py)
@@ -104,7 +104,7 @@ tolerance. (oracle: scipy/special/_orthogonal.py)
 
 ### Requirement: Combinatorial functions
 
-`scypp::special` SHALL provide `comb`, `perm` and `factorial`, each supporting an
+`scipp::special` SHALL provide `comb`, `perm` and `factorial`, each supporting an
 `exact` mode (integer arithmetic) and an inexact mode (gamma-based float),
 matching SciPy. Exact mode SHALL fall back to the float path beyond its integer
 range, documented in behavior. (oracle: scipy/special/_basic.py)
@@ -122,7 +122,7 @@ range, documented in behavior. (oracle: scipy/special/_basic.py)
 
 ### Requirement: Stable log-sum-exp and softmax reductions
 
-`scypp::special` SHALL provide `logsumexp`, `softmax` and `log_softmax` over
+`scipp::special` SHALL provide `logsumexp`, `softmax` and `log_softmax` over
 `numpp::ndarray` with `axis` and `keepdims` support, using a max-shift for
 numerical stability, matching SciPy. (oracle: scipy/special/_logsumexp.py)
 
@@ -139,7 +139,7 @@ numerical stability, matching SciPy. (oracle: scipy/special/_logsumexp.py)
 
 ### Requirement: Airy functions
 
-`scypp::special` SHALL provide `airy(x)` returning `(Ai, Aip, Bi, Bip)` and the
+`scipp::special` SHALL provide `airy(x)` returning `(Ai, Aip, Bi, Bip)` and the
 exponentially-scaled `airye(x)`, evaluated for real `x` and matching SciPy within
 documented tolerance (~1e-9). Out-of-domain behavior follows SciPy: `airye`
 returns `nan` for the scaled `Ai`/`Aip` at `x < 0` while `Bi`/`Bip` are unscaled.
@@ -164,7 +164,7 @@ returns `nan` for the scaled `Ai`/`Aip` at `x < 0` while `Bi`/`Bip` are unscaled
 
 ### Requirement: Elliptic integrals
 
-`scypp::special` SHALL provide the complete elliptic integrals `ellipk(m)`,
+`scipp::special` SHALL provide the complete elliptic integrals `ellipk(m)`,
 `ellipkm1(p)` (= `ellipk(1-p)`) and `ellipe(m)` via the arithmetic-geometric-mean
 iteration, the incomplete integrals `ellipkinc(phi, m)` and `ellipeinc(phi, m)`
 via the Carlson symmetric forms, and the Jacobi elliptic functions
@@ -199,7 +199,7 @@ yields `nan`. (oracle: scipy/special/cephes/ellpk.c, ellpe.c, ellie.c, ellpj.c)
 
 ### Requirement: Error-function relatives
 
-`scypp::special` SHALL provide the scaled complementary error function
+`scipp::special` SHALL provide the scaled complementary error function
 `erfcx(x)` = `exp(x^2) erfc(x)`, Dawson's integral `dawsn(x)`, the Faddeeva
 function `wofz(z)` = `w(z)` = `exp(-z^2) erfc(-i z)` for complex `z` on the upper
 half-plane `Im(z) >= 0`, the `voigt_profile(x, sigma, gamma)` =
@@ -244,7 +244,7 @@ scipy/special: erfcx, dawsn, wofz, voigt_profile, fresnel)
 
 ### Requirement: Spherical Bessel functions
 
-`scypp::special` SHALL provide the spherical Bessel functions of integer order
+`scipp::special` SHALL provide the spherical Bessel functions of integer order
 `n >= 0` — `spherical_jn(n, x)`, `spherical_yn(n, x)`, `spherical_in(n, x)` and
 `spherical_kn(n, x)` — for real `x`, via the half-integer relation
 `f_n(x) = sqrt(pi/(2x)) F_{n+1/2}(x)` to the cylindrical kernels, matching SciPy
@@ -276,7 +276,7 @@ closed-form recurrence). (oracle: scipy/special/_spherical_bessel.pyx)
 
 ### Requirement: Sine and cosine integrals
 
-`scypp::special` SHALL provide `sici(x)` returning `(Si, Ci)` and `shichi(x)`
+`scipp::special` SHALL provide `sici(x)` returning `(Si, Ci)` and `shichi(x)`
 returning `(Shi, Chi)` for real `x`, matching SciPy within documented tolerance
 (~1e-10, with `Ci` validated on an absolute tolerance near its zeros).
 `Si`/`Shi` are odd and `Ci`/`Chi` are even; `Si(0)=Shi(0)=0` while
@@ -301,7 +301,7 @@ returning `(Shi, Chi)` for real `x`, matching SciPy within documented tolerance
 
 ### Requirement: Lambert W real branches
 
-`scypp::special` SHALL provide `lambertw(x, k)` returning the real Lambert W
+`scipp::special` SHALL provide `lambertw(x, k)` returning the real Lambert W
 branches — the principal branch `k = 0` (defined for `x >= -1/e`) and the
 `k = -1` branch (defined on `[-1/e, 0)`) — for real `x`, via Halley iteration,
 matching the real part of `scipy.special.lambertw(x, k)` within documented
@@ -326,7 +326,7 @@ tolerance (~1e-10). Out-of-domain input returns `nan` (no throw); `lambertw(0, 0
 
 ### Requirement: Riemann zeta
 
-`scypp::special` SHALL provide `zeta(x)` (Riemann zeta, equivalently Hurwitz
+`scipp::special` SHALL provide `zeta(x)` (Riemann zeta, equivalently Hurwitz
 zeta with `q = 1`) and `zetac(x) = zeta(x) - 1` for real `x` via Euler-Maclaurin
 summation, matching `scipy.special.zeta(x)` / `scipy.special.zetac(x)` within
 documented tolerance (~1e-10). `zeta` has a pole at `x = 1` returning `+inf`
@@ -345,7 +345,7 @@ documented tolerance (~1e-10). `zeta` has a pole at `x = 1` returning `+inf`
 
 ### Requirement: Struve and modified Struve functions
 
-`scypp::special` SHALL provide `struve(v, x)` (Struve `H_v`) and
+`scipp::special` SHALL provide `struve(v, x)` (Struve `H_v`) and
 `modstruve(v, x)` (modified Struve `L_v`) for real order `v` and argument `x`,
 using the convergent power series for small `|x|` and the Bessel-based
 asymptotic expansion for large `|x|`, matching `scipy.special.struve` /
@@ -368,7 +368,7 @@ SciPy.
 
 ### Requirement: Spence's dilogarithm
 
-`scypp::special` SHALL provide `spence(x)` returning Spence's dilogarithm
+`scipp::special` SHALL provide `spence(x)` returning Spence's dilogarithm
 `Li_2(1 - x)` (SciPy convention) for real `x >= 0`, matching
 `scipy.special.spence(x)` within documented tolerance (~1e-10). For `x < 0` the
 result is `nan` (no throw).
@@ -386,7 +386,7 @@ result is `nan` (no throw).
 
 ### Requirement: Confluent hypergeometric limit 0F1
 
-`scypp::special` SHALL provide `hyp0f1(b, x)` returning the confluent limit
+`scipp::special` SHALL provide `hyp0f1(b, x)` returning the confluent limit
 `sum_n x^n / ((b)_n n!)` for real `b` and `x` via term-recurrence summation,
 matching `scipy.special.hyp0f1(b, x)` within documented tolerance (~1e-9). A
 non-positive integer `b` (a pole) returns `nan` (no throw); `hyp0f1(b, 0) = 1`.
@@ -404,7 +404,7 @@ non-positive integer `b` (a pole) returns `nan` (no throw); `hyp0f1(b, 0) = 1`.
 
 ### Requirement: Kummer confluent hypergeometric 1F1
 
-`scypp::special` SHALL provide `hyp1f1(a, b, x)` returning Kummer's confluent
+`scipp::special` SHALL provide `hyp1f1(a, b, x)` returning Kummer's confluent
 `M(a, b, x) = sum_n (a)_n/((b)_n n!) x^n` for real `a, b, x`, using Kummer's
 transformation `M(a,b,x) = e^x M(b-a,b,-x)` for `x < 0`, matching
 `scipy.special.hyp1f1(a, b, x)` within documented tolerance (~1e-9) over
@@ -424,7 +424,7 @@ moderate `|a|, |b|, |x|`. A non-positive integer `b` returns `nan` (no throw);
 
 ### Requirement: Gauss hypergeometric 2F1
 
-`scypp::special` SHALL provide `hyp2f1(a, b, c, z)` returning the Gauss
+`scipp::special` SHALL provide `hyp2f1(a, b, c, z)` returning the Gauss
 `sum_n (a)_n(b)_n/((c)_n n!) z^n` for real `a, b, c` and real `z` in `(-1, 1]`,
 using the direct series, the Pfaff transformation for `z <= -1/2`, the `1 - z`
 reflection for `z` in `(1/2, 1)` with non-integer `c - a - b`, and the Gauss
@@ -450,7 +450,7 @@ throw); `hyp2f1(a, b, c, 0) = 1`.
 
 ### Requirement: Tricomi confluent hypergeometric U
 
-`scypp::special` SHALL provide `hyperu(a, b, x)` returning Tricomi's confluent
+`scipp::special` SHALL provide `hyperu(a, b, x)` returning Tricomi's confluent
 `U(a, b, x)` for real `a`, non-integer real `b`, and `x > 0`, built from the two
 `1F1` solutions
 `U = pi/sin(pi b) [M(a,b,x)/(Gamma(a-b+1)Gamma(b)) - x^{1-b} M(a-b+1,2-b,x)/(Gamma(a)Gamma(2-b))]`,

@@ -1,8 +1,8 @@
-# Add misc special functions (lambertw, zeta, struve, spence) to scypp::special
+# Add misc special functions (lambertw, zeta, struve, spence) to scipp::special
 
 ## Why
 
-`scypp::special` already ships the gamma, error-function, Bessel, spherical
+`scipp::special` already ships the gamma, error-function, Bessel, spherical
 Bessel, sine/cosine integral, Airy and elliptic families. The
 `add-special-extras` backlog schedules the remaining high-use `scipy.special`
 surface; the "Misc" line — `lambertw`, `zeta`/`zetac`, `struve`/`modstruve`,
@@ -37,7 +37,7 @@ Adds to the **special** capability, validated against the SciPy oracle:
 - Affected specs: **adds** a misc-special-functions requirement group to the
   `special` capability.
 - Affected code: new `src/special/misc.cpp` (wired into `src/CMakeLists.txt`);
-  declarations in `include/scypp/special/special.hpp`; oracle block in
+  declarations in `include/scipp/special/special.hpp`; oracle block in
   `tests/oracle/generate.py`; new `tests/test_special_misc.cpp`.
 - Trims the "Misc" line from the `add-special-extras` backlog.
 

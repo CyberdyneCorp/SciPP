@@ -1,13 +1,13 @@
 // Sparse linear algebra: spsolve (direct), cg / gmres (matrix-free), norm.
-#include "scypp/sparse/sparse.hpp"
+#include "scipp/sparse/sparse.hpp"
 
 #include <cmath>
 #include <vector>
 
 #include "numpp/linalg/linalg.hpp"
-#include "scypp/sparse/detail.hpp"
+#include "scipp/sparse/detail.hpp"
 
-namespace scypp::sparse {
+namespace scipp::sparse {
 namespace d = detail;
 namespace {
 double dot(const std::vector<double>& a, const std::vector<double>& b) {
@@ -96,4 +96,4 @@ double norm(const CsrMatrix& A, const std::string& ord) {
   return best;
 }
 
-}  // namespace scypp::sparse
+}  // namespace scipp::sparse

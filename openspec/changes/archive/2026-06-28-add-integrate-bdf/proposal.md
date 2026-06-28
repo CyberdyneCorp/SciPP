@@ -13,7 +13,7 @@ so no NumPP changes are required.
 
 ## What changes
 
-Extends the **integrate** capability — `scypp::integrate::solve_ivp`, validated
+Extends the **integrate** capability — `scipp::integrate::solve_ivp`, validated
 against analytic stiff solutions:
 
 - **`method="BDF"`**: implicit backward differentiation with adaptive step

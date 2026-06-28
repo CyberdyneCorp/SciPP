@@ -7,11 +7,11 @@
 //
 // Domain edges follow SciPy: out-of-domain returns nan/inf, never throws.
 
-#include "scypp/special/special.hpp"
+#include "scipp/special/special.hpp"
 
 #include <cmath>
 
-namespace scypp::special {
+namespace scipp::special {
 namespace {
 
 constexpr double kPi = 3.14159265358979323846;
@@ -185,4 +185,4 @@ double spence(double x) {
   return dilog(1.0 - x);
 }
 
-}  // namespace scypp::special
+}  // namespace scipp::special

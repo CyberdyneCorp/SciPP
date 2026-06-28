@@ -1,17 +1,17 @@
 // Scalar root finders: brentq (Brent's method), bisect, newton (Newton + secant).
-#include "scypp/optimize/optimize.hpp"
+#include "scipp/optimize/optimize.hpp"
 
 #include <cmath>
 
-#include "scypp/error.hpp"
+#include "scipp/error.hpp"
 
-namespace scypp::optimize {
+namespace scipp::optimize {
 
 double bisect(const ScalarFn& f, double a, double b, double xtol, double rtol, int maxiter) {
   double fa = f(a), fb = f(b);
   if (fa == 0.0) return a;
   if (fb == 0.0) return b;
-  if (fa * fb > 0.0) throw scypp::value_error("bisect: f(a) and f(b) must have opposite signs");
+  if (fa * fb > 0.0) throw scipp::value_error("bisect: f(a) and f(b) must have opposite signs");
   for (int i = 0; i < maxiter; ++i) {
     double m = 0.5 * (a + b);
     double fm = f(m);
@@ -28,7 +28,7 @@ double brentq(const ScalarFn& f, double xa, double xb, double xtol, double rtol,
   double fpre = f(xpre), fcur = f(xcur);
   if (fpre == 0.0) return xpre;
   if (fcur == 0.0) return xcur;
-  if (fpre * fcur > 0.0) throw scypp::value_error("brentq: f(a) and f(b) must have opposite signs");
+  if (fpre * fcur > 0.0) throw scipp::value_error("brentq: f(a) and f(b) must have opposite signs");
 
   double xblk = 0.0, fblk = 0.0, spre = 0.0, scur = 0.0;
   for (int i = 0; i < maxiter; ++i) {
@@ -93,4 +93,4 @@ double newton(const ScalarFn& f, double x0, const ScalarFn& fprime, double tol, 
   return p1;
 }
 
-}  // namespace scypp::optimize
+}  // namespace scipp::optimize

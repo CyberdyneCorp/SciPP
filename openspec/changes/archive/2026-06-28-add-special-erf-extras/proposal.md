@@ -1,8 +1,8 @@
-# Add error-function relatives to scypp::special
+# Add error-function relatives to scipp::special
 
 ## Why
 
-`scypp::special` ships `erf`/`erfc`/`erfinv`/`erfcinv` but not the closely
+`scipp::special` ships `erf`/`erfc`/`erfinv`/`erfcinv` but not the closely
 related family that SciPy exposes alongside them: the scaled complementary error
 function `erfcx`, Dawson's integral `dawsn`, the Faddeeva function `wofz`, the
 `voigt_profile` (which is a scaled `Re[w]`), and the Fresnel integrals
@@ -13,7 +13,7 @@ that core once yields `wofz`, `voigt_profile` and `fresnel` together, while
 
 ## What changes
 
-Extends the **special** capability — `scypp::special` — validated against
+Extends the **special** capability — `scipp::special` — validated against
 `scipy.special`:
 
 - **`erfcx(x)`** = `exp(x^2) erfc(x)`: the direct product for `|x| < 25` (where
@@ -43,7 +43,7 @@ All match SciPy to ~1e-10 (rtol) / 1e-12 (atol) across the tested grids.
 - Affected specs: **modifies** the `special` capability (adds the
   error-function-relatives requirement).
 - Affected code: new `src/special/erf_extras.cpp`; declarations added to
-  `include/scypp/special/special.hpp` (`erfcx`, `dawsn`, `voigt_profile`,
+  `include/scipp/special/special.hpp` (`erfcx`, `dawsn`, `voigt_profile`,
   `wofz`, `fresnel`, `fresnel_t`, plus `ndarray` overloads of `erfcx`/`dawsn`);
   `tests/oracle/generate.py` and a new `tests/test_special_erf_extras.cpp`.
 - Trims the "Error-fn relatives" line from the `add-special-extras` backlog.

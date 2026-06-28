@@ -1,13 +1,13 @@
 // Error functions: erf, erfc (libm), and erfinv/erfcinv via a rational initial
 // guess (Giles, 2010) refined with one Newton step to double precision.
 
-#include "scypp/special/special.hpp"
+#include "scipp/special/special.hpp"
 
 #include <cmath>
 
-#include "scypp/detail/elementwise.hpp"
+#include "scipp/detail/elementwise.hpp"
 
-namespace scypp::special {
+namespace scipp::special {
 namespace {
 
 constexpr double kTwoOverSqrtPi = 1.1283791670955126;  // 2/sqrt(pi)
@@ -61,4 +61,4 @@ ndarray erfcinv(const ndarray& y) {
   return detail::map(y, [](double v) { return erfinv_impl(1.0 - v); });
 }
 
-}  // namespace scypp::special
+}  // namespace scipp::special

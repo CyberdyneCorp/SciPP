@@ -2,7 +2,7 @@
 
 ## Why
 
-`scypp::integrate` covered initial-value problems (`solve_ivp`) and quadrature,
+`scipp::integrate` covered initial-value problems (`solve_ivp`) and quadrature,
 but not boundary value problems. SciPy exposes `solve_bvp` for systems
 `y'(x) = f(x, y)` constrained by a two-point boundary condition `bc(ya, yb) = 0`,
 which arise in shooting-free formulations of beam, diffusion, and eigenvalue
@@ -12,7 +12,7 @@ no NumPP changes — so it is a self-contained drawdown of the integrate backlog
 ## What changes
 
 Extends the **integrate** capability with a new entry point
-`scypp::integrate::solve_bvp`, validated against analytic BVP solutions and
+`scipp::integrate::solve_bvp`, validated against analytic BVP solutions and
 cross-checked against `scipy.integrate.solve_bvp`:
 
 - **4th-order collocation**: each mesh interval uses the Lobatto/Simpson
@@ -21,7 +21,7 @@ cross-checked against `scipy.integrate.solve_bvp`:
 - **Global Newton solve**: the `n*m` collocation + boundary residuals are solved
   with a finite-difference Jacobian and dense Gaussian elimination.
 - New types `BvpFn`, `BcFn`, and `struct BvpResult{x, y, success, message}` in
-  `include/scypp/integrate/integrate.hpp`.
+  `include/scipp/integrate/integrate.hpp`.
 
 ## Impact
 

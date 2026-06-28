@@ -2,11 +2,11 @@
 
 ## Why
 
-Phase 6 of the ScyPP roadmap. `scipy.interpolate` provides 1-D and N-D
+Phase 6 of the SciPP roadmap. `scipy.interpolate` provides 1-D and N-D
 interpolation — used pervasively for resampling, table lookup, and surrogate
 modeling. Like `optimize` and `integrate` it is pure algorithm over
 `numpp::ndarray`, and its interpolators are **stateful callable objects**
-(construct from data, then evaluate at query points), which ScyPP mirrors as
+(construct from data, then evaluate at query points), which SciPP mirrors as
 classes with `operator()`.
 
 `scipy.interpolate` is large; this change delivers the deterministic
@@ -17,7 +17,7 @@ overlaps `spatial` in Phase 10).
 
 ## What changes
 
-Adds the **interpolate** capability — `scypp::interpolate`, validated against the
+Adds the **interpolate** capability — `scipp::interpolate`, validated against the
 SciPy oracle:
 
 - **1-D interpolation**: `Interp1d` (kinds `"linear"`, `"nearest"`, `"previous"`,
@@ -34,10 +34,10 @@ SciPy oracle:
 ## Impact
 
 - Affected specs: **adds** the `interpolate` capability.
-- Affected code: new `include/scypp/interpolate/`, `src/interpolate/`,
+- Affected code: new `include/scipp/interpolate/`, `src/interpolate/`,
   `tests/test_interpolate.cpp`, extended oracle generator. Uses `numpp::linalg::solve`
   for the spline tridiagonal systems and the RBF linear solve.
-- Roadmap: checks off Phase 6 in `bootstrap-scypp-foundation/tasks.md`.
+- Roadmap: checks off Phase 6 in `bootstrap-scipp-foundation/tasks.md`.
 
 ## Non-goals (deferred)
 

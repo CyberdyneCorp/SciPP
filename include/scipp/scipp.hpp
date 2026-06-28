@@ -1,0 +1,21 @@
+#pragma once
+// SciPP umbrella header — Modern C++20 port of SciPy, built on NumPP.
+
+#include "scipp/version.hpp"
+#include "scipp/error.hpp"
+#include "scipp/cluster/cluster.hpp"
+#include "scipp/constants/constants.hpp"
+#include "scipp/io/io.hpp"
+#include "scipp/differentiate/differentiate.hpp"
+#include "scipp/fft/fft.hpp"
+#include "scipp/integrate/integrate.hpp"
+#include "scipp/interpolate/interpolate.hpp"
+#include "scipp/linalg/linalg.hpp"
+#include "scipp/optimize/optimize.hpp"
+#include "scipp/signal/signal.hpp"
+#include "scipp/sparse/sparse.hpp"
+#include "scipp/ndimage/ndimage.hpp"
+#include "scipp/odr/odr.hpp"
+#include "scipp/spatial/spatial.hpp"
+#include "scipp/special/special.hpp"
+#include "scipp/stats/stats.hpp"

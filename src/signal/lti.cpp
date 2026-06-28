@@ -1,5 +1,5 @@
 // Continuous-time LTI systems: tf2ss, freqresp, bode, lsim, step, impulse.
-#include "scypp/signal/signal.hpp"
+#include "scipp/signal/signal.hpp"
 
 #include <cmath>
 #include <complex>
@@ -8,12 +8,12 @@
 #include "numpp/backend/backend.hpp"
 #include "numpp/core/dtype.hpp"
 #include "numpp/linalg/linalg.hpp"
-#include "scypp/linalg/linalg.hpp"
-#include "scypp/linalg/detail.hpp"
+#include "scipp/linalg/linalg.hpp"
+#include "scipp/linalg/detail.hpp"
 
-namespace scypp::signal {
+namespace scipp::signal {
 namespace {
-namespace sd = scypp::linalg::detail;
+namespace sd = scipp::linalg::detail;
 using cd = std::complex<double>;
 
 cd polyval(const std::vector<double>& c, cd s) {  // c descending powers
@@ -91,7 +91,7 @@ TimeResponse lsim_impl(const TransferFunction& sys, const ndarray& u, const ndar
     std::vector<double> M(m * m, 0.0);
     for (int i = 0; i < n; ++i) { for (int j = 0; j < n; ++j) M[i * m + j] = A[i * n + j] * dt; M[i * m + n] = B[i] * dt; }
     M[n * m + (n + 1)] = 1.0;
-    std::vector<double> E = sd::to_vec(scypp::linalg::expm(sd::from_mat(M, m, m)));
+    std::vector<double> E = sd::to_vec(scipp::linalg::expm(sd::from_mat(M, m, m)));
     for (int i = 0; i < n; ++i) {
       for (int j = 0; j < n; ++j) Ad[i * n + j] = E[i * m + j];
       Bd1[i] = E[i * m + (n + 1)];          // ramp reconstruction:
@@ -101,7 +101,7 @@ TimeResponse lsim_impl(const TransferFunction& sys, const ndarray& u, const ndar
     int m = n + 1;
     std::vector<double> M(m * m, 0.0);
     for (int i = 0; i < n; ++i) { for (int j = 0; j < n; ++j) M[i * m + j] = A[i * n + j] * dt; M[i * m + n] = B[i] * dt; }
-    std::vector<double> E = sd::to_vec(scypp::linalg::expm(sd::from_mat(M, m, m)));
+    std::vector<double> E = sd::to_vec(scipp::linalg::expm(sd::from_mat(M, m, m)));
     for (int i = 0; i < n; ++i) { for (int j = 0; j < n; ++j) Ad[i * n + j] = E[i * m + j]; Bd0[i] = E[i * m + n]; }
   }
   std::vector<double> x(n, 0.0), y(L);
@@ -138,7 +138,7 @@ TimeResponse impulse(const TransferFunction& sys, const ndarray& t) {
   {
     std::vector<double> A = sd::to_vec(ss.A);
     for (double& v : A) v *= dt;
-    Adv = sd::to_vec(scypp::linalg::expm(sd::from_mat(A, n, n)));
+    Adv = sd::to_vec(scipp::linalg::expm(sd::from_mat(A, n, n)));
   }
   std::vector<double> x = B, y(tv.size());
   for (size_t k = 0; k < tv.size(); ++k) {
@@ -149,4 +149,4 @@ TimeResponse impulse(const TransferFunction& sys, const ndarray& t) {
   return {t, sd::from_vec(y)};
 }
 
-}  // namespace scypp::signal
+}  // namespace scipp::signal

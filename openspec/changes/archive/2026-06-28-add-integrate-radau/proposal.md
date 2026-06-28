@@ -10,7 +10,7 @@ Jacobian — no NumPP changes — so it is the highest-value stiff-solver drawdo
 
 ## What changes
 
-Extends the **integrate** capability — `scypp::integrate::solve_ivp`, validated
+Extends the **integrate** capability — `scipp::integrate::solve_ivp`, validated
 against the SciPy oracle:
 
 - **`method="Radau"`**: implicit Radau IIA (3-stage, order 5, stiffly accurate)

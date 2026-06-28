@@ -4,7 +4,7 @@
 
 ### Requirement: Advanced spectral analysis
 
-`scypp::signal` SHALL provide `csd`, `coherence`, `spectrogram`, `stft` and
+`scipp::signal` SHALL provide `csd`, `coherence`, `spectrogram`, `stft` and
 `istft`, matching SciPy. (oracle: scipy/signal/_spectral_py.py)
 
 #### Scenario: Cross-spectral density and coherence
@@ -21,7 +21,7 @@
 
 ### Requirement: Peak analysis
 
-`scypp::signal` SHALL provide `find_peaks` (with `height`, `distance`,
+`scipp::signal` SHALL provide `find_peaks` (with `height`, `distance`,
 `prominence` and `width` filters), `peak_prominences` and `peak_widths`, matching
 SciPy. (oracle: scipy/signal/_peak_finding.py)
 
@@ -37,7 +37,7 @@ SciPy. (oracle: scipy/signal/_peak_finding.py)
 
 ### Requirement: LTI system analysis
 
-`scypp::signal` SHALL provide a continuous-time `TransferFunction` with
+`scipp::signal` SHALL provide a continuous-time `TransferFunction` with
 `freqresp`, `bode`, `step`, `impulse` and `lsim`, matching SciPy. (oracle:
 scipy/signal/_ltisys.py)
 
@@ -54,7 +54,7 @@ scipy/signal/_ltisys.py)
 
 ### Requirement: Resampling
 
-`scypp::signal` SHALL provide `resample`, `resample_poly`, `decimate` and
+`scipp::signal` SHALL provide `resample`, `resample_poly`, `decimate` and
 `upfirdn`, matching SciPy. (oracle: scipy/signal/_signaltools.py)
 
 #### Scenario: FFT and polyphase resampling
@@ -70,7 +70,7 @@ scipy/signal/_ltisys.py)
 
 ### Requirement: Elliptic and Bessel filter design
 
-`scypp::signal` SHALL provide `ellip` and `bessel` filter design (lowpass/
+`scipp::signal` SHALL provide `ellip` and `bessel` filter design (lowpass/
 highpass/bandpass/bandstop), matching SciPy within documented tolerance. (oracle:
 scipy/signal/_filter_design.py)
 
@@ -82,7 +82,7 @@ scipy/signal/_filter_design.py)
 
 ### Requirement: Savitzky–Golay, median, Wiener, and 2-D filtering
 
-`scypp::signal` SHALL provide `savgol_coeffs`/`savgol_filter`, `medfilt`,
+`scipp::signal` SHALL provide `savgol_coeffs`/`savgol_filter`, `medfilt`,
 `wiener`, `convolve2d` and `correlate2d`, matching SciPy. (oracle:
 scipy/signal/_savitzky_golay.py, _signaltools.py)
 

@@ -1,5 +1,5 @@
 // Multivariate minimization: Nelder-Mead simplex and BFGS quasi-Newton.
-#include "scypp/optimize/optimize.hpp"
+#include "scipp/optimize/optimize.hpp"
 
 #include <algorithm>
 #include <cmath>
@@ -7,10 +7,10 @@
 #include <numeric>
 #include <vector>
 
-#include "scypp/error.hpp"
-#include "scypp/optimize/detail.hpp"
+#include "scipp/error.hpp"
+#include "scipp/optimize/detail.hpp"
 
-namespace scypp::optimize {
+namespace scipp::optimize {
 namespace {
 
 using detail::tond;
@@ -512,7 +512,7 @@ OptimizeResult lbfgsb(const ObjFn& f, Vec x, double /*tol*/, int maxiter,
   Vec hi(n, std::numeric_limits<double>::infinity());
   if (bounds) {
     if (static_cast<int>(bounds->size()) != n)
-      throw scypp::value_error("minimize: bounds length must match x0");
+      throw scipp::value_error("minimize: bounds length must match x0");
     for (int i = 0; i < n; ++i) {
       lo[i] = (*bounds)[i].first;
       hi[i] = (*bounds)[i].second;
@@ -609,7 +609,7 @@ OptimizeResult minimize(const ObjFn& f, const ndarray& x0, const std::string& me
   if (method == "Powell") return powell(f, x, tol, maxiter);
   if (method == "CG") return cg(f, x, tol, maxiter);
   if (method == "L-BFGS-B") return lbfgsb(f, x, tol, maxiter, bounds);
-  throw scypp::value_error("minimize: unknown method " + method);
+  throw scipp::value_error("minimize: unknown method " + method);
 }
 
-}  // namespace scypp::optimize
+}  // namespace scipp::optimize

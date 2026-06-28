@@ -1,14 +1,14 @@
-// Oracle tests for scypp::constants against frozen SciPy golden data.
+// Oracle tests for scipp::constants against frozen SciPy golden data.
 #include <vector>
 
 #include "golden.hpp"
 #include "numpp/core/dtype.hpp"
 #include "numpp/core/ndarray.hpp"
-#include "scypp/constants/constants.hpp"
-#include "scypp/error.hpp"
-#include "scypp_test.hpp"
+#include "scipp/constants/constants.hpp"
+#include "scipp/error.hpp"
+#include "scipp_test.hpp"
 
-namespace cst = scypp::constants;
+namespace cst = scipp::constants;
 
 namespace {
 constexpr double R = 1e-12, A = 0.0;
@@ -37,7 +37,7 @@ TEST_CASE("CODATA table lookup") {
   CHECK_CLOSE(cst::value("proton mass"), golden::pc_proton_mass_value, R, A);
   CHECK(cst::unit("electron mass") == "kg");
   CHECK_CLOSE(cst::value("Boltzmann constant"), golden::pc_boltzmann_value, R, A);
-  CHECK_THROWS_AS(cst::value("no such constant"), scypp::value_error);
+  CHECK_THROWS_AS(cst::value("no such constant"), scipp::value_error);
 }
 
 TEST_CASE("unit conversions") {

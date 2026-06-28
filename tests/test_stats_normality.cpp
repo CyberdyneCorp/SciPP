@@ -1,14 +1,14 @@
-// Oracle tests for scypp::stats normality tests (shapiro, anderson).
+// Oracle tests for scipp::stats normality tests (shapiro, anderson).
 #include <stdexcept>
 #include <vector>
 
 #include "golden.hpp"
 #include "numpp/core/dtype.hpp"
 #include "numpp/core/ndarray.hpp"
-#include "scypp/stats/stats.hpp"
-#include "scypp_test.hpp"
+#include "scipp/stats/stats.hpp"
+#include "scipp_test.hpp"
 
-namespace st = scypp::stats;
+namespace st = scipp::stats;
 
 namespace {
 numpp::ndarray vecn(const double* d, int n) {

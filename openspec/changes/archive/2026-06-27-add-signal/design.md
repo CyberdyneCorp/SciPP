@@ -2,8 +2,8 @@
 
 ## Context
 
-`scypp::signal` ports the deterministic DSP core of `scipy.signal` over
-`numpp::ndarray`, reusing `scypp::fft`/`numpp::fft` for the FFT-based routines.
+`scipp::signal` ports the deterministic DSP core of `scipy.signal` over
+`numpp::ndarray`, reusing `scipp::fft`/`numpp::fft` for the FFT-based routines.
 The intricate parts are the IIR filter design (analog prototype → frequency
 transform → bilinear) and `filtfilt`/`welch`, whose exact SciPy behavior is
 reproduced.

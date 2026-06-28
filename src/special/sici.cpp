@@ -11,11 +11,11 @@
 // uses the series to avoid Ei/E1 cancellation. Si and Shi are odd; Ci and Chi
 // are even with Ci(0)=Chi(0)=-inf.
 
-#include "scypp/special/special.hpp"
+#include "scipp/special/special.hpp"
 
 #include <cmath>
 
-namespace scypp::special {
+namespace scipp::special {
 namespace {
 
 constexpr double kPiHalf = 1.57079632679489661923;     // pi/2
@@ -108,4 +108,4 @@ shichi_t shichi(double x) {
   return r;
 }
 
-}  // namespace scypp::special
+}  // namespace scipp::special

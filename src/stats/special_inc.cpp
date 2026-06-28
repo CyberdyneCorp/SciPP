@@ -1,10 +1,10 @@
 // Regularized incomplete gamma/beta and their inverses (Numerical-Recipes
 // series + continued fraction). Underpin the distribution CDFs/PPFs.
-#include "scypp/stats/detail.hpp"
+#include "scipp/stats/detail.hpp"
 
 #include <cmath>
 
-namespace scypp::stats::detail {
+namespace scipp::stats::detail {
 namespace {
 constexpr double kEps = 1e-15;
 constexpr double kFpMin = 1e-300;
@@ -101,4 +101,4 @@ double betaincinv(double a, double b, double p) {
   return 0.5 * (lo + hi);
 }
 
-}  // namespace scypp::stats::detail
+}  // namespace scipp::stats::detail

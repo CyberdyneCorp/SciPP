@@ -1,4 +1,4 @@
-add_library(scypp
+add_library(scipp
   special/gamma.cpp
   special/erf.cpp
   special/erf_extras.cpp
@@ -76,13 +76,13 @@ add_library(scypp
   odr/odr.cpp
   io/io.cpp)
 
-add_library(scypp::scypp ALIAS scypp)
+add_library(scipp::scipp ALIAS scipp)
 
-target_compile_features(scypp PUBLIC cxx_std_20)
+target_compile_features(scipp PUBLIC cxx_std_20)
 
-target_include_directories(scypp PUBLIC
+target_include_directories(scipp PUBLIC
   $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/include>
   $<BUILD_INTERFACE:${PROJECT_BINARY_DIR}/generated>
   $<INSTALL_INTERFACE:include>)
 
-target_link_libraries(scypp PUBLIC numpp::numpp)
+target_link_libraries(scipp PUBLIC numpp::numpp)

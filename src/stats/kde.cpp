@@ -1,17 +1,17 @@
 // Gaussian kernel density estimation (Scott/Silverman bandwidth).
-#include "scypp/stats/stats.hpp"
+#include "scipp/stats/stats.hpp"
 
 #include <cmath>
 #include <vector>
 
 #include "numpp/core/dtype.hpp"
 #include "numpp/linalg/linalg.hpp"
-#include "scypp/error.hpp"
-#include "scypp/linalg/detail.hpp"
+#include "scipp/error.hpp"
+#include "scipp/linalg/detail.hpp"
 
-namespace scypp::stats {
+namespace scipp::stats {
 namespace {
-namespace sd = scypp::linalg::detail;
+namespace sd = scipp::linalg::detail;
 constexpr double kTwoPi = 6.283185307179586;
 }  // namespace
 
@@ -24,7 +24,7 @@ gaussian_kde::gaussian_kde(const ndarray& dataset, const std::string& bw_method)
 
   if (bw_method == "scott") factor_ = std::pow(n_, -1.0 / (d_ + 4));
   else if (bw_method == "silverman") factor_ = std::pow(n_ * (d_ + 2.0) / 4.0, -1.0 / (d_ + 4));
-  else throw scypp::value_error("gaussian_kde: unknown bw_method " + bw_method);
+  else throw scipp::value_error("gaussian_kde: unknown bw_method " + bw_method);
 
   std::vector<double> mean(d_, 0.0);
   for (int i = 0; i < d_; ++i) { for (int k = 0; k < n_; ++k) mean[i] += data_[i * n_ + k]; mean[i] /= n_; }
@@ -72,4 +72,4 @@ ndarray gaussian_kde::evaluate(const ndarray& points) const {
 
 ndarray gaussian_kde::operator()(const ndarray& points) const { return evaluate(points); }
 
-}  // namespace scypp::stats
+}  // namespace scipp::stats

@@ -7,11 +7,11 @@
 // Each routine targets the convergent / numerically stable region documented in
 // special.hpp. Out-of-domain or unsupported inputs return nan, never throw.
 
-#include "scypp/special/special.hpp"
+#include "scipp/special/special.hpp"
 
 #include <cmath>
 
-namespace scypp::special {
+namespace scipp::special {
 namespace {
 
 constexpr double kPi = 3.14159265358979323846;
@@ -122,4 +122,4 @@ double hyperu(double a, double b, double x) {
   return kPi / std::sin(kPi * b) * (term1 - term2);
 }
 
-}  // namespace scypp::special
+}  // namespace scipp::special

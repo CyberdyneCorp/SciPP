@@ -1,14 +1,14 @@
-// Oracle tests for scypp::sparse::csgraph traversal + flow algorithms.
+// Oracle tests for scipp::sparse::csgraph traversal + flow algorithms.
 #include <cmath>
 #include <vector>
 
 #include "golden.hpp"
 #include "numpp/core/dtype.hpp"
 #include "numpp/core/ndarray.hpp"
-#include "scypp/sparse/sparse.hpp"
-#include "scypp_test.hpp"
+#include "scipp/sparse/sparse.hpp"
+#include "scipp_test.hpp"
 
-namespace sp = scypp::sparse;
+namespace sp = scipp::sparse;
 namespace {
 numpp::ndarray mat(const double* d, int r, int c) {
   numpp::ndarray a(numpp::Shape{r, c}, numpp::kFloat64);

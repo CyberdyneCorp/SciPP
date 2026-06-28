@@ -1,12 +1,12 @@
 // Scalar minimization: minimize_scalar with "brent" (bracket + parabolic/golden)
 // and "bounded" (fminbound) — ported from scipy.optimize.
-#include "scypp/optimize/optimize.hpp"
+#include "scipp/optimize/optimize.hpp"
 
 #include <cmath>
 
-#include "scypp/error.hpp"
+#include "scipp/error.hpp"
 
-namespace scypp::optimize {
+namespace scipp::optimize {
 namespace {
 
 // Downhill bracketing triple (xa, xb, xc) with f(xb) < f(xa), f(xc).
@@ -95,7 +95,7 @@ ScalarMinResult brent(const ScalarFn& f, double xtol, int maxiter) {
 }
 
 ScalarMinResult bounded(const ScalarFn& f, double x1, double x2, double xtol, int maxiter) {
-  if (x1 > x2) throw scypp::value_error("minimize_scalar: invalid bounds");
+  if (x1 > x2) throw scipp::value_error("minimize_scalar: invalid bounds");
   const double sqrt_eps = 1.4901161193847656e-08, golden_mean = 0.3819660112501051;
   double a = x1, b = x2;
   double fulc = a + golden_mean * (b - a), nfc = fulc, xf = fulc;
@@ -155,10 +155,10 @@ ScalarMinResult minimize_scalar(const ScalarFn& f, const std::string& method,
                                 int maxiter) {
   if (method == "brent") return brent(f, xtol, maxiter);
   if (method == "bounded") {
-    if (!bounds) throw scypp::value_error("minimize_scalar(bounded) requires bounds");
+    if (!bounds) throw scipp::value_error("minimize_scalar(bounded) requires bounds");
     return bounded(f, bounds->first, bounds->second, xtol, maxiter);
   }
-  throw scypp::value_error("minimize_scalar: unknown method " + method);
+  throw scipp::value_error("minimize_scalar: unknown method " + method);
 }
 
-}  // namespace scypp::optimize
+}  // namespace scipp::optimize

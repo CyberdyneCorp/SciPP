@@ -4,7 +4,7 @@
 
 ### Requirement: Basic linear algebra operations
 
-`scypp::linalg` SHALL provide `inv`, `det`, `solve`, `lstsq`, `pinv`, `pinvh` and
+`scipp::linalg` SHALL provide `inv`, `det`, `solve`, `lstsq`, `pinv`, `pinvh` and
 `norm` over `numpp::ndarray`, matching SciPy within documented tolerance. Singular
 systems SHALL raise an error mirroring SciPy's `LinAlgError`. (oracle: scipy/linalg/_basic.py)
 
@@ -27,7 +27,7 @@ systems SHALL raise an error mirroring SciPy's `LinAlgError`. (oracle: scipy/lin
 
 ### Requirement: Matrix decompositions
 
-`scypp::linalg` SHALL provide `lu` / `lu_factor` / `lu_solve`, `qr`, `svd` /
+`scipp::linalg` SHALL provide `lu` / `lu_factor` / `lu_solve`, `qr`, `svd` /
 `svdvals`, and `cholesky` / `cho_factor` / `cho_solve`, matching SciPy.
 `cholesky` SHALL return the upper factor by default (SciPy convention) with a
 `lower` option. (oracle: scipy/linalg/_decomp_lu.py, _decomp_qr.py, _decomp_svd.py,
@@ -63,7 +63,7 @@ _decomp_cholesky.py)
 
 ### Requirement: Eigenvalue problems
 
-`scypp::linalg` SHALL provide `eig`, `eigvals`, `eigh` and `eigvalsh`, matching
+`scipp::linalg` SHALL provide `eig`, `eigvals`, `eigh` and `eigvalsh`, matching
 SciPy. `eigh`/`eigvalsh` SHALL return real ascending eigenvalues for Hermitian
 input; `eig`/`eigvals` MAY return complex results. (oracle: scipy/linalg/_decomp.py)
 
@@ -80,7 +80,7 @@ input; `eig`/`eigvals` MAY return complex results. (oracle: scipy/linalg/_decomp
 
 ### Requirement: Matrix functions expm and polar
 
-`scypp::linalg` SHALL provide `expm` (matrix exponential via Padé
+`scipp::linalg` SHALL provide `expm` (matrix exponential via Padé
 scaling-and-squaring) and `polar` (polar decomposition via SVD), matching SciPy
 within documented tolerance. (oracle: scipy/linalg/_matfuncs.py, _decomp_polar.py)
 
@@ -98,13 +98,13 @@ within documented tolerance. (oracle: scipy/linalg/_matfuncs.py, _decomp_polar.p
 
 ### Requirement: Special-matrix constructors
 
-`scypp::linalg` SHALL provide `toeplitz`, `circulant`, `hankel`, `block_diag`,
+`scipp::linalg` SHALL provide `toeplitz`, `circulant`, `hankel`, `block_diag`,
 `companion`, `hilbert`, `hadamard`, `pascal`, `leslie`, `kron` and `tri`, matching
 SciPy element-wise. (oracle: scipy/linalg/_special_matrices.py)
 
 #### Scenario: Constructors match SciPy
 - GIVEN the defining inputs for each constructor
-- WHEN the ScyPP constructor is called
+- WHEN the SciPP constructor is called
 - THEN the resulting matrix is `allclose` (or exactly equal for integer fills) to
   SciPy's
 

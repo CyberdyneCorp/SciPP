@@ -1,8 +1,8 @@
-# Add spherical Bessel functions and sine/cosine integrals to scypp::special
+# Add spherical Bessel functions and sine/cosine integrals to scipp::special
 
 ## Why
 
-`scypp::special` already ships the cylindrical Bessel kernels (`jv`/`yv`/`iv`/`kv`)
+`scipp::special` already ships the cylindrical Bessel kernels (`jv`/`yv`/`iv`/`kv`)
 and the exponential integrals (`expi`/`exp1`). The `add-special-extras` backlog
 schedules the remaining high-use `scipy.special` surface; the spherical Bessel
 family and the sine/cosine integrals are the next two groups to graduate. Both
@@ -39,7 +39,7 @@ Adds to the **special** capability, validated against the SciPy oracle:
   integral requirement to the `special` capability.
 - Affected code: new `src/special/spherical_bessel.cpp` and `src/special/sici.cpp`
   (wired into `src/CMakeLists.txt`); `sici_t`/`shichi_t` structs and declarations
-  in `include/scypp/special/special.hpp`; oracle block in
+  in `include/scipp/special/special.hpp`; oracle block in
   `tests/oracle/generate.py`; new `tests/test_special_spherical_sici.cpp`.
 - Trims the spherical part of the "More Bessel" line and the "Integrals" line
   from the `add-special-extras` backlog.

@@ -2,22 +2,22 @@
 
 ## Context
 
-`scypp::integrate` ports the explicit-solver core of `scipy.integrate`;
-`scypp::differentiate` ports `scipy.differentiate`. Both are iterative numerical
+`scipp::integrate` ports the explicit-solver core of `scipy.integrate`;
+`scipp::differentiate` ports `scipy.differentiate`. Both are iterative numerical
 algorithms over `numpp::ndarray` and `std::function` callables, reusing the
 Phase-4 finite-difference style.
 
 ## API shape
 
 ```cpp
-namespace scypp::integrate {
+namespace scipp::integrate {
 using Integrand = std::function<double(double)>;
 using OdeFn     = std::function<ndarray(double, const ndarray&)>;   // (t, y) → dy/dt
 
 struct QuadResult { double value; double abserr; };
 struct OdeResult  { ndarray t; ndarray y; bool success; int nfev; std::string message; };
 }
-namespace scypp::differentiate {
+namespace scipp::differentiate {
 struct DerivativeResult { double df; double error; bool success; };
 }
 ```

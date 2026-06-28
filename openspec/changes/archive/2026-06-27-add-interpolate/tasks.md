@@ -1,7 +1,7 @@
 # Tasks — interpolate (Phase 6)
 
 ## 1. Module scaffold
-- [x] `include/scypp/interpolate/interpolate.hpp` (interpolator classes); `src/interpolate/*.cpp` in `src/CMakeLists.txt`; export from `scypp/scypp.hpp`
+- [x] `include/scipp/interpolate/interpolate.hpp` (interpolator classes); `src/interpolate/*.cpp` in `src/CMakeLists.txt`; export from `scipp/scipp.hpp`
 - [x] Shared interval-search helper over sorted breakpoints
 
 ## 2. 1-D interpolation
@@ -24,4 +24,4 @@
 - [x] `tests/test_interpolate.cpp`: each interpolator vs SciPy at query points + node reproduction + spline derivative
 - [x] CPU build green; full suite green
 - [x] `openspec validate add-interpolate --strict` green
-- [x] Check off Phase 6 in `bootstrap-scypp-foundation/tasks.md`; update README
+- [x] Check off Phase 6 in `bootstrap-scipp-foundation/tasks.md`; update README

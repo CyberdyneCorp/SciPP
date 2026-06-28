@@ -1,13 +1,13 @@
-// Oracle tests for scypp::integrate::solve_ivp method="Radau" on stiff systems.
+// Oracle tests for scipp::integrate::solve_ivp method="Radau" on stiff systems.
 #include <vector>
 
 #include "golden.hpp"
 #include "numpp/core/dtype.hpp"
 #include "numpp/core/ndarray.hpp"
-#include "scypp/integrate/integrate.hpp"
-#include "scypp_test.hpp"
+#include "scipp/integrate/integrate.hpp"
+#include "scipp_test.hpp"
 
-namespace ig = scypp::integrate;
+namespace ig = scipp::integrate;
 namespace {
 numpp::ndarray vec(const double* d, int n) {
   numpp::ndarray a(numpp::Shape{n}, numpp::kFloat64);

@@ -1,17 +1,17 @@
 // Linear programming via two-phase primal simplex (Bland's rule for
 // anti-cycling), matching scipy.optimize.linprog on the optimum value/vertex.
-#include "scypp/optimize/optimize.hpp"
+#include "scipp/optimize/optimize.hpp"
 
 #include <cmath>
 #include <limits>
 #include <vector>
 
 #include "numpp/core/creation.hpp"
-#include "scypp/linalg/detail.hpp"
+#include "scipp/linalg/detail.hpp"
 
-namespace scypp::optimize {
+namespace scipp::optimize {
 namespace {
-namespace sd = scypp::linalg::detail;
+namespace sd = scipp::linalg::detail;
 
 struct Block {
   std::vector<double> A;  // row-major rows×cols
@@ -165,4 +165,4 @@ LinprogResult linprog(const ndarray& c_in,
   return res;
 }
 
-}  // namespace scypp::optimize
+}  // namespace scipp::optimize

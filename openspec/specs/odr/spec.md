@@ -4,7 +4,7 @@
 TBD - created by archiving change add-odr. Update Purpose after archive.
 ## Requirements
 ### Requirement: Orthogonal distance regression
-`scypp::odr` SHALL provide an `ODR` fit over a `Data` (x, y with optional per-point
+`scipp::odr` SHALL provide an `ODR` fit over a `Data` (x, y with optional per-point
 standard deviations sx, sy) and a `Model` (`f(beta, x)`) that minimizes the
 orthogonal distance between the data and the model curve over both the parameters
 `beta` and the per-point x-offsets `delta`, returning the estimated parameters,

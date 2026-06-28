@@ -5,7 +5,7 @@ TBD - created by archiving change add-signal. Update Purpose after archive.
 ## Requirements
 ### Requirement: Convolution and correlation
 
-`scypp::signal` SHALL provide `convolve`, `correlate` and `fftconvolve` with modes
+`scipp::signal` SHALL provide `convolve`, `correlate` and `fftconvolve` with modes
 `"full"`, `"same"` and `"valid"`, matching SciPy. (oracle: scipy/signal/_signaltools.py)
 
 #### Scenario: Convolution modes match SciPy
@@ -16,7 +16,7 @@ TBD - created by archiving change add-signal. Update Purpose after archive.
 
 ### Requirement: Window functions
 
-`scypp::signal` SHALL provide `get_window` and the windows `boxcar`, `hann`,
+`scipp::signal` SHALL provide `get_window` and the windows `boxcar`, `hann`,
 `hamming`, `blackman`, `bartlett`, `blackmanharris`, `flattop`, `kaiser` and
 `tukey`, matching SciPy (including the symmetric/periodic distinction). (oracle:
 scipy/signal/windows)
@@ -29,7 +29,7 @@ scipy/signal/windows)
 
 ### Requirement: Time-domain filtering
 
-`scypp::signal` SHALL provide `lfilter`, `lfilter_zi`, `filtfilt`, `sosfilt`,
+`scipp::signal` SHALL provide `lfilter`, `lfilter_zi`, `filtfilt`, `sosfilt`,
 `detrend`, `hilbert` and `freqz`, matching SciPy. `filtfilt` SHALL apply zero-phase
 filtering with SciPy's default odd padding. (oracle: scipy/signal/_signaltools.py)
 
@@ -52,7 +52,7 @@ filtering with SciPy's default odd padding. (oracle: scipy/signal/_signaltools.p
 
 ### Requirement: Filter design
 
-`scypp::signal` SHALL provide IIR design `butter`, `cheby1`, `cheby2`
+`scipp::signal` SHALL provide IIR design `butter`, `cheby1`, `cheby2`
 (lowpass/highpass/bandpass/bandstop), FIR design `firwin`, and the representation
 conversions `tf2zpk`, `zpk2tf`, `zpk2sos` and `tf2sos`, matching SciPy. (oracle:
 scipy/signal/_filter_design.py)
@@ -74,7 +74,7 @@ scipy/signal/_filter_design.py)
 
 ### Requirement: Spectral estimation
 
-`scypp::signal` SHALL provide `periodogram` and `welch`, returning frequencies and
+`scipp::signal` SHALL provide `periodogram` and `welch`, returning frequencies and
 the power spectral density, matching SciPy. (oracle: scipy/signal/_spectral_py.py)
 
 #### Scenario: Periodogram and Welch match SciPy
@@ -84,7 +84,7 @@ the power spectral density, matching SciPy. (oracle: scipy/signal/_spectral_py.p
 
 ### Requirement: Standard waveforms
 
-`scypp::signal` SHALL provide `chirp`, `sawtooth`, `square` and `unit_impulse`,
+`scipp::signal` SHALL provide `chirp`, `sawtooth`, `square` and `unit_impulse`,
 matching SciPy. (oracle: scipy/signal/_waveforms.py)
 
 #### Scenario: Waveforms match SciPy
@@ -94,7 +94,7 @@ matching SciPy. (oracle: scipy/signal/_waveforms.py)
 
 ### Requirement: Advanced spectral analysis
 
-`scypp::signal` SHALL provide `csd`, `coherence`, `spectrogram`, `stft` and
+`scipp::signal` SHALL provide `csd`, `coherence`, `spectrogram`, `stft` and
 `istft`, matching SciPy. (oracle: scipy/signal/_spectral_py.py)
 
 #### Scenario: Cross-spectral density and coherence
@@ -111,7 +111,7 @@ matching SciPy. (oracle: scipy/signal/_waveforms.py)
 
 ### Requirement: Peak analysis
 
-`scypp::signal` SHALL provide `find_peaks` (with `height`, `distance`,
+`scipp::signal` SHALL provide `find_peaks` (with `height`, `distance`,
 `prominence` and `width` filters), `peak_prominences` and `peak_widths`, matching
 SciPy. (oracle: scipy/signal/_peak_finding.py)
 
@@ -127,7 +127,7 @@ SciPy. (oracle: scipy/signal/_peak_finding.py)
 
 ### Requirement: LTI system analysis
 
-`scypp::signal` SHALL provide a continuous-time `TransferFunction` with
+`scipp::signal` SHALL provide a continuous-time `TransferFunction` with
 `freqresp`, `bode`, `step`, `impulse` and `lsim`, matching SciPy. (oracle:
 scipy/signal/_ltisys.py)
 
@@ -144,7 +144,7 @@ scipy/signal/_ltisys.py)
 
 ### Requirement: Resampling
 
-`scypp::signal` SHALL provide `resample`, `resample_poly`, `decimate` and
+`scipp::signal` SHALL provide `resample`, `resample_poly`, `decimate` and
 `upfirdn`, matching SciPy. (oracle: scipy/signal/_signaltools.py)
 
 #### Scenario: FFT and polyphase resampling
@@ -160,7 +160,7 @@ scipy/signal/_ltisys.py)
 
 ### Requirement: Elliptic and Bessel filter design
 
-`scypp::signal` SHALL provide `ellip` and `bessel` filter design (lowpass/
+`scipp::signal` SHALL provide `ellip` and `bessel` filter design (lowpass/
 highpass/bandpass/bandstop), matching SciPy within documented tolerance. (oracle:
 scipy/signal/_filter_design.py)
 
@@ -172,7 +172,7 @@ scipy/signal/_filter_design.py)
 
 ### Requirement: Savitzky–Golay, median, Wiener, and 2-D filtering
 
-`scypp::signal` SHALL provide `savgol_coeffs`/`savgol_filter`, `medfilt`,
+`scipp::signal` SHALL provide `savgol_coeffs`/`savgol_filter`, `medfilt`,
 `wiener`, `convolve2d` and `correlate2d`, matching SciPy. (oracle:
 scipy/signal/_savitzky_golay.py, _signaltools.py)
 
@@ -187,7 +187,7 @@ scipy/signal/_savitzky_golay.py, _signaltools.py)
 - THEN the outputs are `allclose` to SciPy's
 
 ### Requirement: Discrete-time LTI systems
-`scypp::signal` SHALL provide discrete-time LTI support: `cont2discrete`,
+`scipp::signal` SHALL provide discrete-time LTI support: `cont2discrete`,
 `dstep`, `dimpulse`, `dlsim`, `dfreqresp` and `dbode`, matching SciPy.
 (oracle: scipy.signal.cont2discrete / dstep / dimpulse / dlsim / dfreqresp / dbode)
 

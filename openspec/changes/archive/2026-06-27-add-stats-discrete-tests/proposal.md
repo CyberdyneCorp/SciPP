@@ -4,7 +4,7 @@
 
 Draws down the highest value-per-effort items from the `add-stats-extras` backlog
 that need **nothing from NumPP** — they're deterministic CPU algorithms reusing
-ScyPP's existing `gammainc`/`betainc` special functions and the Phase-7 continuous
+SciPP's existing `gammainc`/`betainc` special functions and the Phase-7 continuous
 distributions. Discrete distributions and nonparametric rank tests are everyday
 statistics tools.
 

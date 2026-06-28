@@ -1,7 +1,7 @@
 // Matrix functions: expm (Padé scaling-and-squaring) and polar (SVD-based).
 // Dense products go through numpp::backend::matmul so a BLAS/GPU NumPP build
 // accelerates them; the final Padé system uses numpp::linalg::solve.
-#include "scypp/linalg/linalg.hpp"
+#include "scipp/linalg/linalg.hpp"
 
 #include <cmath>
 #include <vector>
@@ -9,10 +9,10 @@
 #include "numpp/backend/backend.hpp"
 #include "numpp/core/dtype.hpp"
 #include "numpp/linalg/linalg.hpp"
-#include "scypp/error.hpp"
-#include "scypp/linalg/detail.hpp"
+#include "scipp/error.hpp"
+#include "scipp/linalg/detail.hpp"
 
-namespace scypp::linalg {
+namespace scipp::linalg {
 namespace {
 
 ndarray mm(const ndarray& a, const ndarray& b) { return numpp::matmul(a, b); }
@@ -44,7 +44,7 @@ double one_norm(const std::vector<double>& a, int64_t n) {
 ndarray expm(const ndarray& A) {
   int64_t n, c;
   std::vector<double> a0 = detail::to_mat(A, n, c);
-  if (n != c) throw scypp::value_error("expm: matrix must be square");
+  if (n != c) throw scipp::value_error("expm: matrix must be square");
 
   // Order-13 Padé coefficients (Higham, 2005).
   static const double b[14] = {
@@ -102,4 +102,4 @@ PolarResult polar(const ndarray& A, const std::string& side) {
   return {U, detail::from_mat(P, m, m)};
 }
 
-}  // namespace scypp::linalg
+}  // namespace scipp::linalg

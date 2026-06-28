@@ -1,7 +1,7 @@
 // Elliptic and Bessel filter design (analog prototypes + the shared IIR
 // pipeline). Elliptic uses complete/incomplete elliptic integrals and Jacobi
 // functions; Bessel uses reverse-Bessel-polynomial roots.
-#include "scypp/signal/signal.hpp"
+#include "scipp/signal/signal.hpp"
 
 #include <cmath>
 #include <complex>
@@ -9,12 +9,12 @@
 
 #include "numpp/core/dtype.hpp"
 #include "numpp/linalg/linalg.hpp"
-#include "scypp/linalg/detail.hpp"
-#include "scypp/signal/iir_detail.hpp"
+#include "scipp/linalg/detail.hpp"
+#include "scipp/signal/iir_detail.hpp"
 
-namespace scypp::signal {
+namespace scipp::signal {
 namespace {
-namespace sd = scypp::linalg::detail;
+namespace sd = scipp::linalg::detail;
 using iir::cd;
 using iir::ZPK;
 constexpr double kPi = 3.141592653589793238462643383279502884;
@@ -122,4 +122,4 @@ BA bessel(int N, const std::vector<double>& Wn, const std::string& btype) {
   return {c.b, c.a};
 }
 
-}  // namespace scypp::signal
+}  // namespace scipp::signal

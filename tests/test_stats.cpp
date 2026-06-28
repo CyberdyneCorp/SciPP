@@ -1,14 +1,14 @@
-// Oracle tests for scypp::stats against frozen SciPy golden data.
+// Oracle tests for scipp::stats against frozen SciPy golden data.
 #include <cmath>
 #include <vector>
 
 #include "golden.hpp"
 #include "numpp/core/dtype.hpp"
 #include "numpp/core/ndarray.hpp"
-#include "scypp/stats/stats.hpp"
-#include "scypp_test.hpp"
+#include "scipp/stats/stats.hpp"
+#include "scipp_test.hpp"
 
-namespace st = scypp::stats;
+namespace st = scipp::stats;
 
 namespace {
 constexpr double R = 1e-7, A = 1e-9;

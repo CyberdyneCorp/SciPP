@@ -1,15 +1,15 @@
 // Sparse formats: COO/CSR/CSC, conversions, transpose, diagonal, arithmetic,
 // and constructors (eye/identity/diags).
-#include "scypp/sparse/sparse.hpp"
+#include "scipp/sparse/sparse.hpp"
 
 #include <algorithm>
 #include <numeric>
 #include <vector>
 
 #include "numpp/core/dtype.hpp"
-#include "scypp/sparse/detail.hpp"
+#include "scipp/sparse/detail.hpp"
 
-namespace scypp::sparse {
+namespace scipp::sparse {
 namespace d = detail;
 
 CsrMatrix::CsrMatrix(ndarray data, ndarray indices, ndarray indptr, int64_t rows, int64_t cols)
@@ -136,4 +136,4 @@ CsrMatrix diags(const std::vector<ndarray>& diagonals, const std::vector<int>& o
   return CsrMatrix::from_coo({d::from_dv(val), d::from_iv(row), d::from_iv(col), n, n});
 }
 
-}  // namespace scypp::sparse
+}  // namespace scipp::sparse

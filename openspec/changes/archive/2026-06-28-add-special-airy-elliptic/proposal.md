@@ -1,8 +1,8 @@
-# Add Airy functions and elliptic integrals to scypp::special
+# Add Airy functions and elliptic integrals to scipp::special
 
 ## Why
 
-`scypp::special` already ships the gamma, error-function and Bessel families. The
+`scipp::special` already ships the gamma, error-function and Bessel families. The
 `add-special-extras` backlog scheduled the remaining high-use `scipy.special`
 surface; Airy functions and the elliptic integrals are the first two families to
 graduate. Both are pure-CPU scalar kernels that reduce to machinery already in the
@@ -40,7 +40,7 @@ Adds to the **special** capability, validated against the SciPy oracle:
   requirement to the `special` capability.
 - Affected code: new `src/special/airy.cpp` and `src/special/elliptic.cpp`
   (wired into `src/CMakeLists.txt`); `airy_t`/`ellipj_t` structs and declarations
-  in `include/scypp/special/special.hpp`; oracle block in
+  in `include/scipp/special/special.hpp`; oracle block in
   `tests/oracle/generate.py`; new `tests/test_special_airy_elliptic.cpp`.
 - Trims the Airy and Elliptic lines from the `add-special-extras` backlog.
 

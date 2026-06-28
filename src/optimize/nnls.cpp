@@ -1,6 +1,6 @@
 // Nonnegative least squares via the Lawson-Hanson active-set algorithm,
 // matching scipy.optimize.nnls.
-#include "scypp/optimize/optimize.hpp"
+#include "scipp/optimize/optimize.hpp"
 
 #include <algorithm>
 #include <cmath>
@@ -8,11 +8,11 @@
 #include <vector>
 
 #include "numpp/core/creation.hpp"
-#include "scypp/linalg/detail.hpp"
+#include "scipp/linalg/detail.hpp"
 
-namespace scypp::optimize {
+namespace scipp::optimize {
 namespace {
-namespace sd = scypp::linalg::detail;
+namespace sd = scipp::linalg::detail;
 
 // Solve the unconstrained least-squares problem restricted to the columns in
 // `cols` via normal equations with Gaussian elimination; result written into z.
@@ -129,4 +129,4 @@ NNLSResult nnls(const ndarray& A_in, const ndarray& b_in, int maxiter) {
   return res;
 }
 
-}  // namespace scypp::optimize
+}  // namespace scipp::optimize

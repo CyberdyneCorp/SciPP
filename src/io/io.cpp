@@ -1,5 +1,5 @@
 // File I/O: Matrix Market, WAV (integer PCM), ARFF (numeric).
-#include "scypp/io/io.hpp"
+#include "scipp/io/io.hpp"
 
 #include <cstdint>
 #include <cctype>
@@ -10,16 +10,16 @@
 #include <vector>
 
 #include "numpp/core/dtype.hpp"
-#include "scypp/error.hpp"
-#include "scypp/linalg/detail.hpp"
+#include "scipp/error.hpp"
+#include "scipp/linalg/detail.hpp"
 
-namespace scypp::io {
-namespace sd = scypp::linalg::detail;
+namespace scipp::io {
+namespace sd = scipp::linalg::detail;
 
 // ---- Matrix Market ----
 ndarray mmread(const std::string& path) {
   std::ifstream f(path);
-  if (!f) throw scypp::value_error("mmread: cannot open " + path);
+  if (!f) throw scipp::value_error("mmread: cannot open " + path);
   std::string line;
   std::getline(f, line);
   bool coordinate = line.find("coordinate") != std::string::npos;
@@ -67,7 +67,7 @@ void wr16(std::ofstream& f, uint16_t v) { unsigned char b[2] = {(unsigned char)(
 
 WavData wavread(const std::string& path) {
   std::ifstream f(path, std::ios::binary);
-  if (!f) throw scypp::value_error("wavread: cannot open " + path);
+  if (!f) throw scipp::value_error("wavread: cannot open " + path);
   char tag[4];
   f.read(tag, 4);  // RIFF
   rd32(f);
@@ -123,7 +123,7 @@ void wavwrite(const std::string& path, int rate, const ndarray& data) {
 // ---- ARFF ----
 ndarray loadarff(const std::string& path) {
   std::ifstream f(path);
-  if (!f) throw scypp::value_error("loadarff: cannot open " + path);
+  if (!f) throw scipp::value_error("loadarff: cannot open " + path);
   std::string line;
   int nattr = 0;
   bool in_data = false;
@@ -148,4 +148,4 @@ ndarray loadarff(const std::string& path) {
   return sd::from_mat(rows, nrows, ncol);
 }
 
-}  // namespace scypp::io
+}  // namespace scipp::io

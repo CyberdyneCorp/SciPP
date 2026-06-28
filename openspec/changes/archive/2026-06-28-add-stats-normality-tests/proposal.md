@@ -2,7 +2,7 @@
 
 ## Why
 
-`scypp::stats` already ships parametric and rank tests plus `normaltest`
+`scipp::stats` already ships parametric and rank tests plus `normaltest`
 (D'Agostino-Pearson), but lacks the two most widely used dedicated normality
 tests: Shapiro-Wilk (`scipy.stats.shapiro`) and Anderson-Darling
 (`scipy.stats.anderson` for the normal distribution). They were deferred from
@@ -26,7 +26,7 @@ Extends the **stats** capability, validated against the SciPy 1.15 oracle:
 
 - Affected specs: **modifies** the `stats` capability (adds one requirement).
 - Affected code: new `src/stats/normality.cpp`, declarations and result structs
-  in `include/scypp/stats/stats.hpp`, `tests/test_stats_normality.cpp`, extended
+  in `include/scipp/stats/stats.hpp`, `tests/test_stats_normality.cpp`, extended
   oracle generator. Wired into `src/CMakeLists.txt` and `tests/CMakeLists.txt`.
 - Trims the shapiro/anderson item from the `add-stats-extras` backlog.
 

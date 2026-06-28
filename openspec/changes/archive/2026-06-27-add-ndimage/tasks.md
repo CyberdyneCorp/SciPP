@@ -1,7 +1,7 @@
 # Tasks — ndimage (Phase 11)
 
 ## 1. Module scaffold + boundary modes
-- [x] `include/scypp/ndimage/ndimage.hpp`; `src/ndimage/*.cpp` in `src/CMakeLists.txt`; export from `scypp/scypp.hpp`
+- [x] `include/scipp/ndimage/ndimage.hpp`; `src/ndimage/*.cpp` in `src/CMakeLists.txt`; export from `scipp/scipp.hpp`
 - [x] `boundary_index(i, n, mode)` for reflect/mirror/nearest/wrap/constant
 
 ## 2. Filters
@@ -23,4 +23,4 @@
 - [x] Extend `tests/oracle/generate.py`; regenerate
 - [x] `tests/test_ndimage.cpp`: filters across modes + dispatch, morphology, EDT, label/measurements, geometric transforms
 - [x] CPU build green; full suite green; `openspec validate add-ndimage --strict`
-- [x] Check off Phase 11 in `bootstrap-scypp-foundation/tasks.md`; update README
+- [x] Check off Phase 11 in `bootstrap-scipp-foundation/tasks.md`; update README

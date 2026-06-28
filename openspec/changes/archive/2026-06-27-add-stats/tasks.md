@@ -1,7 +1,7 @@
 # Tasks — stats (Phase 7)
 
 ## 1. Module scaffold + special enablers
-- [x] `include/scypp/stats/stats.hpp` (distribution structs, result structs, function decls); `src/stats/*.cpp` in `src/CMakeLists.txt`; export from `scypp/scypp.hpp`
+- [x] `include/scipp/stats/stats.hpp` (distribution structs, result structs, function decls); `src/stats/*.cpp` in `src/CMakeLists.txt`; export from `scipp/scipp.hpp`
 - [x] Internal `gammainc`/`gammaincc`/`betainc` (series + continued fraction) and `gammaincinv`/`betaincinv` (Newton + bisection)
 
 ## 2. Continuous distributions
@@ -24,4 +24,4 @@
 - [x] `tests/test_stats.cpp`: distributions (pdf/cdf/ppf round-trip) vs SciPy; summary stats; tests; KDE
 - [x] CPU build green; full suite green
 - [x] `openspec validate add-stats --strict` green
-- [x] Check off Phase 7 in `bootstrap-scypp-foundation/tasks.md`; update README
+- [x] Check off Phase 7 in `bootstrap-scipp-foundation/tasks.md`; update README

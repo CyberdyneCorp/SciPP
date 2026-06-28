@@ -1,14 +1,14 @@
-// Oracle tests for scypp::interpolate against frozen SciPy golden data.
+// Oracle tests for scipp::interpolate against frozen SciPy golden data.
 #include <cmath>
 #include <vector>
 
 #include "golden.hpp"
 #include "numpp/core/dtype.hpp"
 #include "numpp/core/ndarray.hpp"
-#include "scypp/interpolate/interpolate.hpp"
-#include "scypp_test.hpp"
+#include "scipp/interpolate/interpolate.hpp"
+#include "scipp_test.hpp"
 
-namespace ip = scypp::interpolate;
+namespace ip = scipp::interpolate;
 
 namespace {
 constexpr double R = 1e-9, A = 1e-11;

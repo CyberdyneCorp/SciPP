@@ -5,7 +5,7 @@ TBD - created by archiving change add-ndimage. Update Purpose after archive.
 ## Requirements
 ### Requirement: Filters
 
-`scypp::ndimage` SHALL provide `correlate1d`/`convolve1d`, `correlate`/`convolve`,
+`scipp::ndimage` SHALL provide `correlate1d`/`convolve1d`, `correlate`/`convolve`,
 `uniform_filter`(`1d`), `gaussian_filter`(`1d`), `median_filter`,
 `minimum_filter`, `maximum_filter`, `sobel`, `prewitt` and `laplace`, with the
 boundary modes `reflect`/`nearest`/`mirror`/`wrap`/`constant`, matching SciPy.
@@ -25,7 +25,7 @@ scipy/ndimage/_filters.py)
 
 ### Requirement: Morphology
 
-`scypp::ndimage` SHALL provide `binary_erosion`/`dilation`/`opening`/`closing`,
+`scipp::ndimage` SHALL provide `binary_erosion`/`dilation`/`opening`/`closing`,
 `grey_erosion`/`dilation` and `distance_transform_edt`, matching SciPy. (oracle:
 scipy/ndimage/_morphology.py)
 
@@ -41,7 +41,7 @@ scipy/ndimage/_morphology.py)
 
 ### Requirement: Measurements
 
-`scypp::ndimage` SHALL provide `label`, `center_of_mass`, `sum_labels`, `mean`,
+`scipp::ndimage` SHALL provide `label`, `center_of_mass`, `sum_labels`, `mean`,
 `maximum`, `minimum` and `find_objects`, matching SciPy. (oracle:
 scipy/ndimage/_measurements.py)
 
@@ -58,7 +58,7 @@ scipy/ndimage/_measurements.py)
 
 ### Requirement: Geometric transforms
 
-`scypp::ndimage` SHALL provide `shift`, `zoom`, `rotate`, `affine_transform` and
+`scipp::ndimage` SHALL provide `shift`, `zoom`, `rotate`, `affine_transform` and
 `map_coordinates` with interpolation orders 0 and 1, matching SciPy. (oracle:
 scipy/ndimage/_interpolation.py)
 

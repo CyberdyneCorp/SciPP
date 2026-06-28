@@ -1,5 +1,5 @@
 // Distance computations: pdist, cdist, squareform, distance_matrix + metrics.
-#include "scypp/spatial/spatial.hpp"
+#include "scipp/spatial/spatial.hpp"
 
 #include <cmath>
 #include <functional>
@@ -7,12 +7,12 @@
 
 #include "numpp/backend/backend.hpp"
 #include "numpp/core/dtype.hpp"
-#include "scypp/error.hpp"
-#include "scypp/linalg/detail.hpp"
+#include "scipp/error.hpp"
+#include "scipp/linalg/detail.hpp"
 
-namespace scypp::spatial {
+namespace scipp::spatial {
 namespace {
-namespace sd = scypp::linalg::detail;
+namespace sd = scipp::linalg::detail;
 thread_local Backend g_last = Backend::Cpu;
 
 using Metric = std::function<double(const double*, const double*, int64_t)>;
@@ -32,7 +32,7 @@ Metric make_metric(const std::string& name, double p) {
   if (name == "jaccard") return [](const double* u, const double* v, int64_t d) {
     double neq = 0, nz = 0; for (int64_t i = 0; i < d; ++i) { if (u[i] != v[i]) neq += 1; if (u[i] != 0 || v[i] != 0) nz += 1; }
     return nz == 0 ? 0.0 : neq / nz; };
-  throw scypp::value_error("unknown metric: " + name);
+  throw scipp::value_error("unknown metric: " + name);
 }
 }  // namespace
 
@@ -92,4 +92,4 @@ ndarray distance_matrix(const ndarray& X, const ndarray& Y, double p) {
   return cdist(X, Y, "minkowski", p);
 }
 
-}  // namespace scypp::spatial
+}  // namespace scipp::spatial

@@ -4,7 +4,7 @@
 
 ### Requirement: Convolution and correlation
 
-`scypp::signal` SHALL provide `convolve`, `correlate` and `fftconvolve` with modes
+`scipp::signal` SHALL provide `convolve`, `correlate` and `fftconvolve` with modes
 `"full"`, `"same"` and `"valid"`, matching SciPy. (oracle: scipy/signal/_signaltools.py)
 
 #### Scenario: Convolution modes match SciPy
@@ -15,7 +15,7 @@
 
 ### Requirement: Window functions
 
-`scypp::signal` SHALL provide `get_window` and the windows `boxcar`, `hann`,
+`scipp::signal` SHALL provide `get_window` and the windows `boxcar`, `hann`,
 `hamming`, `blackman`, `bartlett`, `blackmanharris`, `flattop`, `kaiser` and
 `tukey`, matching SciPy (including the symmetric/periodic distinction). (oracle:
 scipy/signal/windows)
@@ -28,7 +28,7 @@ scipy/signal/windows)
 
 ### Requirement: Time-domain filtering
 
-`scypp::signal` SHALL provide `lfilter`, `lfilter_zi`, `filtfilt`, `sosfilt`,
+`scipp::signal` SHALL provide `lfilter`, `lfilter_zi`, `filtfilt`, `sosfilt`,
 `detrend`, `hilbert` and `freqz`, matching SciPy. `filtfilt` SHALL apply zero-phase
 filtering with SciPy's default odd padding. (oracle: scipy/signal/_signaltools.py)
 
@@ -51,7 +51,7 @@ filtering with SciPy's default odd padding. (oracle: scipy/signal/_signaltools.p
 
 ### Requirement: Filter design
 
-`scypp::signal` SHALL provide IIR design `butter`, `cheby1`, `cheby2`
+`scipp::signal` SHALL provide IIR design `butter`, `cheby1`, `cheby2`
 (lowpass/highpass/bandpass/bandstop), FIR design `firwin`, and the representation
 conversions `tf2zpk`, `zpk2tf`, `zpk2sos` and `tf2sos`, matching SciPy. (oracle:
 scipy/signal/_filter_design.py)
@@ -73,7 +73,7 @@ scipy/signal/_filter_design.py)
 
 ### Requirement: Spectral estimation
 
-`scypp::signal` SHALL provide `periodogram` and `welch`, returning frequencies and
+`scipp::signal` SHALL provide `periodogram` and `welch`, returning frequencies and
 the power spectral density, matching SciPy. (oracle: scipy/signal/_spectral_py.py)
 
 #### Scenario: Periodogram and Welch match SciPy
@@ -83,7 +83,7 @@ the power spectral density, matching SciPy. (oracle: scipy/signal/_spectral_py.p
 
 ### Requirement: Standard waveforms
 
-`scypp::signal` SHALL provide `chirp`, `sawtooth`, `square` and `unit_impulse`,
+`scipp::signal` SHALL provide `chirp`, `sawtooth`, `square` and `unit_impulse`,
 matching SciPy. (oracle: scipy/signal/_waveforms.py)
 
 #### Scenario: Waveforms match SciPy

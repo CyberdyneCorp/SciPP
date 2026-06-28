@@ -2,7 +2,7 @@
 
 ## Why
 
-Phase 1 of the ScyPP roadmap (see `bootstrap-scypp-foundation`). `scipy.special`
+Phase 1 of the SciPP roadmap (see `bootstrap-scipp-foundation`). `scipy.special`
 and `scipy.constants` go first because the rest of SciPy depends on them:
 `stats` distributions need gamma/beta/erf and `logsumexp`; `signal`/`integrate`/
 `optimize` need Bessel functions, orthogonal polynomials, and physical constants.
@@ -20,7 +20,7 @@ subpackages (`linalg`, `fft`) arrive.
 This change introduces two capability specs plus the foundation needed to build
 and test them:
 
-- **special** — `scypp::special`, ported element-wise over `numpp::ndarray`:
+- **special** — `scipp::special`, ported element-wise over `numpp::ndarray`:
   - gamma family: `gamma`, `gammaln`, `loggamma`, `digamma`, `polygamma`,
     `beta`, `betaln`
   - error functions: `erf`, `erfc`, `erfinv`, `erfcinv`
@@ -31,27 +31,27 @@ and test them:
     `eval_hermite`, `eval_laguerre`, `eval_genlaguerre`
   - combinatorics: `comb`, `perm`, `factorial`
   - reductions: `logsumexp`, `softmax`, `log_softmax` (with `axis`)
-- **constants** — `scypp::constants`: the mathematical/SI scale constants
+- **constants** — `scipp::constants`: the mathematical/SI scale constants
   (`pi`, `c`, `h`, `hbar`, `G`, `e`, `k`, `N_A`, `R`, …), the CODATA
   `physical_constants` table with `value`/`unit`/`precision` lookup, and
   conversion helpers `convert_temperature`, `lambda2nu`/`nu2lambda`, plus the
   named unit scale factors.
 - **Phase 0 foundation (minimal, to satisfy the foundation specs for this slice)**:
-  CMake ≥ 3.25 / C++20 skeleton with `SCYPP_WITH_*` flags (all OFF), a pinned
-  NumPP Conan/vcpkg dependency resolved via `find_package`, the `scypp/scypp.hpp`
-  umbrella + `version.hpp.in`, the `scypp::error` model aligned with
+  CMake ≥ 3.25 / C++20 skeleton with `SCIPP_WITH_*` flags (all OFF), a pinned
+  NumPP Conan/vcpkg dependency resolved via `find_package`, the `scipp/scipp.hpp`
+  umbrella + `version.hpp.in`, the `scipp::error` model aligned with
   `numpp::error`, and the Catch2 + SciPy oracle harness with frozen `tests/golden/`
   data.
 
 ## Impact
 
 - Affected specs: **adds** `special` and `constants` capabilities; **implements**
-  (first concrete slice of) the `scypp-foundation` and `scipy-oracle` capabilities
+  (first concrete slice of) the `scipp-foundation` and `scipy-oracle` capabilities
   from the bootstrap change.
-- Affected code: new `include/scypp/{special,constants}/`, `src/{special,constants}/`,
+- Affected code: new `include/scipp/{special,constants}/`, `src/{special,constants}/`,
   `tests/`, and the root build files (`CMakeLists.txt`, `conanfile.py`,
   `vcpkg.json`, `cmake/`). No existing code changes (repo is greenfield).
-- Roadmap: checks off Phase 1 in `bootstrap-scypp-foundation/tasks.md`.
+- Roadmap: checks off Phase 1 in `bootstrap-scipp-foundation/tasks.md`.
 
 ## Non-goals
 

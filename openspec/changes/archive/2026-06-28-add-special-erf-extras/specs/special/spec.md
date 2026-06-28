@@ -4,7 +4,7 @@
 
 ### Requirement: Error-function relatives
 
-`scypp::special` SHALL provide the scaled complementary error function
+`scipp::special` SHALL provide the scaled complementary error function
 `erfcx(x)` = `exp(x^2) erfc(x)`, Dawson's integral `dawsn(x)`, the Faddeeva
 function `wofz(z)` = `w(z)` = `exp(-z^2) erfc(-i z)` for complex `z` on the upper
 half-plane `Im(z) >= 0`, the `voigt_profile(x, sigma, gamma)` =

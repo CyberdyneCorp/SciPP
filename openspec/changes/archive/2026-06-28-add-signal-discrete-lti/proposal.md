@@ -1,12 +1,12 @@
-# Add discrete-time LTI systems to scypp::signal
+# Add discrete-time LTI systems to scipp::signal
 
 ## Why
 
-`scypp::signal` already ships the continuous-time LTI surface (`tf2ss`,
+`scipp::signal` already ships the continuous-time LTI surface (`tf2ss`,
 `freqresp`, `bode`, `lsim`, `step`, `impulse`). The discrete-time companions and
 the continuous-to-discrete bridge were deferred to the signal backlog. They are
 the natural counterpart for sampled-data / control work and reuse the existing
-`scypp::linalg::expm` and `numpp::linalg::solve`, so no NumPP changes are needed.
+`scipp::linalg::expm` and `numpp::linalg::solve`, so no NumPP changes are needed.
 
 ## What changes
 
@@ -30,7 +30,7 @@ against `scipy.signal`:
 
 - Affected specs: **modifies** the `signal` capability (adds one requirement).
 - Affected code: new `src/signal/dlti.cpp`, header additions in
-  `include/scypp/signal/signal.hpp` (`DiscreteStateSpace` plus the six entry
+  `include/scipp/signal/signal.hpp` (`DiscreteStateSpace` plus the six entry
   points), `tests/test_signal_discrete.cpp`, oracle generator, and CMake lists.
 - Trims the discrete-LTI and `cont2discrete` items from the
   `add-signal-remaining` backlog.

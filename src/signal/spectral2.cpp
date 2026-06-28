@@ -1,5 +1,5 @@
 // Advanced spectral: csd, coherence, spectrogram, stft, istft.
-#include "scypp/signal/signal.hpp"
+#include "scipp/signal/signal.hpp"
 
 #include <algorithm>
 #include <cmath>
@@ -8,11 +8,11 @@
 
 #include "numpp/core/dtype.hpp"
 #include "numpp/fft/fft.hpp"
-#include "scypp/linalg/detail.hpp"
+#include "scipp/linalg/detail.hpp"
 
-namespace scypp::signal {
+namespace scipp::signal {
 namespace {
-namespace sd = scypp::linalg::detail;
+namespace sd = scipp::linalg::detail;
 using cd = std::complex<double>;
 
 std::vector<cd> rfft_seg(const std::vector<double>& seg) {
@@ -160,4 +160,4 @@ ndarray istft(const ndarray& Zxx, double fs, const std::string& window, int64_t 
   return sd::from_vec(out);
 }
 
-}  // namespace scypp::signal
+}  // namespace scipp::signal

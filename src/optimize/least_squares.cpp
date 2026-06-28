@@ -1,20 +1,20 @@
 // Nonlinear least squares (Levenberg-Marquardt), curve_fit, and fsolve.
-#include "scypp/optimize/optimize.hpp"
+#include "scipp/optimize/optimize.hpp"
 
 #include <cmath>
 #include <vector>
 
 #include "numpp/linalg/linalg.hpp"
-#include "scypp/error.hpp"
-#include "scypp/linalg/detail.hpp"
-#include "scypp/optimize/detail.hpp"
+#include "scipp/error.hpp"
+#include "scipp/linalg/detail.hpp"
+#include "scipp/optimize/detail.hpp"
 
-namespace scypp::optimize {
+namespace scipp::optimize {
 namespace {
 
 using detail::tond;
 using detail::tov;
-namespace sd = scypp::linalg::detail;
+namespace sd = scipp::linalg::detail;
 
 double half_sq(const std::vector<double>& r) {
   double s = 0; for (double v : r) s += v * v; return 0.5 * s;
@@ -143,4 +143,4 @@ ndarray fsolve(const VecFn& F, const ndarray& x0, double xtol, int maxiter) {
   return tond(x);
 }
 
-}  // namespace scypp::optimize
+}  // namespace scipp::optimize

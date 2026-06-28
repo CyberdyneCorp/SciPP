@@ -3,7 +3,7 @@
 ## ADDED Requirements
 
 ### Requirement: Discrete-time LTI systems
-`scypp::signal` SHALL provide discrete-time LTI support: `cont2discrete`,
+`scipp::signal` SHALL provide discrete-time LTI support: `cont2discrete`,
 `dstep`, `dimpulse`, `dlsim`, `dfreqresp` and `dbode`, matching SciPy.
 (oracle: scipy.signal.cont2discrete / dstep / dimpulse / dlsim / dfreqresp / dbode)
 

@@ -11,14 +11,14 @@
 // dawson itself uses a power series (small |x|), Rybicki's Gaussian-sum scheme
 // (moderate |x|) and the asymptotic series (large |x|).
 
-#include "scypp/special/special.hpp"
+#include "scipp/special/special.hpp"
 
 #include <cmath>
 #include <complex>
 
-#include "scypp/detail/elementwise.hpp"
+#include "scipp/detail/elementwise.hpp"
 
-namespace scypp::special {
+namespace scipp::special {
 namespace {
 
 using cdouble = std::complex<double>;
@@ -176,4 +176,4 @@ fresnel_t fresnel(double x) {
 ndarray erfcx(const ndarray& x) { return detail::map(x, [](double v) { return erfcx(v); }); }
 ndarray dawsn(const ndarray& x) { return detail::map(x, [](double v) { return dawsn(v); }); }
 
-}  // namespace scypp::special
+}  // namespace scipp::special

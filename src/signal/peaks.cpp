@@ -1,5 +1,5 @@
 // Peak analysis: find_peaks, peak_prominences, peak_widths.
-#include "scypp/signal/signal.hpp"
+#include "scipp/signal/signal.hpp"
 
 #include <algorithm>
 #include <cmath>
@@ -7,11 +7,11 @@
 #include <vector>
 
 #include "numpp/core/dtype.hpp"
-#include "scypp/linalg/detail.hpp"
+#include "scipp/linalg/detail.hpp"
 
-namespace scypp::signal {
+namespace scipp::signal {
 namespace {
-namespace sd = scypp::linalg::detail;
+namespace sd = scipp::linalg::detail;
 
 std::vector<int> local_maxima(const std::vector<double>& x) {
   std::vector<int> mid;
@@ -139,4 +139,4 @@ FindPeaksResult find_peaks(const ndarray& x, std::optional<double> height,
   return {int_vec(peaks), sd::from_vec(prom), sd::from_vec(w), int_vec(lb), int_vec(rb)};
 }
 
-}  // namespace scypp::signal
+}  // namespace scipp::signal

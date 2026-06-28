@@ -1,5 +1,5 @@
 // Spectral estimation: periodogram and welch (density scaling, one-sided).
-#include "scypp/signal/signal.hpp"
+#include "scipp/signal/signal.hpp"
 
 #include <algorithm>
 #include <cmath>
@@ -8,11 +8,11 @@
 
 #include "numpp/core/dtype.hpp"
 #include "numpp/fft/fft.hpp"
-#include "scypp/linalg/detail.hpp"
+#include "scipp/linalg/detail.hpp"
 
-namespace scypp::signal {
+namespace scipp::signal {
 namespace {
-namespace sd = scypp::linalg::detail;
+namespace sd = scipp::linalg::detail;
 using cd = std::complex<double>;
 
 SpectralResult spectral(const std::vector<double>& x, double fs, const std::vector<double>& win,
@@ -62,4 +62,4 @@ SpectralResult welch(const ndarray& x, double fs, const std::string& window, int
   return spectral(xv, fs, win, nps, nps / 2);
 }
 
-}  // namespace scypp::signal
+}  // namespace scipp::signal

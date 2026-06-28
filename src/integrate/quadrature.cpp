@@ -1,17 +1,17 @@
 // Quadrature: trapezoid, simpson, cumulative_trapezoid, fixed_quad
 // (Gauss-Legendre) and quad (adaptive Gauss-Kronrod 21-point).
-#include "scypp/integrate/integrate.hpp"
+#include "scipp/integrate/integrate.hpp"
 
 #include <algorithm>
 #include <cmath>
 #include <vector>
 
-#include "scypp/error.hpp"
-#include "scypp/linalg/detail.hpp"
+#include "scipp/error.hpp"
+#include "scipp/linalg/detail.hpp"
 
-namespace scypp::integrate {
+namespace scipp::integrate {
 namespace {
-namespace sd = scypp::linalg::detail;
+namespace sd = scipp::linalg::detail;
 constexpr double kPi = 3.141592653589793238462643383279502884;
 }  // namespace
 
@@ -173,4 +173,4 @@ QuadResult quad(const Integrand& f, double a, double b, double epsabs, double ep
   return {total, toterr};
 }
 
-}  // namespace scypp::integrate
+}  // namespace scipp::integrate

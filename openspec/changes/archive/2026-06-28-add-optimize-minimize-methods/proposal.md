@@ -2,7 +2,7 @@
 
 ## Why
 
-`scypp::optimize::minimize` shipped with only Nelder-Mead and BFGS. Powell, CG,
+`scipp::optimize::minimize` shipped with only Nelder-Mead and BFGS. Powell, CG,
 and L-BFGS-B are the next most-used `scipy.optimize.minimize` methods and cover
 the derivative-free, nonlinear conjugate-gradient, and bound-constrained
 limited-memory cases respectively. L-BFGS-B in particular unlocks the first
@@ -11,7 +11,7 @@ needing no NumPP changes.
 
 ## What changes
 
-Extends the **optimize** capability — `scypp::optimize::minimize`, validated
+Extends the **optimize** capability — `scipp::optimize::minimize`, validated
 against the SciPy oracle:
 
 - **`method="Powell"`**: derivative-free direction-set method. Each iteration
@@ -32,7 +32,7 @@ compile unchanged.
 
 - Affected specs: **modifies** the `optimize` capability (one new requirement).
 - Affected code: `src/optimize/minimize.cpp` (new methods + dispatch),
-  `include/scypp/optimize/optimize.hpp` (`Bounds` alias, `bounds` parameter),
+  `include/scipp/optimize/optimize.hpp` (`Bounds` alias, `bounds` parameter),
   `tests/test_optimize.cpp`, extended oracle generator.
 - Trims the delivered methods from the `add-optimize-advanced` backlog.
 

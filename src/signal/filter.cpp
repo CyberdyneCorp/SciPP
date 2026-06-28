@@ -1,6 +1,6 @@
 // Time-domain filtering: lfilter, lfilter_zi, filtfilt, sosfilt, detrend,
 // hilbert (analytic signal), freqz.
-#include "scypp/signal/signal.hpp"
+#include "scipp/signal/signal.hpp"
 
 #include <algorithm>
 #include <cmath>
@@ -9,12 +9,12 @@
 
 #include "numpp/core/dtype.hpp"
 #include "numpp/fft/fft.hpp"
-#include "scypp/error.hpp"
-#include "scypp/linalg/detail.hpp"
+#include "scipp/error.hpp"
+#include "scipp/linalg/detail.hpp"
 
-namespace scypp::signal {
+namespace scipp::signal {
 namespace {
-namespace sd = scypp::linalg::detail;
+namespace sd = scipp::linalg::detail;
 using cd = std::complex<double>;
 constexpr double kPi = 3.141592653589793238462643383279502884;
 
@@ -69,7 +69,7 @@ ndarray filtfilt(const ndarray& b, const ndarray& a, const ndarray& x) {
   std::vector<double> bv = sd::to_vec(b), av = sd::to_vec(a), xv = sd::to_vec(x);
   int ntaps = std::max(av.size(), bv.size());
   int edge = 3 * ntaps;
-  if (edge >= static_cast<int>(xv.size())) throw scypp::value_error("filtfilt: input too short");
+  if (edge >= static_cast<int>(xv.size())) throw scipp::value_error("filtfilt: input too short");
   // odd extension
   std::vector<double> ext;
   for (int i = edge; i >= 1; --i) ext.push_back(2.0 * xv.front() - xv[i]);
@@ -119,7 +119,7 @@ ndarray detrend(const ndarray& x, const std::string& type) {
     double intercept = (sy - slope * sx) / n;
     for (int i = 0; i < n; ++i) v[i] -= slope * i + intercept;
   } else {
-    throw scypp::value_error("detrend: unknown type " + type);
+    throw scipp::value_error("detrend: unknown type " + type);
   }
   return sd::from_vec(v);
 }
@@ -154,4 +154,4 @@ FreqzResult freqz(const ndarray& b, const ndarray& a, int64_t worN) {
   return {sd::from_vec(w), H};
 }
 
-}  // namespace scypp::signal
+}  // namespace scipp::signal

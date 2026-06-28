@@ -1,7 +1,7 @@
 # Tasks — integrate + differentiate (Phase 5)
 
 ## 1. Module scaffold
-- [x] `include/scypp/integrate/integrate.hpp` and `include/scypp/differentiate/differentiate.hpp` (callable typedefs + result structs); `src/integrate/*.cpp` in `src/CMakeLists.txt`; export from `scypp/scypp.hpp`
+- [x] `include/scipp/integrate/integrate.hpp` and `include/scipp/differentiate/differentiate.hpp` (callable typedefs + result structs); `src/integrate/*.cpp` in `src/CMakeLists.txt`; export from `scipp/scipp.hpp`
 
 ## 2. Fixed-sample quadrature
 - [x] `trapezoid`, `simpson` (even-interval correction), `cumulative_trapezoid`
@@ -24,4 +24,4 @@
 - [x] `tests/test_integrate.cpp`: quadrature vs SciPy + analytic; solve_ivp vs analytic (RK45/RK23); derivative/jacobian/hessian vs closed form
 - [x] CPU build green; full suite green
 - [x] `openspec validate add-integrate --strict` green
-- [x] Check off Phase 5 in `bootstrap-scypp-foundation/tasks.md`; update README
+- [x] Check off Phase 5 in `bootstrap-scipp-foundation/tasks.md`; update README

@@ -1,8 +1,8 @@
-# Add hypergeometric functions (hyp0f1, hyp1f1, hyp2f1, hyperu) to scypp::special
+# Add hypergeometric functions (hyp0f1, hyp1f1, hyp2f1, hyperu) to scipp::special
 
 ## Why
 
-`scypp::special` already ships the gamma, error-function, Bessel, spherical
+`scipp::special` already ships the gamma, error-function, Bessel, spherical
 Bessel, sine/cosine integral, Airy, elliptic and misc families. The
 `add-special-extras` backlog schedules the remaining high-use `scipy.special`
 surface; the "Hypergeometric" line — `hyp0f1`, `hyp1f1`, `hyp2f1`, `hyperu` — is
@@ -36,7 +36,7 @@ Adds to the **special** capability, validated against the SciPy oracle:
 - Affected specs: **adds** a hypergeometric-functions requirement group to the
   `special` capability.
 - Affected code: new `src/special/hypergeometric.cpp` (wired into
-  `src/CMakeLists.txt`); declarations in `include/scypp/special/special.hpp`;
+  `src/CMakeLists.txt`); declarations in `include/scipp/special/special.hpp`;
   oracle block in `tests/oracle/generate.py`; new
   `tests/test_special_hypergeometric.cpp`.
 - Trims the "Hypergeometric" line from the `add-special-extras` backlog.

@@ -1,17 +1,17 @@
 // Nonparametric rank tests: mannwhitneyu, wilcoxon, kruskal, kendalltau
 // (asymptotic / normal-approximation p-values with tie correction).
-#include "scypp/stats/stats.hpp"
+#include "scipp/stats/stats.hpp"
 
 #include <algorithm>
 #include <cmath>
 #include <numeric>
 #include <vector>
 
-#include "scypp/linalg/detail.hpp"
+#include "scipp/linalg/detail.hpp"
 
-namespace scypp::stats {
+namespace scipp::stats {
 namespace {
-namespace sd = scypp::linalg::detail;
+namespace sd = scipp::linalg::detail;
 int sgn(double v) { return (v > 0) - (v < 0); }
 
 // average ranks; also returns sum over tie groups of (t^3 - t).
@@ -100,4 +100,4 @@ CorrResult kendalltau(const ndarray& x, const ndarray& y) {
   return {tau, std::min(1.0, 2.0 * norm::sf(std::fabs(z)))};
 }
 
-}  // namespace scypp::stats
+}  // namespace scipp::stats

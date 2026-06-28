@@ -1,5 +1,5 @@
 // Resampling: resample (FFT), upfirdn, resample_poly, decimate.
-#include "scypp/signal/signal.hpp"
+#include "scipp/signal/signal.hpp"
 
 #include <cmath>
 #include <complex>
@@ -8,11 +8,11 @@
 
 #include "numpp/core/dtype.hpp"
 #include "numpp/fft/fft.hpp"
-#include "scypp/linalg/detail.hpp"
+#include "scipp/linalg/detail.hpp"
 
-namespace scypp::signal {
+namespace scipp::signal {
 namespace {
-namespace sd = scypp::linalg::detail;
+namespace sd = scipp::linalg::detail;
 using cd = std::complex<double>;
 constexpr double kPi = 3.141592653589793238462643383279502884;
 
@@ -121,4 +121,4 @@ ndarray decimate(const ndarray& x, int q) {
   return sd::from_vec(out);
 }
 
-}  // namespace scypp::signal
+}  // namespace scipp::signal

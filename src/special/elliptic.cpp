@@ -4,11 +4,11 @@
 //   * ellipj: descending Landen/AGM transformation (Cephes ellpj).
 // Out-of-domain inputs return nan/inf (no throw), matching scipy.special.
 
-#include "scypp/special/special.hpp"
+#include "scipp/special/special.hpp"
 
 #include <cmath>
 
-namespace scypp::special {
+namespace scipp::special {
 namespace {
 
 constexpr double kPi = 3.14159265358979323846;
@@ -169,4 +169,4 @@ ellipj_t ellipj(double u, double m) {
   return {std::sin(phi), cp, cp / std::cos(phi - prev), phi};
 }
 
-}  // namespace scypp::special
+}  // namespace scipp::special

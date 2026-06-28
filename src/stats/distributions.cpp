@@ -1,14 +1,14 @@
 // Continuous distributions: norm, expon, uniform, gamma, chi2, beta, t, f.
-#include "scypp/stats/stats.hpp"
+#include "scipp/stats/stats.hpp"
 
 #include <cmath>
 #include <vector>
 
 #include "numpp/core/dtype.hpp"
-#include "scypp/special/special.hpp"
-#include "scypp/stats/detail.hpp"
+#include "scipp/special/special.hpp"
+#include "scipp/stats/detail.hpp"
 
-namespace scypp::stats {
+namespace scipp::stats {
 namespace {
 constexpr double kSqrt2 = 1.4142135623730951;
 constexpr double kSqrt2Pi = 2.5066282746310002;
@@ -203,4 +203,4 @@ double f::mean(double, double dfd, double loc, double scale) {
   return loc + scale * dfd / (dfd - 2.0);
 }
 
-}  // namespace scypp::stats
+}  // namespace scipp::stats

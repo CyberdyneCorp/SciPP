@@ -1,16 +1,16 @@
 // Correlation/regression and parametric hypothesis tests.
-#include "scypp/stats/stats.hpp"
+#include "scipp/stats/stats.hpp"
 
 #include <algorithm>
 #include <cmath>
 #include <vector>
 
 #include "numpp/core/dtype.hpp"
-#include "scypp/linalg/detail.hpp"
+#include "scipp/linalg/detail.hpp"
 
-namespace scypp::stats {
+namespace scipp::stats {
 namespace {
-namespace sd = scypp::linalg::detail;
+namespace sd = scipp::linalg::detail;
 
 double mean_of(const std::vector<double>& v) { double s = 0; for (double x : v) s += x; return s / v.size(); }
 double ss_centered(const std::vector<double>& v, double m) {
@@ -216,4 +216,4 @@ TestResult normaltest(const ndarray& a) {
   return {stat, chi2::sf(stat, 2)};
 }
 
-}  // namespace scypp::stats
+}  // namespace scipp::stats

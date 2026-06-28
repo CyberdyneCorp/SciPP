@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.25)
 
-project(ScyPP
+project(SciPP
   VERSION 1.0.0
   DESCRIPTION "Modern C++20 port of SciPy, built on NumPP"
   LANGUAGES CXX)
@@ -17,35 +17,35 @@ if(NOT CMAKE_BUILD_TYPE AND NOT CMAKE_CONFIGURATION_TYPES)
 endif()
 
 # Backend feature flags — all OFF by default (mobile/CPU-only is the baseline).
-option(SCYPP_WITH_BLAS   "Enable BLAS backend (via NumPP)"   OFF)
-option(SCYPP_WITH_LAPACK "Enable LAPACK backend (via NumPP)" OFF)
-option(SCYPP_WITH_CUDA   "Enable CUDA backend (via NumPP)"   OFF)
-option(SCYPP_WITH_OPENCL "Enable OpenCL backend (via NumPP)" OFF)
-option(SCYPP_WITH_METAL  "Enable Metal backend (via NumPP)"  OFF)
-option(SCYPP_BUILD_TESTS "Build the test suite"              ON)
+option(SCIPP_WITH_BLAS   "Enable BLAS backend (via NumPP)"   OFF)
+option(SCIPP_WITH_LAPACK "Enable LAPACK backend (via NumPP)" OFF)
+option(SCIPP_WITH_CUDA   "Enable CUDA backend (via NumPP)"   OFF)
+option(SCIPP_WITH_OPENCL "Enable OpenCL backend (via NumPP)" OFF)
+option(SCIPP_WITH_METAL  "Enable Metal backend (via NumPP)"  OFF)
+option(SCIPP_BUILD_TESTS "Build the test suite"              ON)
 
 # -----------------------------------------------------------------------------
 # NumPP dependency — pinned, resolved via find_package(NumPP CONFIG).
 # In production this comes from a Conan/vcpkg package; locally, build+install
-# NumPP and point ScyPP at the prefix (see scripts/bootstrap_numpp.sh).
+# NumPP and point SciPP at the prefix (see scripts/bootstrap_numpp.sh).
 # -----------------------------------------------------------------------------
-set(SCYPP_NUMPP_PREFIX "${CMAKE_CURRENT_SOURCE_DIR}/.deps/numpp"
+set(SCIPP_NUMPP_PREFIX "${CMAKE_CURRENT_SOURCE_DIR}/.deps/numpp"
     CACHE PATH "Install prefix of a locally-built NumPP (find_package hint)")
-set(NumPP_DIR "${SCYPP_NUMPP_PREFIX}/lib/cmake/NumPP" CACHE PATH "" FORCE)
+set(NumPP_DIR "${SCIPP_NUMPP_PREFIX}/lib/cmake/NumPP" CACHE PATH "" FORCE)
 
 # Resolve only the pinned install prefix, ignoring any stale build-tree package
 # registered by NumPP's own build in ~/.cmake/packages.
 find_package(NumPP CONFIG REQUIRED
   NO_CMAKE_PACKAGE_REGISTRY
   NO_CMAKE_SYSTEM_PACKAGE_REGISTRY)
-message(STATUS "ScyPP: found NumPP ${NumPP_VERSION}")
+message(STATUS "SciPP: found NumPP ${NumPP_VERSION}")
 
-# GPU/accel flag propagation: a requested ScyPP GPU backend requires a NumPP
+# GPU/accel flag propagation: a requested SciPP GPU backend requires a NumPP
 # package built with the matching backend. Fail fast otherwise.
 foreach(_b BLAS LAPACK CUDA OPENCL METAL)
-  if(SCYPP_WITH_${_b} AND DEFINED NUMPP_WITH_${_b} AND NOT NUMPP_WITH_${_b})
+  if(SCIPP_WITH_${_b} AND DEFINED NUMPP_WITH_${_b} AND NOT NUMPP_WITH_${_b})
     message(FATAL_ERROR
-      "SCYPP_WITH_${_b}=ON but the resolved NumPP package was built with "
+      "SCIPP_WITH_${_b}=ON but the resolved NumPP package was built with "
       "NUMPP_WITH_${_b}=OFF. Rebuild/point to a NumPP variant with that backend.")
   endif()
 endforeach()
@@ -55,14 +55,14 @@ endforeach()
 # -----------------------------------------------------------------------------
 configure_file(
   "${CMAKE_CURRENT_SOURCE_DIR}/cmake/config.hpp.in"
-  "${CMAKE_CURRENT_BINARY_DIR}/generated/scypp/config.hpp" @ONLY)
+  "${CMAKE_CURRENT_BINARY_DIR}/generated/scipp/config.hpp" @ONLY)
 configure_file(
-  "${CMAKE_CURRENT_SOURCE_DIR}/include/scypp/version.hpp.in"
-  "${CMAKE_CURRENT_BINARY_DIR}/generated/scypp/version.hpp" @ONLY)
+  "${CMAKE_CURRENT_SOURCE_DIR}/include/scipp/version.hpp.in"
+  "${CMAKE_CURRENT_BINARY_DIR}/generated/scipp/version.hpp" @ONLY)
 
 add_subdirectory(src)
 
-if(SCYPP_BUILD_TESTS)
+if(SCIPP_BUILD_TESTS)
   enable_testing()
   add_subdirectory(tests)
 endif()

@@ -5,7 +5,7 @@ TBD - created by archiving change add-sparse. Update Purpose after archive.
 ## Requirements
 ### Requirement: Sparse matrix formats and conversion
 
-`scypp::sparse` SHALL provide `CooMatrix`, `CsrMatrix` and `CscMatrix` with
+`scipp::sparse` SHALL provide `CooMatrix`, `CsrMatrix` and `CscMatrix` with
 construction from triplets and from dense, conversion between formats, `toarray`,
 `nnz`, `transpose` and `diagonal`, matching SciPy. (oracle: scipy/sparse)
 
@@ -22,7 +22,7 @@ construction from triplets and from dense, conversion between formats, `toarray`
 
 ### Requirement: Sparse constructors and arithmetic
 
-`scypp::sparse` SHALL provide `eye`, `identity` and `diags`, sparse+sparse
+`scipp::sparse` SHALL provide `eye`, `identity` and `diags`, sparse+sparse
 addition, and scalar multiplication, matching SciPy. (oracle: scipy/sparse/_construct.py)
 
 #### Scenario: Constructors match SciPy
@@ -36,7 +36,7 @@ addition, and scalar multiplication, matching SciPy. (oracle: scipy/sparse/_cons
 
 ### Requirement: Sparse matrix products with backend dispatch
 
-`scypp::sparse` SHALL provide `spmv` (CSR · dense vector) and `spmm` (CSR · dense
+`scipp::sparse` SHALL provide `spmv` (CSR · dense vector) and `spmm` (CSR · dense
 matrix). `spmv` SHALL select an implementation via NumPP's capability registry —
 a portable CPU kernel is always present and a device kernel is used when available
 and the problem is large enough — with the chosen backend observable and the
@@ -55,7 +55,7 @@ device result equal to the CPU result within tolerance. (oracle: scipy/sparse)
 
 ### Requirement: Sparse linear solvers
 
-`scypp::sparse` SHALL provide `spsolve` (direct), `cg` and `gmres` (matrix-free
+`scipp::sparse` SHALL provide `spsolve` (direct), `cg` and `gmres` (matrix-free
 iterative), and `norm`, matching SciPy within documented tolerance. (oracle: scipy/sparse/linalg)
 
 #### Scenario: Direct and iterative solves
@@ -65,7 +65,7 @@ iterative), and `norm`, matching SciPy within documented tolerance. (oracle: sci
 
 ### Requirement: Compressed-sparse graph algorithms
 
-`scypp::sparse::csgraph` SHALL provide `dijkstra`, `bellman_ford`,
+`scipp::sparse::csgraph` SHALL provide `dijkstra`, `bellman_ford`,
 `floyd_warshall`, `connected_components` and `minimum_spanning_tree` over a CSR
 graph, matching SciPy. (oracle: scipy/sparse/csgraph)
 
@@ -82,7 +82,7 @@ graph, matching SciPy. (oracle: scipy/sparse/csgraph)
 
 ### Requirement: csgraph traversal and flow algorithms
 The system SHALL provide `breadth_first_order`, `depth_first_order`, `johnson`,
-`maximum_flow`, and `maximum_bipartite_matching` in `scypp::sparse::csgraph`,
+`maximum_flow`, and `maximum_bipartite_matching` in `scipp::sparse::csgraph`,
 operating on CSR graphs and matching `scipy.sparse.csgraph` to integer exactness
 for orders/matchings/flow values and to `allclose` tolerance (~1e-12) for
 distances.

@@ -1,16 +1,16 @@
 // Matrix decompositions. lu/lu_factor/lu_solve and the Cholesky solves are
 // hand-written (SciPy-only / convention-specific); qr/svd delegate to NumPP.
-#include "scypp/linalg/linalg.hpp"
+#include "scipp/linalg/linalg.hpp"
 
 #include <cmath>
 #include <vector>
 
 #include "numpp/core/dtype.hpp"
 #include "numpp/linalg/linalg.hpp"
-#include "scypp/error.hpp"
-#include "scypp/linalg/detail.hpp"
+#include "scipp/error.hpp"
+#include "scipp/linalg/detail.hpp"
 
-namespace scypp::linalg {
+namespace scipp::linalg {
 namespace {
 
 // Partial-pivot LU in place (row-major n*n). Fills piv (0-based row swaps,
@@ -67,7 +67,7 @@ std::vector<double> lu_backsolve(const std::vector<double>& lu, int64_t n,
 LUResult lu(const ndarray& a) {
   int64_t n, c;
   std::vector<double> work = detail::to_mat(a, n, c);
-  if (n != c) throw scypp::value_error("lu: matrix must be square");
+  if (n != c) throw scipp::value_error("lu: matrix must be square");
   std::vector<int64_t> piv, perm;
   lu_inplace(work, n, piv, perm);  // singular A is allowed for lu (no throw)
   std::vector<double> L(n * n, 0.0), U(n * n, 0.0), P(n * n, 0.0);
@@ -85,7 +85,7 @@ LUResult lu(const ndarray& a) {
 LUFactor lu_factor(const ndarray& a) {
   int64_t n, c;
   std::vector<double> work = detail::to_mat(a, n, c);
-  if (n != c) throw scypp::value_error("lu_factor: matrix must be square");
+  if (n != c) throw scipp::value_error("lu_factor: matrix must be square");
   std::vector<int64_t> piv, perm;
   lu_inplace(work, n, piv, perm);
   numpp::ndarray pivarr(numpp::Shape{n}, numpp::kInt64);
@@ -155,4 +155,4 @@ ndarray cho_solve(const CholFactor& f, const ndarray& b) {
   return vec ? detail::from_vec(x) : detail::from_mat(x, n, nrhs);
 }
 
-}  // namespace scypp::linalg
+}  // namespace scipp::linalg

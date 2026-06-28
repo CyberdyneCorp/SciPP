@@ -4,7 +4,7 @@
 
 ### Requirement: Discrete cosine and sine transforms
 
-`scypp::fft` SHALL provide `dct`/`idct` and `dst`/`idst` for types I–IV over a
+`scipp::fft` SHALL provide `dct`/`idct` and `dst`/`idst` for types I–IV over a
 selectable `axis`, with `norm` in {`"backward"` (default), `"ortho"`,
 `"forward"`} matching SciPy. `"ortho"` SHALL produce the orthogonalized variant
 (SciPy's `orthogonalize=True` default). An unknown `norm` SHALL raise
@@ -42,7 +42,7 @@ selectable `axis`, with `norm` in {`"backward"` (default), `"ortho"`,
 
 ### Requirement: N-D cosine and sine transforms
 
-`scypp::fft` SHALL provide `dctn`/`idctn` and `dstn`/`idstn` that apply the 1-D
+`scipp::fft` SHALL provide `dctn`/`idctn` and `dstn`/`idstn` that apply the 1-D
 DCT/DST of a given `type` and `norm` over a selectable list of `axes`, defaulting
 to all axes, matching SciPy. (oracle: scipy/fft/_realtransforms.py)
 

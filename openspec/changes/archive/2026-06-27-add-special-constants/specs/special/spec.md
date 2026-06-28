@@ -4,7 +4,7 @@
 
 ### Requirement: Gamma and related functions
 
-`scypp::special` SHALL provide `gamma`, `gammaln`, `loggamma`, `digamma`,
+`scipp::special` SHALL provide `gamma`, `gammaln`, `loggamma`, `digamma`,
 `polygamma`, `beta` and `betaln`, evaluated element-wise over `numpp::ndarray`
 with a scalar `double` overload, matching SciPy within documented tolerance.
 (oracle: scipy/special/_basic.py, scipy/special/cephes)
@@ -33,7 +33,7 @@ with a scalar `double` overload, matching SciPy within documented tolerance.
 
 ### Requirement: Error functions
 
-`scypp::special` SHALL provide `erf`, `erfc`, `erfinv` and `erfcinv`,
+`scipp::special` SHALL provide `erf`, `erfc`, `erfinv` and `erfcinv`,
 element-wise over `numpp::ndarray` with scalar overloads, matching SciPy within
 documented tolerance. (oracle: scipy/special/cephes/ndtr.c)
 
@@ -50,7 +50,7 @@ documented tolerance. (oracle: scipy/special/cephes/ndtr.c)
 
 ### Requirement: Exponential and logarithmic integrals
 
-`scypp::special` SHALL provide `expn`, `exp1`, `expi` and `exprel`, element-wise
+`scipp::special` SHALL provide `expn`, `exp1`, `expi` and `exprel`, element-wise
 with scalar overloads, matching SciPy within documented tolerance. `exprel` SHALL
 be numerically stable near zero. (oracle: scipy/special/cephes/expn.c)
 
@@ -67,7 +67,7 @@ be numerically stable near zero. (oracle: scipy/special/cephes/expn.c)
 
 ### Requirement: Bessel functions
 
-`scypp::special` SHALL provide the Bessel functions `jv`, `yv`, `iv`, `kv`,
+`scipp::special` SHALL provide the Bessel functions `jv`, `yv`, `iv`, `kv`,
 integer-order `jn`/`yn`, and the common cases `i0`, `i1`, `k0`, `k1`, element-wise
 over the argument with scalar overloads, matching SciPy within documented
 tolerance. (oracle: scipy/special/cephes/jv.c, iv.c, kv.c)
@@ -85,7 +85,7 @@ tolerance. (oracle: scipy/special/cephes/jv.c, iv.c, kv.c)
 
 ### Requirement: Orthogonal polynomial evaluators
 
-`scypp::special` SHALL provide `eval_legendre`, `eval_chebyt`, `eval_hermite`,
+`scipp::special` SHALL provide `eval_legendre`, `eval_chebyt`, `eval_hermite`,
 `eval_laguerre` and `eval_genlaguerre`, evaluating the degree-`n` polynomial at
 the given points via a stable recurrence, matching SciPy within documented
 tolerance. (oracle: scipy/special/_orthogonal.py)
@@ -103,7 +103,7 @@ tolerance. (oracle: scipy/special/_orthogonal.py)
 
 ### Requirement: Combinatorial functions
 
-`scypp::special` SHALL provide `comb`, `perm` and `factorial`, each supporting an
+`scipp::special` SHALL provide `comb`, `perm` and `factorial`, each supporting an
 `exact` mode (integer arithmetic) and an inexact mode (gamma-based float),
 matching SciPy. Exact mode SHALL fall back to the float path beyond its integer
 range, documented in behavior. (oracle: scipy/special/_basic.py)
@@ -121,7 +121,7 @@ range, documented in behavior. (oracle: scipy/special/_basic.py)
 
 ### Requirement: Stable log-sum-exp and softmax reductions
 
-`scypp::special` SHALL provide `logsumexp`, `softmax` and `log_softmax` over
+`scipp::special` SHALL provide `logsumexp`, `softmax` and `log_softmax` over
 `numpp::ndarray` with `axis` and `keepdims` support, using a max-shift for
 numerical stability, matching SciPy. (oracle: scipy/special/_logsumexp.py)
 

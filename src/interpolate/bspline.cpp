@@ -1,18 +1,18 @@
 // B-spline representation (BSpline) evaluated by the de Boor recursion, plus the
 // default interpolating builder make_interp_spline (collocation solve) and the
 // splev evaluation wrapper. Mirrors scipy.interpolate's (t, c, k) tuple.
-#include "scypp/interpolate/interpolate.hpp"
+#include "scipp/interpolate/interpolate.hpp"
 
 #include <cmath>
 #include <vector>
 
 #include "numpp/linalg/linalg.hpp"
-#include "scypp/error.hpp"
-#include "scypp/linalg/detail.hpp"
+#include "scipp/error.hpp"
+#include "scipp/linalg/detail.hpp"
 
-namespace scypp::interpolate {
+namespace scipp::interpolate {
 namespace {
-namespace sd = scypp::linalg::detail;
+namespace sd = scipp::linalg::detail;
 
 // Knot span index l with t[l] <= x < t[l+1], clamped to [k, n-1] so that
 // out-of-range x extrapolates off the boundary segment (scipy find_interval).
@@ -44,7 +44,7 @@ void basis_funcs(const std::vector<double>& t, int k, int l, double x,
 std::vector<double> build_knots(const std::vector<double>& x, int k) {
   int n = static_cast<int>(x.size());
   if (n < k + 1)
-    throw scypp::value_error("make_interp_spline: need at least k+1 data points");
+    throw scipp::value_error("make_interp_spline: need at least k+1 data points");
   std::vector<double> t;
   if (k == 1) {
     t.push_back(x.front());
@@ -60,7 +60,7 @@ std::vector<double> build_knots(const std::vector<double>& x, int k) {
     for (int i = m + 1; i < n - m - 1; ++i) t.push_back(x[i]);
     for (int i = 0; i < k + 1; ++i) t.push_back(x.back());
   } else {
-    throw scypp::value_error("make_interp_spline: even degree > 2 not supported");
+    throw scipp::value_error("make_interp_spline: even degree > 2 not supported");
   }
   return t;
 }
@@ -68,10 +68,10 @@ std::vector<double> build_knots(const std::vector<double>& x, int k) {
 
 BSpline::BSpline(const ndarray& t, const ndarray& c, int k, bool extrapolate)
     : t_(sd::to_vec(t)), c_(sd::to_vec(c)), k_(k), extrapolate_(extrapolate) {
-  if (k < 0) throw scypp::value_error("BSpline: degree must be non-negative");
+  if (k < 0) throw scipp::value_error("BSpline: degree must be non-negative");
   int n = static_cast<int>(t_.size()) - k - 1;  // number of basis functions
   if (n < 1 || static_cast<int>(c_.size()) < n)
-    throw scypp::value_error("BSpline: need len(t) >= len(c)+k+1 with len(c) >= 1");
+    throw scipp::value_error("BSpline: need len(t) >= len(c)+k+1 with len(c) >= 1");
 }
 
 double BSpline::eval_one(double x) const {
@@ -107,7 +107,7 @@ BSpline make_interp_spline(const ndarray& x, const ndarray& y, int k) {
   std::vector<double> xv = sd::to_vec(x), yv = sd::to_vec(y);
   int n = static_cast<int>(xv.size());
   if (static_cast<int>(yv.size()) != n)
-    throw scypp::value_error("make_interp_spline: x and y must have equal length");
+    throw scipp::value_error("make_interp_spline: x and y must have equal length");
   std::vector<double> t = build_knots(xv, k);
 
   // Collocation matrix A[i][j] = B_j(x_i), solved for the coefficients.
@@ -124,4 +124,4 @@ BSpline make_interp_spline(const ndarray& x, const ndarray& y, int k) {
 
 ndarray splev(const ndarray& x, const BSpline& tck) { return tck(x); }
 
-}  // namespace scypp::interpolate
+}  // namespace scipp::interpolate

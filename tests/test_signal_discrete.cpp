@@ -7,10 +7,10 @@
 #include "golden.hpp"
 #include "numpp/core/dtype.hpp"
 #include "numpp/core/ndarray.hpp"
-#include "scypp/signal/signal.hpp"
-#include "scypp_test.hpp"
+#include "scipp/signal/signal.hpp"
+#include "scipp_test.hpp"
 
-namespace sg = scypp::signal;
+namespace sg = scipp::signal;
 namespace {
 using cd = std::complex<double>;
 numpp::ndarray vec(const double* d, int n) {

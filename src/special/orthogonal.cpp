@@ -3,13 +3,13 @@
 // three-term recurrences matching SciPy's eval_* (physicists' Hermite,
 // L_n^{(alpha)} generalized Laguerre).
 
-#include "scypp/special/special.hpp"
+#include "scipp/special/special.hpp"
 
 #include <cmath>
 
-#include "scypp/detail/elementwise.hpp"
+#include "scipp/detail/elementwise.hpp"
 
-namespace scypp::special {
+namespace scipp::special {
 
 double eval_legendre(int n, double x) { return std::legendre(static_cast<unsigned>(n), x); }
 double eval_hermite(int n, double x) { return std::hermite(static_cast<unsigned>(n), x); }
@@ -55,4 +55,4 @@ ndarray eval_genlaguerre(int n, double alpha, const ndarray& x) {
   return detail::map(x, [n, alpha](double v) { return eval_genlaguerre(n, alpha, v); });
 }
 
-}  // namespace scypp::special
+}  // namespace scipp::special

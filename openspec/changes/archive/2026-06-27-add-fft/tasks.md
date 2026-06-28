@@ -1,7 +1,7 @@
 # Tasks — fft + fftpack (Phase 3)
 
 ## 1. Module scaffold
-- [x] `include/scypp/fft/fft.hpp` declarations; `src/fft/*.cpp` in `src/CMakeLists.txt`; export from `scypp/scypp.hpp`
+- [x] `include/scipp/fft/fft.hpp` declarations; `src/fft/*.cpp` in `src/CMakeLists.txt`; export from `scipp/scipp.hpp`
 
 ## 2. FFTs (delegate to NumPP)
 - [x] `fft`/`ifft`, `rfft`/`irfft`, `hfft`/`ihfft` (n, axis, norm)
@@ -15,11 +15,11 @@
 ## 4. Helpers + fftpack
 - [x] `fftfreq`, `rfftfreq`, `fftshift`, `ifftshift` (delegate)
 - [x] `next_fast_len` (smallest 11-smooth ≥ n)
-- [x] `scypp::fftpack` namespace re-exporting fft/dct/dst entry points
+- [x] `scipp::fftpack` namespace re-exporting fft/dct/dst entry points
 
 ## 5. Oracle + validation
 - [x] Extend `tests/oracle/generate.py` with fft/dct/dst golden data; regenerate
 - [x] `tests/test_fft.cpp`: `allclose` to SciPy, `ifft(fft)`/`idct(dct)` round-trips, axis behavior, next_fast_len, fftpack==fft
 - [x] CPU build green; full suite green
 - [x] `openspec validate add-fft --strict` green
-- [x] Check off Phase 3 in `bootstrap-scypp-foundation/tasks.md`; update README
+- [x] Check off Phase 3 in `bootstrap-scipp-foundation/tasks.md`; update README
