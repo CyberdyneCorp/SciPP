@@ -43,3 +43,17 @@ path unchanged as the guaranteed fallback.
 - Non-euclidean `cdist` metrics and non-separable `ndimage` filters (stay CPU).
 - A GPU CI runner: local builds exercise the CPU fallback; true device equivalence
   is validated where a NumPP GPU variant is present.
+
+## Build-cleanup decisions (finalize step)
+
+- Dropped `-DNUMPP_WARNINGS_AS_ERRORS=OFF` from `scripts/bootstrap_numpp.sh`: NumPP
+  1.4.0/1.5.0 default this OFF and fixed the datetime warning, so NumPP bootstraps
+  and installs cleanly without the override.
+- Kept the cherry-picked `numpp/<module>/<header>.hpp` includes instead of the
+  `numpp/numpp.hpp` umbrella. They are correct and span the whole `src/` tree;
+  switching wholesale is churn with no functional gain and a regression risk. The
+  umbrella umbrella-install fix (issue #107) is available if a future change wants it.
+- Kept `NO_CMAKE_PACKAGE_REGISTRY` / `NO_CMAKE_SYSTEM_PACKAGE_REGISTRY` and the
+  pinned `NumPP_DIR` in `CMakeLists.txt`: the local bootstrap-install model
+  (`.deps/numpp`) relies on resolving exactly that prefix and not a stray system
+  registry entry. Harmless and load-bearing for reproducible local builds.

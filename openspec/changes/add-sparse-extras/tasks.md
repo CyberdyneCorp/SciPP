@@ -2,7 +2,7 @@
 
 > Tracking artifact. Each item graduates into real implementation when picked up.
 
-- [ ] GPU CSR SpMV device kernel (CUDA/OpenCL/Metal) registered into NumPP's device vtable
+- [x] GPU CSR SpMV device kernel (CUDA/OpenCL/Metal) registered into NumPP's device vtable — delivered via `add-gpu-acceleration` (SpMV now delegates to `numpp::csr_spmv`, which auto-selects the device backend)
 - [ ] `sparse.linalg`: `eigsh`, `eigs`, `svds`
 - [ ] `splu`, `spilu`, `factorized`
 - [ ] `DIA`, `LIL`, `BSR` formats + operations
