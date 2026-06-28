@@ -946,4 +946,12 @@ inline constexpr int ode_radau2_t_n = 5;
 inline const double ode_radau2_y_d[] = {1.0, 0.0162782649522701, 0.008270009647688132, 0.006126572320287495, 0.003715953951227427, 1.0, 0.9512294245007155, 0.8187307530804646, 0.606530659708462, 0.3678794411715152};
 inline constexpr int ode_radau2_y_r = 2;
 inline constexpr int ode_radau2_y_c = 5;
+inline const double romberg_sin = 2.0;
+inline const double romberg_gauss = 0.7468241328124271;
+inline const double quadvec[] = {1.0000000000000002, 0.4999999999999999, 0.33333333333333337, 0.4596976941318603};
+inline constexpr int quadvec_n = 4;
+inline const double dblquad_xy = 0.9999999999999999;
+inline const double dblquad_var = 0.5;
+inline const double tplquad_xyz = 4.5;
+inline const double nquad_3d = 4.5;
 }  // namespace golden

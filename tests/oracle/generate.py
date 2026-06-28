@@ -788,6 +788,27 @@ def main():
     emit_vec("ode_radau2_t", te2)
     emit_mat(out, "ode_radau2_y", s2.y)  # shape (2, 5)
 
+    # ---- nested / extended quadrature ----
+    # romberg was removed from scipy in 1.15; reference its value via quad (same oracle).
+    emit_scalar(out, "romberg_sin", spi.quad(np.sin, 0.0, np.pi)[0])            # = 2
+    emit_scalar(out, "romberg_gauss", spi.quad(lambda x: np.exp(-x * x), 0.0, 1.0)[0])
+    # quad_vec of f(x) = [1, x, x^2, sin x] over [0, 1]
+    qv = spi.quad_vec(lambda x: np.array([1.0, x, x * x, np.sin(x)]), 0.0, 1.0)[0]
+    emit_vec("quadvec", qv)
+    # dblquad: ∫_0^1 ∫_0^{2} x*y dy dx = 1 ; func(y, x)=x*y
+    d1 = spi.dblquad(lambda y, x: x * y, 0, 1, lambda x: 0, lambda x: 2)[0]
+    emit_scalar(out, "dblquad_xy", d1)
+    # dblquad with x-dependent bounds: ∫_0^1 ∫_0^{x} (x+y) dy dx
+    d2 = spi.dblquad(lambda y, x: x + y, 0, 1, lambda x: 0, lambda x: x)[0]
+    emit_scalar(out, "dblquad_var", d2)
+    # tplquad: ∫_0^1 ∫_0^2 ∫_0^3 x*y*z dz dy dx ; func(z, y, x)
+    t1 = spi.tplquad(lambda z, y, x: x * y * z, 0, 1, lambda x: 0, lambda x: 2,
+                     lambda x, y: 0, lambda x, y: 3)[0]
+    emit_scalar(out, "tplquad_xyz", t1)
+    # nquad: ∫∫∫ over [0,1]x[0,2]x[0,3] of x0*x1*x2
+    nq = spi.nquad(lambda x0, x1, x2: x0 * x1 * x2, [[0, 1], [0, 2], [0, 3]])[0]
+    emit_scalar(out, "nquad_3d", nq)
+
     out.append("}  // namespace golden")
     os.makedirs(os.path.dirname(GOLDEN), exist_ok=True)
     with open(GOLDEN, "w") as f:

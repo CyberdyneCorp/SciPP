@@ -21,6 +21,7 @@ add_library(scypp
   optimize/linprog.cpp
   optimize/nnls.cpp
   integrate/quadrature.cpp
+  integrate/nested_quad.cpp
   integrate/solve_ivp.cpp
   integrate/differentiate.cpp
   interpolate/interp1d.cpp

@@ -16,6 +16,6 @@
 - [ ] Oracle tests against analytic BVP solutions
 
 ## Multidimensional / additional quadrature
-- [ ] `dblquad`, `tplquad`, `nquad` (nested adaptive `quad`)
-- [ ] `romberg`, `quad_vec`
-- [ ] Oracle tests vs SciPy and analytic values
+- [x] `dblquad`, `tplquad`, `nquad` (nested adaptive `quad`) — delivered via `add-integrate-nested-quad`
+- [x] `romberg`, `quad_vec` — delivered via `add-integrate-nested-quad`
+- [x] Oracle tests vs SciPy and analytic values — delivered via `add-integrate-nested-quad`
