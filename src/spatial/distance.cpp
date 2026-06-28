@@ -15,6 +15,15 @@ namespace {
 namespace sd = scipp::linalg::detail;
 thread_local Backend g_last = Backend::Cpu;
 
+Backend map_backend(numpp::Backend b) {
+  return (b == numpp::Backend::Cpu || b == numpp::Backend::Auto) ? Backend::Cpu
+                                                                 : Backend::Device;
+}
+
+bool is_euclidean_family(const std::string& m) {
+  return m == "euclidean" || m == "sqeuclidean";
+}
+
 using Metric = std::function<double(const double*, const double*, int64_t)>;
 
 Metric make_metric(const std::string& name, double p) {
@@ -41,11 +50,26 @@ Backend last_backend() { return g_last; }
 ndarray pdist(const ndarray& X, const std::string& metric, double p) {
   numpp::ndarray Xc = X.astype(numpp::kFloat64).ascontiguousarray();
   int64_t n = Xc.shape()[0], d = Xc.shape()[1];
+  if (is_euclidean_family(metric)) {
+    // Delegate to NumPP's accelerable kernel, then extract the condensed upper
+    // triangle (i<j). last_backend() reflects NumPP's actual choice.
+    numpp::ndarray D = numpp::cdist_euclidean(Xc, Xc, metric == "sqeuclidean")
+                           .astype(numpp::kFloat64)
+                           .ascontiguousarray();
+    g_last = map_backend(numpp::last_backend());
+    const double* dm = D.typed_data<double>();
+    std::vector<double> out;
+    out.reserve(static_cast<size_t>(n) * (n - 1) / 2);
+    for (int64_t i = 0; i < n; ++i)
+      for (int64_t j = i + 1; j < n; ++j) out.push_back(dm[i * n + j]);
+    return sd::from_vec(out);
+  }
   const double* x = Xc.typed_data<double>();
   Metric f = make_metric(metric, p);
   std::vector<double> out;
   for (int64_t i = 0; i < n; ++i)
     for (int64_t j = i + 1; j < n; ++j) out.push_back(f(x + i * d, x + j * d, d));
+  g_last = Backend::Cpu;
   return sd::from_vec(out);
 }
 
@@ -54,13 +78,19 @@ ndarray cdist(const ndarray& XA, const ndarray& XB, const std::string& metric, d
   numpp::ndarray A = XA.astype(numpp::kFloat64).ascontiguousarray();
   numpp::ndarray B = XB.astype(numpp::kFloat64).ascontiguousarray();
   int64_t m = A.shape()[0], n = B.shape()[0], d = A.shape()[1];
+  if (is_euclidean_family(metric)) {
+    // Delegate euclidean/sqeuclidean to NumPP's accelerable kernel, which owns
+    // device offload + CPU fallback. `forced==Cpu` pins the CPU path; otherwise
+    // `Auto` lets NumPP choose by size/availability. last_backend() then
+    // reflects NumPP's actual choice (CPU locally as NumPP is CPU-only).
+    numpp::Backend nb = (forced == Backend::Cpu) ? numpp::Backend::Cpu : numpp::Backend::Auto;
+    numpp::ndarray D = numpp::cdist_euclidean(A, B, metric == "sqeuclidean", nb);
+    g_last = map_backend(numpp::last_backend());
+    return D.astype(numpp::kFloat64).ascontiguousarray();
+  }
   const double* a = A.typed_data<double>();
   const double* b = B.typed_data<double>();
-  // Dispatch (CPU kernel always present; device CSR/distance kernel is future).
-  const auto& reg = numpp::CapabilityRegistry::instance();
-  bool device = (forced == Backend::Device) ||
-                (m * n >= (1 << 16) && reg.gpu_available(numpp::Backend::Device));
-  g_last = device ? Backend::Device : Backend::Cpu;
+  g_last = Backend::Cpu;  // other metrics: portable CPU kernel
   Metric f = make_metric(metric, p);
   std::vector<double> out(m * n);
   for (int64_t i = 0; i < m; ++i)

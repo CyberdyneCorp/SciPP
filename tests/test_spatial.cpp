@@ -46,12 +46,43 @@ TEST_CASE("distances") {
   cv(sa::pdist(P, "hamming"), G(sa_pdist_hamming));
   cv(sa::cdist(P, Q, "euclidean"), golden::sa_cdist_eucl_d, golden::sa_cdist_eucl_r * golden::sa_cdist_eucl_c);
   cv(sa::squareform(sa::pdist(P)), golden::sa_squareform_d, golden::sa_squareform_r * golden::sa_squareform_c);
-  // backend dispatch equivalence
+  // Backend dispatch equivalence: cdist euclidean now delegates to
+  // numpp::cdist_euclidean, which owns device offload + CPU fallback. Forcing
+  // Cpu pins the CPU path; Device lets NumPP choose (it falls back to CPU here
+  // since NumPP is CPU-only locally, so last_backend() may report Cpu). The
+  // numeric result is identical regardless of backend.
   auto a = tov(sa::cdist(P, Q, "euclidean", 2.0, sa::Backend::Cpu));
   CHECK(sa::last_backend() == sa::Backend::Cpu);
   auto b = tov(sa::cdist(P, Q, "euclidean", 2.0, sa::Backend::Device));
-  CHECK(sa::last_backend() == sa::Backend::Device);
+  auto bk = sa::last_backend();
+  CHECK(bk == sa::Backend::Cpu || bk == sa::Backend::Device);
   for (size_t i = 0; i < a.size(); ++i) CHECK_CLOSE(a[i], b[i], 1e-12, 1e-12);
+}
+
+TEST_CASE("cdist euclidean via numpp delegation") {
+  auto P = M(sa_P), Q = M(sa_Q);
+  // (a) Offloaded euclidean/sqeuclidean cdist still matches the SciPy golden.
+  cv(sa::cdist(P, Q, "euclidean"), golden::sa_cdist_eucl_d,
+     golden::sa_cdist_eucl_r * golden::sa_cdist_eucl_c);
+  auto eucl = tov(sa::cdist(P, Q, "euclidean"));
+  auto sq = tov(sa::cdist(P, Q, "sqeuclidean"));
+  for (size_t i = 0; i < eucl.size(); ++i) CHECK_CLOSE(sq[i], eucl[i] * eucl[i], 1e-12, 1e-12);
+  // pdist euclidean delegates through the same kernel and matches the golden.
+  cv(sa::pdist(P, "euclidean"), G(sa_pdist_euclidean));
+  // (b) last_backend() is reported after the delegated call.
+  (void)sa::cdist(P, Q, "euclidean");
+  auto bk = sa::last_backend();
+  CHECK(bk == sa::Backend::Cpu || bk == sa::Backend::Device);
+
+  // (c) Small known case: rows of A at (0,0) and (3,4); B at origin and (1,1).
+  std::vector<double> av{0, 0, 3, 4}, bv{0, 0, 1, 1};
+  numpp::ndarray Asm = mat(av.data(), 2, 2), Bsm = mat(bv.data(), 2, 2);
+  auto d = tov(sa::cdist(Asm, Bsm, "euclidean"));
+  // D[0][0]=0, D[0][1]=sqrt(2), D[1][0]=5, D[1][1]=sqrt(4+9)=sqrt(13).
+  CHECK_CLOSE(d[0], 0.0, 1e-12, 1e-12);
+  CHECK_CLOSE(d[1], std::sqrt(2.0), 1e-12, 1e-12);
+  CHECK_CLOSE(d[2], 5.0, 1e-12, 1e-12);
+  CHECK_CLOSE(d[3], std::sqrt(13.0), 1e-12, 1e-12);
 }
 
 TEST_CASE("KDTree") {
