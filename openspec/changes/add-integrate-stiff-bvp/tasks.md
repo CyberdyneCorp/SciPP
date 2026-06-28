@@ -4,9 +4,9 @@
 > change or a focused batch) when picked up; nothing here is implemented yet.
 
 ## Stiff initial-value solvers
-- [ ] FD Jacobian + Newton step infrastructure (reuse `scypp::differentiate::jacobian`, `numpp::linalg::solve`)
+- [x] FD Jacobian + Newton step infrastructure — delivered via `add-integrate-radau` (dense solve + central-difference Jacobian in `solve_ivp.cpp`)
 - [ ] `solve_ivp` method `"BDF"` (variable-order/step backward differentiation)
-- [ ] `solve_ivp` method `"Radau"` (implicit Runge–Kutta, 3-stage)
+- [x] `solve_ivp` method `"Radau"` (implicit Runge–Kutta, 3-stage) — delivered via `add-integrate-radau`
 - [ ] `solve_ivp` method `"LSODA"` (stiff/non-stiff switching)
 - [ ] legacy `odeint` entry point
 - [ ] Oracle tests on stiff systems (Van der Pol large μ, Robertson kinetics)

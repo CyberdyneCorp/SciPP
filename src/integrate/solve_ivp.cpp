@@ -84,11 +84,218 @@ double initial_step(const OdeFn& f, double t0, const std::vector<double>& y0,
   return std::min(100.0 * h0, h1);
 }
 
+// ---- implicit (stiff) solver: Radau IIA, 3-stage order 5 ----
+
+// Dense linear solve A x = b (m×m, row-major) via Gaussian elimination with
+// partial pivoting. A and b are consumed; returns x.
+std::vector<double> dense_solve(std::vector<double> A, std::vector<double> b, int m) {
+  for (int col = 0; col < m; ++col) {
+    int piv = col;
+    for (int r = col + 1; r < m; ++r)
+      if (std::fabs(A[r * m + col]) > std::fabs(A[piv * m + col])) piv = r;
+    if (piv != col) {
+      for (int j = 0; j < m; ++j) std::swap(A[col * m + j], A[piv * m + j]);
+      std::swap(b[col], b[piv]);
+    }
+    double d = A[col * m + col];
+    for (int r = col + 1; r < m; ++r) {
+      double fct = A[r * m + col] / d;
+      for (int j = col; j < m; ++j) A[r * m + j] -= fct * A[col * m + j];
+      b[r] -= fct * b[col];
+    }
+  }
+  std::vector<double> x(m);
+  for (int r = m - 1; r >= 0; --r) {
+    double s = b[r];
+    for (int j = r + 1; j < m; ++j) s -= A[r * m + j] * x[j];
+    x[r] = s / A[r * m + r];
+  }
+  return x;
+}
+
+// Central-difference Jacobian of f(t, y) at (t, y); returns n×n row-major.
+std::vector<double> fd_jacobian(const OdeFn& f, double t, const std::vector<double>& y,
+                                int& nfev) {
+  int n = static_cast<int>(y.size());
+  std::vector<double> J(n * n);
+  std::vector<double> yp = y, ym = y;
+  for (int j = 0; j < n; ++j) {
+    double dh = 1e-8 * std::max(1.0, std::fabs(y[j]));
+    yp[j] = y[j] + dh;
+    ym[j] = y[j] - dh;
+    auto fp = eval(f, t, yp);
+    auto fm = eval(f, t, ym);
+    nfev += 2;
+    for (int i = 0; i < n; ++i) J[i * n + j] = (fp[i] - fm[i]) / (2.0 * dh);
+    yp[j] = y[j];
+    ym[j] = y[j];
+  }
+  return J;
+}
+
+// Radau IIA 3-stage coefficients (order 5, stiffly accurate: y_{n+1} = stage 3).
+struct RadauTab {
+  double c[3];
+  double A[3][3];
+  RadauTab() {
+    double s6 = std::sqrt(6.0);
+    c[0] = (4 - s6) / 10;
+    c[1] = (4 + s6) / 10;
+    c[2] = 1.0;
+    A[0][0] = (88 - 7 * s6) / 360;
+    A[0][1] = (296 - 169 * s6) / 1800;
+    A[0][2] = (-2 + 3 * s6) / 225;
+    A[1][0] = (296 + 169 * s6) / 1800;
+    A[1][1] = (88 + 7 * s6) / 360;
+    A[1][2] = (-2 - 3 * s6) / 225;
+    A[2][0] = (16 - s6) / 36;
+    A[2][1] = (16 + s6) / 36;
+    A[2][2] = 1.0 / 9;
+  }
+};
+
+// One Radau step from (t, y) of size h via simplified Newton (Jacobian frozen at
+// the step start). Returns the new state; sets `ok` on Newton convergence.
+std::vector<double> radau_step(const OdeFn& f, const RadauTab& T, double t, double h,
+                               const std::vector<double>& y, int& nfev, bool& ok) {
+  int n = static_cast<int>(y.size());
+  int m = 3 * n;
+  std::vector<double> J = fd_jacobian(f, t, y, nfev);
+  // Newton matrix M = I_{3n} - h (A ⊗ J), constant across iterations.
+  std::vector<double> M(m * m, 0.0);
+  for (int i = 0; i < 3; ++i)
+    for (int k = 0; k < 3; ++k)
+      for (int a = 0; a < n; ++a)
+        for (int b = 0; b < n; ++b) {
+          double val = -h * T.A[i][k] * J[a * n + b];
+          if (i == k && a == b) val += 1.0;
+          M[(i * n + a) * m + (k * n + b)] = val;
+        }
+  std::vector<double> Z(m);  // stage values Y_i, initialised to y
+  for (int i = 0; i < 3; ++i)
+    for (int a = 0; a < n; ++a) Z[i * n + a] = y[a];
+
+  ok = false;
+  for (int it = 0; it < 20; ++it) {
+    std::vector<std::vector<double>> F(3);
+    for (int j = 0; j < 3; ++j) {
+      std::vector<double> Yj(n);
+      for (int a = 0; a < n; ++a) Yj[a] = Z[j * n + a];
+      F[j] = eval(f, t + T.c[j] * h, Yj);
+      ++nfev;
+    }
+    std::vector<double> G(m);
+    for (int i = 0; i < 3; ++i)
+      for (int a = 0; a < n; ++a) {
+        double acc = 0.0;
+        for (int j = 0; j < 3; ++j) acc += T.A[i][j] * F[j][a];
+        G[i * n + a] = Z[i * n + a] - y[a] - h * acc;
+      }
+    std::vector<double> neg(m);
+    for (int i = 0; i < m; ++i) neg[i] = -G[i];
+    std::vector<double> dZ = dense_solve(M, neg, m);
+    double dnorm = 0.0, znorm = 0.0;
+    for (int i = 0; i < m; ++i) {
+      Z[i] += dZ[i];
+      dnorm += dZ[i] * dZ[i];
+      znorm += Z[i] * Z[i];
+    }
+    if (std::sqrt(dnorm) <= 1e-10 * (1.0 + std::sqrt(znorm))) { ok = true; break; }
+  }
+  std::vector<double> ynew(n);
+  for (int a = 0; a < n; ++a) ynew[a] = Z[2 * n + a];  // stiffly accurate
+  return ynew;
+}
+
+OdeResult radau_integrate(const OdeFn& f, std::pair<double, double> t_span,
+                          const ndarray& y0, std::optional<ndarray> t_eval,
+                          double rtol, double atol) {
+  RadauTab T;
+  double t0 = t_span.first, tf = t_span.second;
+  std::vector<double> y = sd::to_vec(y0);
+  int n = static_cast<int>(y.size());
+  int nfev = 0;
+
+  std::vector<double> teval;
+  if (t_eval) teval = sd::to_vec(*t_eval);
+  else teval = {t0, tf};
+
+  std::vector<std::vector<double>> ys;
+  std::vector<double> ts;
+  std::vector<double> fcur = eval(f, t0, y); ++nfev;
+  double t = t0;
+  double h = initial_step(f, t0, y, fcur, 5, rtol, atol, nfev);
+
+  const double SAFETY = 0.9, MINF = 0.2, MAXF = 8.0, p = 5.0;
+  const double R = std::pow(2.0, p) - 1.0;  // Richardson denominator
+  size_t next = 0;
+  if (!teval.empty() && teval[0] == t0) { ts.push_back(t0); ys.push_back(y); ++next; }
+  bool success = true;
+  int max_steps = 1000000, steps = 0;
+
+  while (next < teval.size()) {
+    double target = teval[next];
+    while (t < target - 1e-15) {
+      if (++steps > max_steps) { success = false; break; }
+      double hcap = std::min(h, target - t);
+      while (true) {
+        bool ok1, ok2, ok3;
+        auto yA = radau_step(f, T, t, hcap, y, nfev, ok1);          // one full step
+        auto yh = radau_step(f, T, t, hcap / 2, y, nfev, ok2);      // two half steps
+        auto yB = radau_step(f, T, t + hcap / 2, hcap / 2, yh, nfev, ok3);
+        if (!(ok1 && ok2 && ok3)) {  // Newton failed -> shrink
+          hcap *= 0.5;
+          h = std::min(h, hcap);
+          if (hcap < 1e-14) { success = false; break; }
+          continue;
+        }
+        std::vector<double> err(n), scale(n), yext(n);
+        for (int d = 0; d < n; ++d) {
+          err[d] = (yB[d] - yA[d]) / R;
+          yext[d] = yB[d] + err[d];  // local extrapolation
+          scale[d] = atol + std::max(std::fabs(y[d]), std::fabs(yB[d])) * rtol;
+        }
+        double en = rms_norm(err, scale);
+        if (en < 1.0) {
+          double factor = (en == 0.0) ? MAXF : std::min(MAXF, SAFETY * std::pow(en, -1.0 / (p + 1)));
+          t += hcap;
+          y = yext;
+          if (hcap == h) h *= factor;
+          break;
+        }
+        hcap *= std::max(MINF, SAFETY * std::pow(en, -1.0 / (p + 1)));
+        h = std::min(h, hcap);
+      }
+      if (!success) break;
+    }
+    if (!success) break;
+    ts.push_back(target);
+    ys.push_back(y);
+    ++next;
+  }
+
+  OdeResult r;
+  r.t = sd::from_vec(ts);
+  ndarray Y(numpp::Shape{n, static_cast<int64_t>(ys.size())}, numpp::kFloat64);
+  double* yp = Y.typed_data<double>();
+  for (size_t j = 0; j < ys.size(); ++j)
+    for (int i = 0; i < n; ++i) yp[i * static_cast<int64_t>(ys.size()) + j] = ys[j][i];
+  r.y = Y;
+  r.success = success;
+  r.nfev = nfev;
+  r.message = success ? "The solver successfully reached the end of the integration interval."
+                      : "Maximum number of steps exceeded.";
+  return r;
+}
+
 }  // namespace
 
 OdeResult solve_ivp(const OdeFn& f, std::pair<double, double> t_span, const ndarray& y0,
                     const std::string& method, std::optional<ndarray> t_eval, double rtol,
                     double atol) {
+  if (method == "Radau")
+    return radau_integrate(f, t_span, y0, t_eval, rtol, atol);
+
   Tableau tab;
   if (method == "RK45") tab = rk45();
   else if (method == "RK23") tab = rk23();

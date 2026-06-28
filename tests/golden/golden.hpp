@@ -937,4 +937,13 @@ inline const double gd_linear[] = {5.0, 6.3999999999999995, 6.6, 3.9999999999999
 inline constexpr int gd_linear_n = 5;
 inline const double gd_nearest[] = {2.0, 2.0, 2.0, 2.0, 6.0};
 inline constexpr int gd_nearest_n = 5;
+inline const double ode_radau1_t[] = {0.0, 0.1, 0.25, 0.5, 1.0};
+inline constexpr int ode_radau1_t_n = 5;
+inline const double ode_radau1_y[] = {1.0, 0.13533528311767945, 0.0067379469934472705, 4.539993061100865e-05, 2.0611814283228695e-09};
+inline constexpr int ode_radau1_y_n = 5;
+inline const double ode_radau2_t[] = {0.0, 0.05, 0.2, 0.5, 1.0};
+inline constexpr int ode_radau2_t_n = 5;
+inline const double ode_radau2_y_d[] = {1.0, 0.0162782649522701, 0.008270009647688132, 0.006126572320287495, 0.003715953951227427, 1.0, 0.9512294245007155, 0.8187307530804646, 0.606530659708462, 0.3678794411715152};
+inline constexpr int ode_radau2_y_r = 2;
+inline constexpr int ode_radau2_y_c = 5;
 }  // namespace golden

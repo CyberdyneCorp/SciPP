@@ -774,6 +774,20 @@ def main():
     emit_vec("gd_linear", spn.griddata(gpts, gval_lin, gxi, method="linear"))
     emit_vec("gd_nearest", spn.griddata(gpts, gval_nl, gxi, method="nearest"))
 
+    # ---- stiff ODE: solve_ivp method="Radau" ----
+    # Problem 1: y' = -20 y, y0 = 1  (exact exp(-20 t)).
+    te1 = np.array([0.0, 0.1, 0.25, 0.5, 1.0])
+    s1 = spi.solve_ivp(lambda t, y: -20.0 * y, (0.0, 1.0), [1.0],
+                       method="Radau", t_eval=te1, rtol=1e-8, atol=1e-11)
+    emit_vec("ode_radau1_t", te1)
+    emit_vec("ode_radau1_y", s1.y[0])
+    # Problem 2: stiff 2-D y1' = -100 y1 + y2, y2' = -y2, y0 = [1, 1].
+    te2 = np.array([0.0, 0.05, 0.2, 0.5, 1.0])
+    s2 = spi.solve_ivp(lambda t, y: [-100 * y[0] + y[1], -y[1]], (0.0, 1.0), [1.0, 1.0],
+                       method="Radau", t_eval=te2, rtol=1e-9, atol=1e-12)
+    emit_vec("ode_radau2_t", te2)
+    emit_mat(out, "ode_radau2_y", s2.y)  # shape (2, 5)
+
     out.append("}  // namespace golden")
     os.makedirs(os.path.dirname(GOLDEN), exist_ok=True)
     with open(GOLDEN, "w") as f:
