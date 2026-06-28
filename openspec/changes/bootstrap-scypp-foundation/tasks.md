@@ -3,27 +3,27 @@
 ## Phase 0 — Foundation (this change)
 
 ### Project skeleton & build
-- [ ] CMake ≥ 3.25 / C++20 project; `include/scypp/` + `src/<subpackage>/` layout with reserved subpackage dirs
-- [ ] Generated `config.hpp` with `SCYPP_WITH_{BLAS,LAPACK,CUDA,OPENCL,METAL}` flags (default OFF)
-- [ ] NumPP wired as a **pinned Conan/vcpkg release dependency** resolved via `find_package` (not vendored), umbrella `scypp/scypp.hpp`, `version.hpp.in`
-- [ ] Configure-time check: requested GPU flag requires a NumPP package variant built with the matching `NUMPP_WITH_<GPU>`; fail fast otherwise
-- [ ] GPU flag propagation: `SCYPP_WITH_<GPU>` enables the matching `NUMPP_WITH_<GPU>`
-- [ ] CPU-only build verified green (all backend flags OFF); iOS/Android cross-compile contract documented
+- [x] CMake ≥ 3.25 / C++20 project; `include/scypp/` + `src/<subpackage>/` layout with reserved subpackage dirs
+- [x] Generated `config.hpp` with `SCYPP_WITH_{BLAS,LAPACK,CUDA,OPENCL,METAL}` flags (default OFF)
+- [x] NumPP wired as a **pinned Conan/vcpkg release dependency** resolved via `find_package` (not vendored), umbrella `scypp/scypp.hpp`, `version.hpp.in`
+- [x] Configure-time check: requested GPU flag requires a NumPP package variant built with the matching `NUMPP_WITH_<GPU>`; fail fast otherwise
+- [x] GPU flag propagation: `SCYPP_WITH_<GPU>` enables the matching `NUMPP_WITH_<GPU>`
+- [x] CPU-only build verified green (all backend flags OFF); iOS/Android cross-compile contract documented
 
 ### NumPP integration
-- [ ] Confirm public-API contract: ScyPP routines take/return `numpp::ndarray`, no ScyPP array type
-- [ ] `scypp::error` aligned with `numpp::error`; `value_error`/`linalg_error`/`not_implemented_error`; status-struct convention for SciPy result objects
+- [x] Confirm public-API contract: ScyPP routines take/return `numpp::ndarray`, no ScyPP array type
+- [x] `scypp::error` aligned with `numpp::error`; `value_error`/`linalg_error`/`not_implemented_error`; status-struct convention for SciPy result objects
 
 ### Backend acceleration
-- [ ] Dispatch shim layer over NumPP's `CapabilityRegistry` / `last_backend()` / `NUMPP_GPU_TARGET` / device pool
-- [ ] Define the SciPy kernel vtable slots (fft, gemm-backed linalg step, CSR SpMV, separable convolution, pairwise distance) — interface only, no subpackage impl
-- [ ] Size-threshold + dtype-gating policy and CPU-fallback guarantee documented; cross-backend equivalence + `last_backend()` test pattern established
+- [x] Dispatch shim layer over NumPP's `CapabilityRegistry` / `last_backend()` / `NUMPP_GPU_TARGET` / device pool
+- [x] Define the SciPy kernel vtable slots (fft, gemm-backed linalg step, CSR SpMV, separable convolution, pairwise distance) — interface only, no subpackage impl
+- [x] Size-threshold + dtype-gating policy and CPU-fallback guarantee documented; cross-backend equivalence + `last_backend()` test pattern established
 
 ### SciPy oracle harness
-- [ ] Catch2 test scaffold + SciPy oracle runner (real Python SciPy → `allclose`)
-- [ ] Frozen/`tests/golden/` mode for Python-free CI; regeneration + divergence-review flow
-- [ ] Stochastic-routine convention: seed via NumPP `random`; distributional-equivalence fallback documented
-- [ ] `openspec validate --all --strict` green; CI gate added
+- [x] Catch2 test scaffold + SciPy oracle runner (real Python SciPy → `allclose`)
+- [x] Frozen/`tests/golden/` mode for Python-free CI; regeneration + divergence-review flow
+- [x] Stochastic-routine convention: seed via NumPP `random`; distributional-equivalence fallback documented
+- [x] `openspec validate --all --strict` green; CI gate added
 
 ## Roadmap — each item graduates into its own OpenSpec change
 

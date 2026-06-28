@@ -22,6 +22,13 @@ struct value_error : error {
   explicit value_error(const std::string& what) : error(what) {}
 };
 
+// Numerical-linear-algebra failure (mirrors scipy.linalg.LinAlgError and
+// numpp::linalg_error — e.g. a singular system surfaced from a ScyPP routine).
+// A `catch (const numpp::error&)` site still spans NumPP's own linalg_error.
+struct linalg_error : error {
+  explicit linalg_error(const std::string& what) : error(what) {}
+};
+
 // Requested behavior is not implemented in this build/phase.
 struct not_implemented_error : error {
   explicit not_implemented_error(const std::string& what) : error(what) {}

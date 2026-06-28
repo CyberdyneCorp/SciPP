@@ -1,6 +1,7 @@
 add_executable(scypp_tests
   main.cpp
   test_special.cpp
+  test_foundation.cpp
   test_constants.cpp
   test_linalg.cpp
   test_fft.cpp
