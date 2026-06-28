@@ -65,6 +65,10 @@ ported into the `scipp::<name>` namespace:
   NumPP/SymPP. Backend feature flags follow NumPP: `SCIPP_WITH_BLAS`,
   `SCIPP_WITH_LAPACK`, `SCIPP_WITH_CUDA`, `SCIPP_WITH_OPENCL`, `SCIPP_WITH_METAL`,
   all default OFF.
+- **Task runner**: a `justfile` is the canonical developer entrypoint (mirrors
+  NumPP/SymPP) — `just bootstrap`, `just build`, `just test`, `just ctest`,
+  `just debug`, `just gcc`, `just asan`, `just oracle`, `just spec`, `just ci`,
+  `just clean`. Plain CMake still works underneath.
 - **Namespacing**: implementation in `src/<subpackage>/`, public headers in
   `include/scipp/<subpackage>/`, umbrella header `scipp/scipp.hpp`.
 - **Oracle breadcrumbs**: spec requirements cite the SciPy source they port,

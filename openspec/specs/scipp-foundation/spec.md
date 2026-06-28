@@ -56,6 +56,22 @@ two layers share one device runtime.
 - THEN NumPP is configured with its CUDA backend enabled and both layers resolve
   the same device runtime
 
+### Requirement: Developer task runner
+
+SciPP SHALL provide a `justfile` task runner as the canonical developer entrypoint,
+mirroring the NumPP and SymPP sibling ports, wrapping the bootstrap, configure,
+build, test, lint/spec, and clean workflows over the underlying CMake project.
+
+#### Scenario: Common tasks are one command
+- GIVEN a checkout with `just` installed
+- WHEN a developer runs `just bootstrap` then `just test`
+- THEN the pinned NumPP is installed under `.deps/` and the SciPy-oracle test
+  suite builds and runs green
+
+#### Scenario: Spec validation is a recipe
+- WHEN a developer runs `just spec`
+- THEN `openspec validate --all --strict` runs over every spec and change
+
 ### Requirement: Packaging mirrors the sibling ports
 
 SciPP SHALL ship Conan (`conanfile.py`) and vcpkg (`vcpkg.json`) packaging that

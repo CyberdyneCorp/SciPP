@@ -167,31 +167,43 @@ openspec validate --all --strict           # validate the specs
 
 ## Building
 
-SciPP depends on NumPP via `find_package(NumPP)`. For local development, build and
-install the pinned NumPP into `.deps/` first:
+SciPP depends on NumPP via `find_package(NumPP)`. Developer tasks are driven by a
+[`justfile`](justfile) (install [`just`](https://github.com/casey/just)), matching
+the NumPP/SymPP workflow — run `just` to list every recipe:
 
 ```bash
-# 1. Build + install the pinned NumPP dependency (expects ../NumPP source)
-./scripts/bootstrap_numpp.sh            # or: ./scripts/bootstrap_numpp.sh /path/to/NumPP
+# 1. Build + install the pinned NumPP dependency into .deps/ (expects ../NumPP)
+just bootstrap                 # or: just bootstrap /path/to/NumPP
 
-# 2. Configure + build SciPP (CPU-only, mobile-friendly, zero extra deps)
-cmake -S . -B build -DCMAKE_BUILD_TYPE=Release
-cmake --build build -j
+# 2. Build + run the SciPy-oracle test suite (CPU-only, mobile-friendly)
+just test                      # configure + build + run scipp_tests
+just ctest                     # the same suite through CTest
 
-# 3. Run the SciPy-oracle test suite
-ctest --test-dir build --output-on-failure
-
-# With GPU acceleration (requires a NumPP package built with the matching backend)
-cmake -S . -B build -DSCIPP_WITH_CUDA=ON   # or -DSCIPP_WITH_OPENCL=ON / -DSCIPP_WITH_METAL=ON
+# Other common recipes
+just build                     # configure + compile library and tests
+just debug                     # Debug build with assertions
+just gcc                       # build + test with GCC
+just asan                      # build + test under ASan/UBSan
+just oracle                    # regenerate frozen golden data (needs python3 + scipy)
+just spec                      # openspec validate --all --strict
+just ci                        # local CI: clang tests + gcc + spec
+just clean                     # remove all build dirs
 ```
 
-Refresh the frozen oracle data after changing the test set:
-`python3 tests/oracle/generate.py` (requires Python + SciPy; CI runs against the
-committed golden data without Python).
+Plain CMake still works if you prefer it (`cmake -S . -B build -DCMAKE_BUILD_TYPE=Release && cmake --build build -j`).
+
+For **GPU acceleration**, pass the backend flag through `just configure` (requires a
+NumPP package built with the matching backend):
+
+```bash
+just configure -DSCIPP_WITH_CUDA=ON    # or -DSCIPP_WITH_OPENCL=ON / -DSCIPP_WITH_METAL=ON
+just build
+```
 
 Backend feature flags (`SCIPP_WITH_{BLAS,LAPACK,CUDA,OPENCL,METAL}`) all default
 **OFF**; enabling one enables the matching NumPP backend so both layers share a
-single device runtime.
+single device runtime. The frozen oracle data lets CI run the suite without Python;
+refresh it with `just oracle` after changing the test set.
 
 ## Relationship to the reference SciPy
 
