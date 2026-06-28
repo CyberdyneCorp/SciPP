@@ -27,6 +27,7 @@ add_library(scypp
   integrate/solve_bvp.cpp
   interpolate/interp1d.cpp
   interpolate/splines.cpp
+  interpolate/bspline.cpp
   interpolate/regular_grid.cpp
   interpolate/rbf.cpp
   interpolate/griddata.cpp

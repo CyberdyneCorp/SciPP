@@ -54,6 +54,35 @@ class Akima1DInterpolator : public PiecewiseCubic {
   Akima1DInterpolator(const ndarray& x, const ndarray& y);
 };
 
+// B-spline curve in the standard FITPACK (t, c, k) representation, evaluated by
+// the de Boor recursion. `t` is the non-decreasing knot vector (length
+// len(c)+k+1), `c` the spline coefficients, `k` the polynomial degree. With
+// extrapolate=true (default, matching scipy) queries outside [t[k], t[n]]
+// continue the boundary polynomial pieces; otherwise they return NaN.
+class BSpline {
+ public:
+  BSpline(const ndarray& t, const ndarray& c, int k, bool extrapolate = true);
+  ndarray operator()(const ndarray& x) const;
+  double operator()(double x) const;
+  ndarray t() const;
+  ndarray c() const;
+  int k() const { return k_; }
+
+ private:
+  std::vector<double> t_, c_;
+  int k_ = 0;
+  bool extrapolate_ = true;
+  double eval_one(double x) const;
+};
+
+// Interpolating B-spline of degree k through (x, y). Knots follow scipy's
+// default not-a-knot averaging scheme; the (banded) collocation system
+// B_j(x_i) c_j = y_i is assembled and solved with numpp::linalg::solve.
+BSpline make_interp_spline(const ndarray& x, const ndarray& y, int k = 3);
+
+// FITPACK-style evaluation: evaluate the spline `tck` at points `x` via de Boor.
+ndarray splev(const ndarray& x, const BSpline& tck);
+
 // N-D rectilinear-grid interpolation.
 class RegularGridInterpolator {
  public:

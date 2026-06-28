@@ -335,6 +335,22 @@ def main():
     emit_vec("ip_rbf_cubic", spn.RBFInterpolator(yc, dvals, kernel="cubic")(rbf_q))
     emit_vec("ip_rbf_lin", spn.RBFInterpolator(yc, dvals, kernel="linear")(rbf_q))
 
+    # B-splines (de Boor evaluation + interpolating builder)
+    bx = np.array([0.0, 1.0, 2.0, 3.0, 4.0, 5.0, 6.0])
+    by = np.array([0.0, 0.8, 0.3, -0.5, 0.2, 1.1, 0.4])
+    bxs = np.linspace(-0.4, 6.4, 17)   # includes out-of-range (extrapolation)
+    emit_vec("bs_x", bx)
+    emit_vec("bs_y", by)
+    emit_vec("bs_xs", bxs)
+    for k in (1, 2, 3):
+        bsp = spn.make_interp_spline(bx, by, k)
+        emit_vec(f"bs_t{k}", bsp.t)
+        emit_vec(f"bs_c{k}", bsp.c)
+        # de Boor on the exact scipy (t, c, k) representation
+        emit_vec(f"bs_eval{k}", bsp(bxs))
+        # scipy splev on the same tck
+        emit_vec(f"bs_splev{k}", spn.splev(bxs, (bsp.t, bsp.c, k)))
+
     # ---- stats ----
     # distributions: pdf/cdf/ppf at points
     emit_scalar(out, "st_norm_pdf", sst.norm.pdf(0.7, loc=0.2, scale=1.5))
