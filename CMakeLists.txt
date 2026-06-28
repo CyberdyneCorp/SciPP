@@ -35,7 +35,7 @@ set(NumPP_DIR "${SCIPP_NUMPP_PREFIX}/lib/cmake/NumPP" CACHE PATH "" FORCE)
 
 # Resolve only the pinned install prefix, ignoring any stale build-tree package
 # registered by NumPP's own build in ~/.cmake/packages.
-find_package(NumPP CONFIG REQUIRED
+find_package(NumPP 1.5.0 CONFIG REQUIRED
   NO_CMAKE_PACKAGE_REGISTRY
   NO_CMAKE_SYSTEM_PACKAGE_REGISTRY)
 message(STATUS "SciPP: found NumPP ${NumPP_VERSION}")
