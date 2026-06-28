@@ -13,42 +13,52 @@ namespace {
 thread_local Backend g_last = Backend::Cpu;
 }
 
+// Map the backend NumPP actually used onto the sparse module's public enum: any
+// device-class backend collapses to Device, everything else to Cpu.
+namespace {
+Backend map_backend(numpp::Backend b) {
+  return (b == numpp::Backend::Cpu || b == numpp::Backend::Auto) ? Backend::Cpu
+                                                                 : Backend::Device;
+}
+}  // namespace
+
 ndarray CsrMatrix::spmv(const ndarray& x) const {
-  auto ip = d::iv(indptr_), id = d::iv(indices_); auto da = d::dv(data_), xv = d::dv(x);
-  std::vector<double> y(rows_, 0.0);
-  for (int64_t i = 0; i < rows_; ++i) {
-    double s = 0.0;
-    for (int64_t k = ip[i]; k < ip[i + 1]; ++k) s += da[k] * xv[id[k]];
-    y[i] = s;
-  }
-  return d::from_dv(y);
+  // Delegate the SpMV to NumPP's tiered kernel: it owns device dispatch and the
+  // portable CPU fallback, so the result is identical to the old hand-rolled loop.
+  return numpp::csr_spmv(indptr_, indices_, data_, x);
 }
 
 ndarray CsrMatrix::spmm(const ndarray& X) const {
   numpp::ndarray Xc = X.astype(numpp::kFloat64).ascontiguousarray();
   int64_t p = (Xc.ndim() == 1) ? 1 : Xc.shape()[1];
   const double* xp = Xc.typed_data<double>();
-  auto ip = d::iv(indptr_), id = d::iv(indices_); auto da = d::dv(data_);
   std::vector<double> Y(rows_ * p, 0.0);
-  for (int64_t i = 0; i < rows_; ++i)
-    for (int64_t k = ip[i]; k < ip[i + 1]; ++k) {
-      double v = da[k]; int64_t col = id[k];
-      for (int64_t c = 0; c < p; ++c) Y[i * p + c] += v * xp[col * p + c];
-    }
+  // SpMM = one SpMV per RHS column, each offloaded through the NumPP kernel.
+  numpp::ndarray xcol(numpp::Shape{cols_}, numpp::kFloat64);
+  double* cp = xcol.typed_data<double>();
+  for (int64_t c = 0; c < p; ++c) {
+    for (int64_t r = 0; r < cols_; ++r) cp[r] = xp[r * p + c];
+    numpp::ndarray ycol =
+        numpp::csr_spmv(indptr_, indices_, data_, xcol).astype(numpp::kFloat64).ascontiguousarray();
+    const double* ycp = ycol.typed_data<double>();
+    for (int64_t i = 0; i < rows_; ++i) Y[i * p + c] = ycp[i];
+  }
   return d::ld::from_mat(Y, rows_, p);
 }
 
 Backend last_backend() { return g_last; }
 
-// Backend dispatch: a device CSR kernel would be used when available and the
-// problem is large enough; the portable CPU kernel is always the fallback. The
-// device-reference path reuses the CPU math so results are provably equivalent.
+// Backend dispatch: NumPP's csr_spmv auto-selects a device backend above its
+// size threshold and always falls back to the portable CPU kernel, so the result
+// is provably equivalent. A `Cpu` request pins the CPU kernel; any other request
+// lets NumPP choose. last_backend() then reflects NumPP's actual choice (CPU
+// locally where NumPP is CPU-only; Device where a NumPP GPU variant is present).
 ndarray spmv(const CsrMatrix& A, const ndarray& x, Backend forced) {
-  const auto& reg = numpp::CapabilityRegistry::instance();
-  bool device = (forced == Backend::Device) ||
-                (A.nnz() >= 1 << 16 && reg.gpu_available(numpp::Backend::Device));
-  g_last = device ? Backend::Device : Backend::Cpu;
-  return A.spmv(x);
+  numpp::Backend nb =
+      (forced == Backend::Cpu) ? numpp::Backend::Cpu : numpp::Backend::Auto;
+  numpp::ndarray y = numpp::csr_spmv(A.indptr(), A.indices(), A.data(), x, nb);
+  g_last = map_backend(numpp::last_backend());
+  return y;
 }
 
 }  // namespace scipp::sparse

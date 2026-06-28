@@ -54,11 +54,16 @@ TEST_CASE("products and backend dispatch") {
   auto A = sp::CsrMatrix::from_dense(M(sp_A));
   cv(A.spmv(vec(G(sp_x))), G(sp_spmv));
   cv(A.spmm(M(sp_X)), golden::sp_spmm_d, golden::sp_spmm_r * golden::sp_spmm_c);
-  // dispatch: device-reference path equals CPU path, backend reported
+  // Dispatch now delegates to numpp::csr_spmv, which owns device offload + the
+  // CPU fallback. The dispatched SpMV still matches the SciPy oracle, and
+  // last_backend() reflects NumPP's actual choice (CPU locally as NumPP is
+  // CPU-only here; Device where a NumPP GPU variant is present).
+  cv(sp::spmv(A, vec(G(sp_x))), G(sp_spmv));
   auto ycpu = tov(sp::spmv(A, vec(G(sp_x)), sp::Backend::Cpu));
   CHECK(sp::last_backend() == sp::Backend::Cpu);
   auto ydev = tov(sp::spmv(A, vec(G(sp_x)), sp::Backend::Device));
-  CHECK(sp::last_backend() == sp::Backend::Device);
+  auto bk = sp::last_backend();
+  CHECK(bk == sp::Backend::Cpu || bk == sp::Backend::Device);
   for (size_t i = 0; i < ycpu.size(); ++i) CHECK_CLOSE(ycpu[i], ydev[i], 1e-12, 1e-12);
 }
 
