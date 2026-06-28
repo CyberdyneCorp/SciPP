@@ -5,6 +5,7 @@ add_executable(scypp_tests
   test_special_spherical_sici.cpp
   test_special_erf_extras.cpp
   test_special_misc.cpp
+  test_special_hypergeometric.cpp
   test_foundation.cpp
   test_constants.cpp
   test_linalg.cpp

@@ -163,6 +163,23 @@ double struve(double v, double x);
 double modstruve(double v, double x);
 double spence(double x);
 
+// ---- hypergeometric functions ---------------------------------------------
+// hyp0f1(b, x) = sum_n x^n / ((b)_n n!), the confluent 0F1 limit.
+// hyp1f1(a, b, x) = M(a, b, x), Kummer's confluent 1F1; the power series uses
+//   Kummer's transformation M(a,b,x) = e^x M(b-a,b,-x) for x < 0 so the summed
+//   terms stay positive. Delivered for moderate |a|, |b|, |x|.
+// hyp2f1(a, b, c, z) = Gauss 2F1; the power series converges for |z| < 1 and is
+//   extended toward |z| -> 1 with the standard linear transformations (Pfaff
+//   for z < 0, the 1 - z reflection for z in (1/2, 1)).
+// hyperu(a, b, x) = Tricomi's confluent U for x > 0, built from the two 1F1
+//   solutions; delivered for non-integer b.
+// Out-of-domain / unsupported regions return nan, following SciPy's no-throw
+// convention.
+double hyp0f1(double b, double x);
+double hyp1f1(double a, double b, double x);
+double hyp2f1(double a, double b, double c, double z);
+double hyperu(double a, double b, double x);
+
 // ---- stable reductions ----------------------------------------------------
 double  logsumexp(const ndarray& a);
 ndarray logsumexp(const ndarray& a, int axis, bool keepdims = false);

@@ -1110,6 +1110,32 @@ def main():
     emit_arr(out, "spence", [0.0, 0.1, 0.3, 0.5, 0.8, 1.0, 1.2, 1.5, 2.0, 3.0,
                              5.0, 10.0, 50.0, 100.0], sps.spence)
 
+    # ---- hypergeometric functions ----
+    # hyp0f1(b, x): confluent 0F1 limit on a moderate grid.
+    h0f1_x = [-4.0, -2.0, -0.5, 0.3, 1.0, 2.0, 4.0, 8.0]
+    emit_vec("h0f1_x", h0f1_x)
+    emit_vec("h0f1_b2", [sps.hyp0f1(2.0, x) for x in h0f1_x])
+    emit_vec("h0f1_bhalf", [sps.hyp0f1(0.5, x) for x in h0f1_x])
+    # hyp1f1(a, b, x) = M(a,b,x): both signs of x (Kummer transform path).
+    h1f1_x = [-5.0, -3.0, -1.0, -0.5, 0.5, 1.0, 2.0, 4.0, 6.0]
+    emit_vec("h1f1_x", h1f1_x)
+    emit_vec("h1f1_a", [sps.hyp1f1(1.5, 2.5, x) for x in h1f1_x])
+    emit_vec("h1f1_b", [sps.hyp1f1(-2.0, 3.0, x) for x in h1f1_x])  # polynomial case
+    emit_vec("h1f1_c", [sps.hyp1f1(0.5, 1.3, x) for x in h1f1_x])
+    # hyp2f1(a, b, c, z): direct series, Pfaff (z<0) and 1-z reflection (z->1).
+    h2f1_z = [-0.9, -0.6, -0.3, 0.0, 0.3, 0.5, 0.7, 0.85, 0.95]
+    emit_vec("h2f1_z", h2f1_z)
+    emit_vec("h2f1_a", [sps.hyp2f1(0.5, 1.0, 1.5, z) for z in h2f1_z])
+    emit_vec("h2f1_b", [sps.hyp2f1(1.0, 2.0, 3.5, z) for z in h2f1_z])
+    emit_vec("h2f1_c", [sps.hyp2f1(-1.5, 0.7, 2.2, z) for z in h2f1_z])
+    emit_scalar(out, "h2f1_one", sps.hyp2f1(0.5, 1.0, 3.0, 1.0))  # Gauss theorem
+    # hyperu(a, b, x): Tricomi U for x>0, non-integer b.
+    hu_x = [0.25, 0.5, 1.0, 2.0, 3.0, 5.0, 8.0]
+    emit_vec("hu_x", hu_x)
+    emit_vec("hu_a", [sps.hyperu(0.5, 1.3, x) for x in hu_x])
+    emit_vec("hu_b", [sps.hyperu(2.0, 0.4, x) for x in hu_x])
+    emit_vec("hu_c", [sps.hyperu(1.5, 2.7, x) for x in hu_x])
+
     out.append("}  // namespace golden")
     os.makedirs(os.path.dirname(GOLDEN), exist_ok=True)
     with open(GOLDEN, "w") as f:

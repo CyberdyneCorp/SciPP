@@ -9,5 +9,5 @@
 - [ ] More Bessel: `kelvin`, `hankel1`/`hankel2` (`spherical_jn`/`yn`/`in`/`kn` delivered via add-special-spherical-sici; kelvin/hankel deferred — complex-valued)
 - [x] Integrals: `sici`, `shichi` — delivered via add-special-spherical-sici
 - [x] Misc: `lambertw`, `zeta`/`zetac`, `struve`/`modstruve`, `spence` — delivered via add-special-misc
-- [ ] Hypergeometric: `hyp0f1`, `hyp1f1`, `hyp2f1`, `hyperu`
+- [x] Hypergeometric: `hyp0f1`, `hyp1f1`, `hyp2f1`, `hyperu` — delivered via add-special-hypergeometric
 - [ ] oracle tests for each family

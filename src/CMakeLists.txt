@@ -11,6 +11,7 @@ add_library(scypp
   special/orthogonal.cpp
   special/combinatorics.cpp
   special/misc.cpp
+  special/hypergeometric.cpp
   special/reductions.cpp
   constants/constants.cpp
   linalg/basic.cpp
