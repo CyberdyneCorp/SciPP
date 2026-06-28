@@ -818,6 +818,19 @@ def main():
     emit_vec("ode_radau2_t", te2)
     emit_mat(out, "ode_radau2_y", s2.y)  # shape (2, 5)
 
+    # ---- stiff ODE: solve_ivp method="BDF" (validated against analytic solution) ----
+    # Problem 1: y' = -20 y, y0 = 1  (exact exp(-20 t)).
+    tb1 = np.array([0.0, 0.1, 0.25, 0.5, 1.0])
+    emit_vec("ode_bdf1_t", tb1)
+    emit_vec("ode_bdf1_y", np.exp(-20.0 * tb1))
+    # Problem 2: stiff 2-D y1' = -100 y1 + y2, y2' = -y2, y0 = [1, 1].
+    # Analytic: y2 = exp(-t); y1 = (1 - 1/99) exp(-100 t) + (1/99) exp(-t).
+    tb2 = np.array([0.0, 0.05, 0.2, 0.5, 1.0])
+    y1b = (1.0 - 1.0 / 99.0) * np.exp(-100.0 * tb2) + (1.0 / 99.0) * np.exp(-tb2)
+    y2b = np.exp(-tb2)
+    emit_vec("ode_bdf2_t", tb2)
+    emit_mat(out, "ode_bdf2_y", np.vstack([y1b, y2b]))  # shape (2, 5)
+
     # ---- nested / extended quadrature ----
     # romberg was removed from scipy in 1.15; reference its value via quad (same oracle).
     emit_scalar(out, "romberg_sin", spi.quad(np.sin, 0.0, np.pi)[0])            # = 2

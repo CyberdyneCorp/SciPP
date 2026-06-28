@@ -5,7 +5,7 @@
 
 ## Stiff initial-value solvers
 - [x] FD Jacobian + Newton step infrastructure — delivered via `add-integrate-radau` (dense solve + central-difference Jacobian in `solve_ivp.cpp`)
-- [ ] `solve_ivp` method `"BDF"` (variable-order/step backward differentiation)
+- [x] `solve_ivp` method `"BDF"` (adaptive-step backward differentiation, order 1-2) — delivered via `add-integrate-bdf`
 - [x] `solve_ivp` method `"Radau"` (implicit Runge–Kutta, 3-stage) — delivered via `add-integrate-radau`
 - [ ] `solve_ivp` method `"LSODA"` (stiff/non-stiff switching)
 - [ ] legacy `odeint` entry point

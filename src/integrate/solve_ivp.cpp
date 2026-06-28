@@ -288,6 +288,131 @@ OdeResult radau_integrate(const OdeFn& f, std::pair<double, double> t_span,
   return r;
 }
 
+// ---- implicit (stiff) BDF solver: adaptive step, order 1-2 ----
+
+// Solve the implicit stage  y1 - rhs - ceff*h*f(t1, y1) = 0  by simplified Newton
+// with a frozen Jacobian J (n×n row-major). Returns y1; sets `ok` on convergence.
+std::vector<double> bdf_newton(const OdeFn& f, double t1, double h, double ceff,
+                               const std::vector<double>& rhs,
+                               const std::vector<double>& J, std::vector<double> y1,
+                               int& nfev, bool& ok) {
+  int n = static_cast<int>(rhs.size());
+  std::vector<double> M(n * n);  // Newton matrix I - ceff*h*J
+  for (int i = 0; i < n; ++i)
+    for (int j = 0; j < n; ++j)
+      M[i * n + j] = (i == j ? 1.0 : 0.0) - ceff * h * J[i * n + j];
+  ok = false;
+  for (int it = 0; it < 20; ++it) {
+    std::vector<double> fv = eval(f, t1, y1); ++nfev;
+    std::vector<double> neg(n);
+    for (int i = 0; i < n; ++i) neg[i] = -(y1[i] - rhs[i] - ceff * h * fv[i]);
+    std::vector<double> dy = dense_solve(M, neg, n);
+    double dn = 0, yn = 0;
+    for (int i = 0; i < n; ++i) { y1[i] += dy[i]; dn += dy[i] * dy[i]; yn += y1[i] * y1[i]; }
+    if (std::sqrt(dn) <= 1e-10 * (1.0 + std::sqrt(yn))) { ok = true; break; }
+  }
+  return y1;
+}
+
+OdeResult bdf_integrate(const OdeFn& f, std::pair<double, double> t_span,
+                        const ndarray& y0, std::optional<ndarray> t_eval,
+                        double rtol, double atol) {
+  double t0 = t_span.first, tf = t_span.second;
+  std::vector<double> y = sd::to_vec(y0);
+  int n = static_cast<int>(y.size());
+  int nfev = 0;
+
+  std::vector<double> teval;
+  if (t_eval) teval = sd::to_vec(*t_eval);
+  else teval = {t0, tf};
+
+  std::vector<std::vector<double>> ys;
+  std::vector<double> ts;
+  std::vector<double> fcur = eval(f, t0, y); ++nfev;
+  double t = t0;
+  double h = initial_step(f, t0, y, fcur, 2, rtol, atol, nfev);
+
+  const double SAFETY = 0.9, MINF = 0.2, MAXF = 4.0, err_exp = 0.5;
+  bool have_prev = false;
+  std::vector<double> yprev;
+  double hprev = 0.0;
+
+  size_t next = 0;
+  if (!teval.empty() && teval[0] == t0) { ts.push_back(t0); ys.push_back(y); ++next; }
+  bool success = true;
+  int max_steps = 1000000, steps = 0;
+
+  while (next < teval.size()) {
+    double target = teval[next];
+    while (t < target - 1e-15) {
+      if (++steps > max_steps) { success = false; break; }
+      double hcap = std::min(h, target - t);
+      if (have_prev) hcap = std::min(hcap, 10.0 * hprev);  // bound BDF2 step ratio
+      while (true) {
+        std::vector<double> J = fd_jacobian(f, t, y, nfev);  // frozen for this attempt
+        bool ok1 = false, ok2 = false, ok3 = false;
+        // BDF1 (implicit Euler): rhs = y, ceff = 1.
+        std::vector<double> yE = bdf_newton(f, t + hcap, hcap, 1.0, y, J, y, nfev, ok1);
+        std::vector<double> yadv(n), err(n);
+        if (have_prev) {
+          // Variable-step BDF2: y1 = a*y - b*yprev + c*h*f(t1, y1), r = h/hprev.
+          double r = hcap / hprev, den = 1.0 + 2.0 * r;
+          double a = (1.0 + r) * (1.0 + r) / den, b = r * r / den, c = (1.0 + r) / den;
+          std::vector<double> rhs2(n);
+          for (int i = 0; i < n; ++i) rhs2[i] = a * y[i] - b * yprev[i];
+          std::vector<double> y2 = bdf_newton(f, t + hcap, hcap, c, rhs2, J, yE, nfev, ok2);
+          ok3 = true;
+          for (int i = 0; i < n; ++i) err[i] = y2[i] - yE[i];  // order-1 vs order-2
+          yadv = y2;
+        } else {
+          // First step: step-doubling implicit Euler -> Richardson order 2.
+          std::vector<double> yh1 = bdf_newton(f, t + hcap / 2, hcap / 2, 1.0, y, J, y, nfev, ok2);
+          std::vector<double> yh2 = bdf_newton(f, t + hcap, hcap / 2, 1.0, yh1, J, yh1, nfev, ok3);
+          for (int i = 0; i < n; ++i) { err[i] = yh2[i] - yE[i]; yadv[i] = yh2[i] + err[i]; }
+        }
+        if (!(ok1 && ok2 && ok3)) {  // Newton failed -> shrink
+          hcap *= 0.5;
+          h = std::min(h, hcap);
+          if (hcap < 1e-14) { success = false; break; }
+          continue;
+        }
+        std::vector<double> scale(n);
+        for (int i = 0; i < n; ++i)
+          scale[i] = atol + std::max(std::fabs(y[i]), std::fabs(yadv[i])) * rtol;
+        double en = rms_norm(err, scale);
+        if (en < 1.0) {
+          double factor = (en == 0.0) ? MAXF
+                                      : std::max(MINF, std::min(MAXF, SAFETY * std::pow(en, -err_exp)));
+          yprev = y; hprev = hcap; have_prev = true;
+          t += hcap; y = yadv;
+          if (hcap == h) h *= factor;
+          break;
+        }
+        hcap *= std::max(MINF, SAFETY * std::pow(en, -err_exp));
+        h = std::min(h, hcap);
+      }
+      if (!success) break;
+    }
+    if (!success) break;
+    ts.push_back(target);
+    ys.push_back(y);
+    ++next;
+  }
+
+  OdeResult r;
+  r.t = sd::from_vec(ts);
+  ndarray Y(numpp::Shape{n, static_cast<int64_t>(ys.size())}, numpp::kFloat64);
+  double* yp = Y.typed_data<double>();
+  for (size_t j = 0; j < ys.size(); ++j)
+    for (int i = 0; i < n; ++i) yp[i * static_cast<int64_t>(ys.size()) + j] = ys[j][i];
+  r.y = Y;
+  r.success = success;
+  r.nfev = nfev;
+  r.message = success ? "The solver successfully reached the end of the integration interval."
+                      : "Maximum number of steps exceeded.";
+  return r;
+}
+
 }  // namespace
 
 OdeResult solve_ivp(const OdeFn& f, std::pair<double, double> t_span, const ndarray& y0,
@@ -295,6 +420,8 @@ OdeResult solve_ivp(const OdeFn& f, std::pair<double, double> t_span, const ndar
                     double atol) {
   if (method == "Radau")
     return radau_integrate(f, t_span, y0, t_eval, rtol, atol);
+  if (method == "BDF")
+    return bdf_integrate(f, t_span, y0, t_eval, rtol, atol);
 
   Tableau tab;
   if (method == "RK45") tab = rk45();

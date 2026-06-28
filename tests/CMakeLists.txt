@@ -18,6 +18,7 @@ add_executable(scypp_tests
   test_optimize_lp.cpp
   test_interpolate_griddata.cpp
   test_integrate_radau.cpp
+  test_integrate_bdf.cpp
   test_integrate_nested.cpp
   test_stats_normality.cpp)
 
