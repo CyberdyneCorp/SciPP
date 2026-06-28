@@ -12,6 +12,7 @@ add_executable(scypp_tests
   test_signal_extras.cpp
   test_signal_discrete.cpp
   test_sparse.cpp
+  test_sparse_csgraph.cpp
   test_spatial.cpp
   test_ndimage.cpp
   test_cluster_io.cpp

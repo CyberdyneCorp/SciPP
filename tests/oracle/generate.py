@@ -646,6 +646,53 @@ def main():
     mst = sscg.minimum_spanning_tree(ssp.csr_array(Gm))
     emit_scalar(out, "sp_mst_weight", mst.toarray().sum())
 
+    # traversal: breadth/depth-first order + predecessors
+    Gt = np.array([[0., 1., 0., 0., 1.], [0., 0., 1., 0., 0.], [0., 0., 0., 1., 0.],
+                   [0., 0., 0., 0., 0.], [0., 0., 1., 1., 0.]])
+    emit_mat(out, "sp_Gt", Gt)
+    gt = ssp.csr_array(Gt)
+    bno, bpr = sscg.breadth_first_order(gt, 0, directed=True)
+    emit_vec("sp_bfs_node", bno.astype(float))
+    emit_vec("sp_bfs_pred", bpr.astype(float))
+    dno, dpr = sscg.depth_first_order(gt, 0, directed=True)
+    emit_vec("sp_dfs_node", dno.astype(float))
+    emit_vec("sp_dfs_pred", dpr.astype(float))
+    # undirected traversal on a branchier graph (out-then-in neighbour order)
+    Gtu = np.array([[0., 0., 1., 0., 0., 1.], [1., 0., 0., 0., 0., 0.],
+                    [0., 0., 0., 1., 0., 0.], [0., 0., 0., 0., 0., 0.],
+                    [0., 1., 0., 0., 0., 0.], [0., 0., 0., 0., 1., 0.]])
+    emit_mat(out, "sp_Gtu", Gtu)
+    gtu = ssp.csr_array(Gtu)
+    uno, upr = sscg.breadth_first_order(gtu, 0, directed=False)
+    emit_vec("sp_bfsu_node", uno.astype(float))
+    emit_vec("sp_bfsu_pred", upr.astype(float))
+    vno, vpr = sscg.depth_first_order(gtu, 0, directed=False)
+    emit_vec("sp_dfsu_node", vno.astype(float))
+    emit_vec("sp_dfsu_pred", vpr.astype(float))
+
+    # johnson all-pairs (negative edges, directed)
+    Gj = np.array([[0., -2., 0., 0.], [0., 0., 2., 0.], [0., 0., 0., -1.], [3., 0., 0., 0.]])
+    emit_mat(out, "sp_Gj", Gj)
+    emit_mat(out, "sp_johnson", sscg.johnson(ssp.csr_array(Gj), directed=True))
+
+    # maximum flow (integer capacities)
+    Gf = np.array([[0., 3., 0., 3., 0., 0., 0.], [0., 0., 4., 0., 0., 0., 0.],
+                   [3., 0., 0., 1., 2., 0., 0.], [0., 0., 0., 0., 0., 6., 0.],
+                   [0., 0., 0., 0., 0., 0., 1.], [0., 0., 6., 0., 0., 0., 9.],
+                   [0., 0., 0., 0., 0., 0., 0.]])
+    emit_mat(out, "sp_Gf", Gf)
+    fres = sscg.maximum_flow(ssp.csr_array(Gf.astype(np.int64)), 0, 6)
+    emit_scalar(out, "sp_flow_value", float(fres.flow_value))
+
+    # maximum bipartite matching (graphs with unique maximum matchings)
+    Gb = np.array([[1., 0., 0.], [1., 1., 0.], [0., 0., 1.]])
+    emit_mat(out, "sp_Gb", Gb)
+    emit_vec("sp_bm_row", sscg.maximum_bipartite_matching(ssp.csr_array(Gb), "row").astype(float))
+    emit_vec("sp_bm_col", sscg.maximum_bipartite_matching(ssp.csr_array(Gb), "column").astype(float))
+    Gb2 = np.array([[1., 0.], [0., 1.], [0., 0.]])
+    emit_mat(out, "sp_Gb2", Gb2)
+    emit_vec("sp_bm2_col", sscg.maximum_bipartite_matching(ssp.csr_array(Gb2), "column").astype(float))
+
     # ---- spatial ----
     P = np.array([[0., 0.], [1., 0.], [0., 1.], [1., 1.], [0.5, 0.3], [0.2, 0.8]])
     Q = np.array([[2., 2.], [0.5, 0.5], [3., 1.]])

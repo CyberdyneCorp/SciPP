@@ -6,5 +6,5 @@
 - [ ] `sparse.linalg`: `eigsh`, `eigs`, `svds`
 - [ ] `splu`, `spilu`, `factorized`
 - [ ] `DIA`, `LIL`, `BSR` formats + operations
-- [ ] `csgraph`: `breadth_first_order`, `depth_first_order`, `johnson`, `maximum_flow`, `maximum_bipartite_matching`, strong/weak component modes
+- [x] `csgraph`: `breadth_first_order`, `depth_first_order`, `johnson`, `maximum_flow`, `maximum_bipartite_matching` — delivered via add-sparse-csgraph-traversal (strong/weak component modes still deferred)
 - [ ] oracle tests for each

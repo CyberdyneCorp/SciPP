@@ -85,6 +85,30 @@ struct ComponentsResult { int n_components; ndarray labels; };
 ComponentsResult connected_components(const CsrMatrix& graph, bool directed = true,
                                       const std::string& connection = "weak");
 CsrMatrix minimum_spanning_tree(const CsrMatrix& graph);
+
+// Traversal: node_array is the visitation order; predecessors[i] is the parent
+// of node i in the traversal tree (-9999 for the start node and unreachable
+// nodes). Both arrays are returned as float64 (read with typed_data<double>()).
+struct TraversalResult { ndarray node_array; ndarray predecessors; };
+TraversalResult breadth_first_order(const CsrMatrix& graph, int64_t i_start,
+                                    bool directed = true);
+TraversalResult depth_first_order(const CsrMatrix& graph, int64_t i_start,
+                                  bool directed = true);
+
+// Johnson's all-pairs shortest paths (handles negative edge weights).
+ndarray johnson(const CsrMatrix& graph, bool directed = true);
+
+// Maximum flow on an integer-capacity directed graph. flow holds the per-edge
+// flow on the original edges (float64 entries).
+struct MaximumFlowResult { int64_t flow_value; CsrMatrix flow; };
+MaximumFlowResult maximum_flow(const CsrMatrix& graph, int64_t source, int64_t sink);
+
+// Maximum-cardinality bipartite matching. perm_type "row" returns a length-cols
+// array whose j-th entry is the row matched to column j; "column" returns a
+// length-rows array whose i-th entry is the column matched to row i. Unmatched
+// vertices are -1. Returned as float64 (read with typed_data<double>()).
+ndarray maximum_bipartite_matching(const CsrMatrix& graph,
+                                   const std::string& perm_type = "row");
 }  // namespace csgraph
 
 }  // namespace scypp::sparse
