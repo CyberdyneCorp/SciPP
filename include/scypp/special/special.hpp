@@ -144,6 +144,25 @@ double comb(int n, int k, bool exact = false);
 double perm(int n, int k, bool exact = false);
 double factorial(int n, bool exact = false);
 
+// ---- misc special functions -----------------------------------------------
+// lambertw(x, k): real branches of the Lambert W function (inverse of
+//   w -> w e^w). k = 0 is the principal branch, defined for x >= -1/e; k = -1
+//   is defined on [-1/e, 0). SciPy returns complex; for these real branches the
+//   value equals SciPy's real part. Out of domain returns nan (no throw).
+// zeta(x) = Riemann zeta (Hurwitz with q = 1); zetac(x) = zeta(x) - 1. Real x
+//   via Euler-Maclaurin summation; zeta has a pole (+inf) at x = 1.
+// struve(v, x) / modstruve(v, x): Struve H_v and modified Struve L_v for real
+//   order v and argument x. Power series for small |x|, Bessel-based asymptotic
+//   expansion for large |x|. For x < 0 only integer v is defined (parity),
+//   non-integer v returns nan (matching SciPy).
+// spence(x) = Spence's dilogarithm Li_2(1 - x) (SciPy convention), x >= 0.
+double lambertw(double x, int k = 0);
+double zeta(double x);
+double zetac(double x);
+double struve(double v, double x);
+double modstruve(double v, double x);
+double spence(double x);
+
 // ---- stable reductions ----------------------------------------------------
 double  logsumexp(const ndarray& a);
 ndarray logsumexp(const ndarray& a, int axis, bool keepdims = false);

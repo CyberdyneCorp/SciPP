@@ -1079,6 +1079,37 @@ def main():
     emit_vec("shi_Shi", [v[0] for v in shv_])
     emit_vec("shi_Chi", [v[1] for v in shv_])
 
+    # ---- misc: lambertw / zeta / zetac / struve / modstruve / spence ----
+    # Lambert W principal branch (k=0), x >= -1/e; compare SciPy's real part.
+    lw0_x = [-0.36, -0.3, -0.2, -0.1, 1e-3, 0.5, 1.0, 2.0, 5.0, 10.0, 100.0, 1000.0]
+    emit_vec("lw0_x", lw0_x)
+    emit_vec("lw0", [sps.lambertw(x, 0).real for x in lw0_x])
+    # Lambert W k=-1 branch, on [-1/e, 0).
+    lwm1_x = [-0.36, -0.3, -0.2, -0.1, -0.05, -0.01, -1e-3, -1e-6]
+    emit_vec("lwm1_x", lwm1_x)
+    emit_vec("lwm1", [sps.lambertw(x, -1).real for x in lwm1_x])
+    # Riemann zeta and zetac on the real line (avoid the pole at x = 1).
+    zeta_x = [-3.0, -2.0, -1.0, -0.5, 0.0, 0.25, 0.5, 0.999, 1.001,
+              1.5, 2.0, 2.5, 3.0, 4.0, 5.0, 7.0, 10.0, 15.0]
+    emit_vec("zeta_x", zeta_x)
+    emit_vec("zeta_v", [sps.zeta(x) for x in zeta_x])
+    emit_vec("zetac_v", [sps.zetac(x) for x in zeta_x])
+    # Struve H_v and modified Struve L_v: grids stay out of the 13..18 band where
+    # the alternating series cancels before the asymptotic series converges.
+    struve_x = [0.5, 1.0, 2.0, 3.0, 5.0, 8.0, 10.0, 25.0, 30.0, 50.0]
+    emit_vec("struve_x", struve_x)
+    for v in (0, 1, 2):
+        emit_vec(f"struve_h{v}", [sps.struve(v, x) for x in struve_x])
+    emit_vec("struve_hhalf", [sps.struve(0.5, x) for x in struve_x])
+    mstruve_x = [0.5, 1.0, 2.0, 3.0, 5.0, 8.0, 10.0, 16.0, 20.0]
+    emit_vec("mstruve_x", mstruve_x)
+    for v in (0, 1, 2):
+        emit_vec(f"mstruve_l{v}", [sps.modstruve(v, x) for x in mstruve_x])
+    emit_vec("mstruve_lhalf", [sps.modstruve(0.5, x) for x in mstruve_x])
+    # Spence's dilogarithm Li_2(1 - x), x >= 0.
+    emit_arr(out, "spence", [0.0, 0.1, 0.3, 0.5, 0.8, 1.0, 1.2, 1.5, 2.0, 3.0,
+                             5.0, 10.0, 50.0, 100.0], sps.spence)
+
     out.append("}  // namespace golden")
     os.makedirs(os.path.dirname(GOLDEN), exist_ok=True)
     with open(GOLDEN, "w") as f:

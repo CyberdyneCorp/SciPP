@@ -10,6 +10,7 @@ add_library(scypp
   special/elliptic.cpp
   special/orthogonal.cpp
   special/combinatorics.cpp
+  special/misc.cpp
   special/reductions.cpp
   constants/constants.cpp
   linalg/basic.cpp
