@@ -166,6 +166,16 @@ TestResult ks_2samp(const ndarray& a, const ndarray& b);
 Chi2ContingencyResult chi2_contingency(const ndarray& table);
 TestResult normaltest(const ndarray& a);
 
+// ---- normality tests ----
+struct ShapiroResult { double statistic; double pvalue; };
+struct AndersonResult {
+  double statistic;
+  std::vector<double> critical_values;
+  std::vector<double> significance_level;
+};
+ShapiroResult shapiro(const ndarray& x);
+AndersonResult anderson(const ndarray& x);
+
 // ---- nonparametric rank tests ----
 TestResult mannwhitneyu(const ndarray& x, const ndarray& y);
 TestResult wilcoxon(const ndarray& x, const ndarray& y);

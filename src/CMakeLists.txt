@@ -36,6 +36,7 @@ add_library(scypp
   stats/kde.cpp
   stats/discrete.cpp
   stats/ranktests.cpp
+  stats/normality.cpp
   signal/convolution.cpp
   signal/windows.cpp
   signal/waveforms.cpp

@@ -748,6 +748,23 @@ def main():
     kt = sst.kendalltau(rx, ry, method="asymptotic")
     emit_scalar(out, "dd_kt_stat", kt.statistic); emit_scalar(out, "dd_kt_p", kt.pvalue)
 
+    # ---- normality tests: shapiro + anderson ----
+    nrm = np.array([2.1, 3.4, 1.9, 5.2, 2.8, 3.3, 4.1, 2.5, 3.9, 2.2, 4.5, 3.0,
+                    2.7, 3.6, 1.5, 4.8, 2.9, 3.2, 4.0, 2.6])
+    skw = np.array([1.0, 1.2, 1.1, 1.5, 2.0, 1.3, 1.8, 5.0, 1.1, 1.4, 2.2, 1.6,
+                    1.0, 3.5, 1.2, 1.7, 4.1, 1.3, 1.9, 1.1])
+    sml = np.array([1.0, 2.0, 4.0])
+    emit_vec("nm_normal", nrm); emit_vec("nm_skew", skw); emit_vec("nm_small", sml)
+    for tag, d in (("normal", nrm), ("skew", skw), ("small", sml)):
+        sw = sst.shapiro(d)
+        emit_scalar(out, f"nm_{tag}_sw_W", float(sw.statistic))
+        emit_scalar(out, f"nm_{tag}_sw_p", float(sw.pvalue))
+    for tag, d in (("normal", nrm), ("skew", skw)):
+        ad = sst.anderson(d, "norm")
+        emit_scalar(out, f"nm_{tag}_ad_A2", float(ad.statistic))
+        emit_vec(f"nm_{tag}_ad_crit", ad.critical_values)
+        emit_vec(f"nm_{tag}_ad_sig", ad.significance_level)
+
     # ---- linprog + nnls ----
     # LP1: min -x0 -2x1  s.t. x0+x1<=4, x0+3x1<=6  -> vertex (3,1), fun -5
     lp1 = spo.linprog([-1, -2], A_ub=[[1, 1], [1, 3]], b_ub=[4, 6], bounds=(0, None))

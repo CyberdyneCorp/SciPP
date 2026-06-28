@@ -18,7 +18,8 @@ add_executable(scypp_tests
   test_optimize_lp.cpp
   test_interpolate_griddata.cpp
   test_integrate_radau.cpp
-  test_integrate_nested.cpp)
+  test_integrate_nested.cpp
+  test_stats_normality.cpp)
 
 target_link_libraries(scypp_tests PRIVATE scypp::scypp numpp::numpp)
 
