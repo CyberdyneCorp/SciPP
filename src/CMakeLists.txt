@@ -24,6 +24,7 @@ add_library(scypp
   integrate/nested_quad.cpp
   integrate/solve_ivp.cpp
   integrate/differentiate.cpp
+  integrate/solve_bvp.cpp
   interpolate/interp1d.cpp
   interpolate/splines.cpp
   interpolate/regular_grid.cpp

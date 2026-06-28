@@ -852,6 +852,24 @@ def main():
     nq = spi.nquad(lambda x0, x1, x2: x0 * x1 * x2, [[0, 1], [0, 2], [0, 3]])[0]
     emit_scalar(out, "nquad_3d", nq)
 
+    # ---- two-point boundary value problems: solve_bvp ----
+    # Problem (a): y'' = -y as y0'=y1, y1'=-y0 on [0, pi/2], bc y0(0)=0, y0(pi/2)=1.
+    # Analytic: y0 = sin x, y1 = cos x.
+    xa = np.linspace(0.0, np.pi / 2.0, 11)
+    emit_vec("bvp_sin_x", xa)
+    emit_vec("bvp_sin_y0", np.sin(xa))
+    emit_vec("bvp_sin_y1", np.cos(xa))
+    sa = spi.solve_bvp(lambda x, y: np.vstack([y[1], -y[0]]),
+                       lambda ya, yb: np.array([ya[0], yb[0] - 1.0]),
+                       xa, np.vstack([np.zeros_like(xa), np.ones_like(xa)]))
+    emit_mat(out, "bvp_sin_scipy", sa.sol(xa))  # shape (2, 11)
+    # Problem (b): y'' = 6x as y0'=y1, y1'=6x on [0, 1], bc y0(0)=0, y0(1)=1.
+    # Analytic: y0 = x^3, y1 = 3 x^2.
+    xb = np.linspace(0.0, 1.0, 11)
+    emit_vec("bvp_cubic_x", xb)
+    emit_vec("bvp_cubic_y0", xb ** 3)
+    emit_vec("bvp_cubic_y1", 3.0 * xb ** 2)
+
     out.append("}  // namespace golden")
     os.makedirs(os.path.dirname(GOLDEN), exist_ok=True)
     with open(GOLDEN, "w") as f:

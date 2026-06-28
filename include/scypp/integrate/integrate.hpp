@@ -15,6 +15,8 @@ namespace scypp::integrate {
 using numpp::ndarray;
 using Integrand = std::function<double(double)>;             // R → R
 using OdeFn = std::function<ndarray(double, const ndarray&)>;  // (t, y) → dy/dt
+using BvpFn = std::function<ndarray(double, const ndarray&)>;  // (x, y) → dy/dx
+using BcFn = std::function<ndarray(const ndarray& ya, const ndarray& yb)>;  // bc residual
 using Integrand2 = std::function<double(double, double)>;          // f(y, x)
 using Integrand3 = std::function<double(double, double, double)>;  // f(z, y, x)
 using IntegrandN = std::function<double(const std::vector<double>&)>;
@@ -32,6 +34,13 @@ struct OdeResult {
   ndarray y;        // (n_states, n_times)
   bool success = false;
   int nfev = 0;
+  std::string message;
+};
+
+struct BvpResult {
+  ndarray x;        // (m,) mesh nodes
+  ndarray y;        // (n_states, m) solution at the nodes
+  bool success = false;
   std::string message;
 };
 
@@ -71,5 +80,13 @@ OdeResult solve_ivp(const OdeFn& f, std::pair<double, double> t_span, const ndar
                     const std::string& method = "RK45",
                     std::optional<ndarray> t_eval = std::nullopt, double rtol = 1e-3,
                     double atol = 1e-6);
+
+// ---- two-point boundary value problems ----
+// Solve y'(x) = fun(x, y) on a fixed mesh `x` (shape (m,)) subject to the
+// boundary condition bc(y(x[0]), y(x[-1])) = 0, given an initial guess `y`
+// (shape (n, m)). Uses 4th-order Lobatto/Simpson collocation with a global
+// Newton solve of the residual system. No adaptive mesh refinement.
+BvpResult solve_bvp(const BvpFn& fun, const BcFn& bc, const ndarray& x, const ndarray& y,
+                    double tol = 1e-8, int max_iter = 100);
 
 }  // namespace scypp::integrate

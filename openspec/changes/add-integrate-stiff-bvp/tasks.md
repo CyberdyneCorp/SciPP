@@ -12,8 +12,8 @@
 - [ ] Oracle tests on stiff systems (Van der Pol large μ, Robertson kinetics)
 
 ## Boundary-value problems
-- [ ] `solve_bvp` (collocation + Newton residual solve + mesh refinement)
-- [ ] Oracle tests against analytic BVP solutions
+- [x] `solve_bvp` (collocation + Newton residual solve) — delivered via `add-integrate-bvp` (4th-order collocation, fixed mesh; adaptive refinement deferred)
+- [x] Oracle tests against analytic BVP solutions — delivered via `add-integrate-bvp`
 
 ## Multidimensional / additional quadrature
 - [x] `dblquad`, `tplquad`, `nquad` (nested adaptive `quad`) — delivered via `add-integrate-nested-quad`
