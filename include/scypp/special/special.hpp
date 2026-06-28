@@ -70,6 +70,28 @@ ndarray i1(const ndarray& x);
 ndarray k0(const ndarray& x);
 ndarray k1(const ndarray& x);
 
+// ---- Airy functions -------------------------------------------------------
+// Ai, Ai', Bi, Bi' evaluated together (SciPy returns a 4-tuple). `airye`
+// returns the exponentially-scaled variants: for x >= 0,
+//   eAi = Ai*exp(zeta), eAip = Aip*exp(zeta), eBi = Bi*exp(-zeta),
+//   eBip = Bip*exp(-zeta)  with zeta = (2/3) x^{3/2};
+// for x < 0, eAi/eAip are nan (as SciPy) while eBi/eBip equal Bi/Bip.
+struct airy_t { double Ai, Aip, Bi, Bip; };
+airy_t airy(double x);
+airy_t airye(double x);
+
+// ---- elliptic integrals ---------------------------------------------------
+// Parameterized by m = k^2 (SciPy convention). Complete integrals use the
+// arithmetic-geometric-mean iteration; incomplete integrals use Carlson
+// symmetric forms; ellipj uses the descending Landen/AGM transformation.
+double ellipk(double m);       // complete K(m)
+double ellipkm1(double p);     // K(1 - p), accurate for small p (m near 1)
+double ellipe(double m);       // complete E(m)
+double ellipkinc(double phi, double m);  // incomplete F(phi | m)
+double ellipeinc(double phi, double m);  // incomplete E(phi | m)
+struct ellipj_t { double sn, cn, dn, ph; };
+ellipj_t ellipj(double u, double m);     // Jacobi elliptic functions
+
 // ---- orthogonal polynomial evaluators -------------------------------------
 double  eval_legendre(int n, double x);
 double  eval_chebyt(int n, double x);

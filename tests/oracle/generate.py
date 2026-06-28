@@ -977,6 +977,50 @@ def main():
     emit_vec("bvp_cubic_y0", xb ** 3)
     emit_vec("bvp_cubic_y1", 3.0 * xb ** 2)
 
+    # ---- Airy + elliptic integrals ----
+    def emit_vec(name, arr):  # local (mirrors the fft helper)
+        arr = np.asarray(arr, dtype=float).ravel()
+        out.append(f"inline const double {name}[] = {{{', '.join(fmt(v) for v in arr)}}};")
+        out.append(f"inline constexpr int {name}_n = {len(arr)};")
+
+    ax = [-8.0, -5.0, -2.0, -1.0, -0.5, -0.1, 0.0, 0.1, 0.5, 1.0, 2.0, 5.0, 8.0, 10.0]
+    emit_vec("ai_x", ax)
+    aiv = [sps.airy(x) for x in ax]
+    emit_vec("ai_Ai", [v[0] for v in aiv])
+    emit_vec("ai_Aip", [v[1] for v in aiv])
+    emit_vec("ai_Bi", [v[2] for v in aiv])
+    emit_vec("ai_Bip", [v[3] for v in aiv])
+    aex = [-8.0, -2.0, -0.5, 0.0, 0.5, 2.0, 5.0, 8.0, 10.0, 12.0]
+    emit_vec("aie_x", aex)
+    aiev = [sps.airye(x) for x in aex]
+    emit_vec("aie_Ai", [v[0] for v in aiev])
+    emit_vec("aie_Aip", [v[1] for v in aiev])
+    emit_vec("aie_Bi", [v[2] for v in aiev])
+    emit_vec("aie_Bip", [v[3] for v in aiev])
+
+    em = [-2.0, -1.0, -0.5, 0.0, 0.25, 0.5, 0.75, 0.9, 0.99]
+    emit_arr(out, "ellipk", em, sps.ellipk)
+    emit_arr(out, "ellipe", em, sps.ellipe)
+    ep = [1e-3, 0.01, 0.1, 0.25, 0.5, 0.9, 1.0]
+    emit_arr(out, "ellipkm1", ep, sps.ellipkm1)
+    # incomplete F(phi|m), E(phi|m): grids over (phi, m), including phi > pi/2
+    eiphi = [0.0, 0.3, 0.7, 1.0, 1.5, 2.0, 3.0, -0.5, -2.0]
+    for tag, mm in [("a", 0.3), ("b", 0.6), ("c", 0.9)]:
+        emit_vec(f"eiF_{tag}_phi", eiphi)
+        emit_vec(f"eiF_{tag}_out", [sps.ellipkinc(p, mm) for p in eiphi])
+        emit_vec(f"eiE_{tag}_out", [sps.ellipeinc(p, mm) for p in eiphi])
+        emit_scalar(out, f"ei_m_{tag}", mm)
+    # Jacobi elliptic functions: grids over (u, m)
+    eju = [0.0, 0.5, 1.0, 1.5, 2.5, 3.0, -1.0, -2.0]
+    for tag, mm in [("a", 0.3), ("b", 0.6), ("c", 0.9)]:
+        ejv = [sps.ellipj(u, mm) for u in eju]
+        emit_vec(f"ej_{tag}_u", eju)
+        emit_vec(f"ej_{tag}_sn", [v[0] for v in ejv])
+        emit_vec(f"ej_{tag}_cn", [v[1] for v in ejv])
+        emit_vec(f"ej_{tag}_dn", [v[2] for v in ejv])
+        emit_vec(f"ej_{tag}_ph", [v[3] for v in ejv])
+        emit_scalar(out, f"ej_m_{tag}", mm)
+
     out.append("}  // namespace golden")
     os.makedirs(os.path.dirname(GOLDEN), exist_ok=True)
     with open(GOLDEN, "w") as f:
