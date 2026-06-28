@@ -41,11 +41,23 @@ ndarray rfftn(const ndarray& a, std::optional<std::vector<int64_t>> s = std::nul
 ndarray irfftn(const ndarray& a, std::optional<std::vector<int64_t>> s = std::nullopt,
                const std::string& norm = "backward");
 
-// ---- discrete cosine / sine transforms (types 1-4, norm=None) ----
+// ---- discrete cosine / sine transforms (types 1-4) ----
+// norm in {"backward" (default), "ortho", "forward"} matches scipy.fft. The
+// "ortho" variant is orthogonalized so the coefficient matrix is orthonormal.
 ndarray dct(const ndarray& a, int type = 2, int64_t axis = -1, const std::string& norm = "backward");
 ndarray idct(const ndarray& a, int type = 2, int64_t axis = -1, const std::string& norm = "backward");
 ndarray dst(const ndarray& a, int type = 2, int64_t axis = -1, const std::string& norm = "backward");
 ndarray idst(const ndarray& a, int type = 2, int64_t axis = -1, const std::string& norm = "backward");
+
+// N-D variants: apply the 1-D transform over `axes` (default: all axes).
+ndarray dctn(const ndarray& a, int type = 2, std::optional<std::vector<int64_t>> axes = std::nullopt,
+             const std::string& norm = "backward");
+ndarray idctn(const ndarray& a, int type = 2, std::optional<std::vector<int64_t>> axes = std::nullopt,
+              const std::string& norm = "backward");
+ndarray dstn(const ndarray& a, int type = 2, std::optional<std::vector<int64_t>> axes = std::nullopt,
+             const std::string& norm = "backward");
+ndarray idstn(const ndarray& a, int type = 2, std::optional<std::vector<int64_t>> axes = std::nullopt,
+              const std::string& norm = "backward");
 
 // ---- helpers ----
 ndarray fftfreq(int64_t n, double d = 1.0);

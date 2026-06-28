@@ -226,10 +226,28 @@ def main():
         emit_vec(f"idct{t}", spf.idct(xr, type=t))
         emit_vec(f"idst{t}", spf.idst(xr, type=t))
 
+    # DCT/DST under norm="ortho" and norm="forward", all four types.
+    for t in (1, 2, 3, 4):
+        emit_vec(f"dct{t}_ortho", spf.dct(xr, type=t, norm="ortho"))
+        emit_vec(f"dst{t}_ortho", spf.dst(xr, type=t, norm="ortho"))
+        emit_vec(f"dct{t}_fwd", spf.dct(xr, type=t, norm="forward"))
+        emit_vec(f"dst{t}_fwd", spf.dst(xr, type=t, norm="forward"))
+        emit_vec(f"idct{t}_ortho", spf.idct(xr, type=t, norm="ortho"))
+        emit_vec(f"idst{t}_ortho", spf.idst(xr, type=t, norm="ortho"))
+        emit_vec(f"idct{t}_fwd", spf.idct(xr, type=t, norm="forward"))
+        emit_vec(f"idst{t}_fwd", spf.idst(xr, type=t, norm="forward"))
+
     # dct along axis=0 of a 2-D array
     X2 = np.array([[1., 2., 3.], [4., 5., 6.]])
     emit_mat(out, "fft_X2", X2)
     emit_mat(out, "fft_dct2_ax0", spf.dct(X2, type=2, axis=0))
+
+    # dctn/dstn over both axes of a 2-D array (default + ortho).
+    X3 = np.array([[1., 2., 3., 4.], [5., 6., 7., 8.], [9., 10., 11., 12.]])
+    emit_mat(out, "fft_X3", X3)
+    emit_mat(out, "fft_dctn2", spf.dctn(X3, type=2))
+    emit_mat(out, "fft_dctn2_ortho", spf.dctn(X3, type=2, norm="ortho"))
+    emit_mat(out, "fft_dstn3", spf.dstn(X3, type=3))
 
     emit_vec("fftfreq8", spf.fftfreq(8, 0.1))
     emit_vec("rfftfreq8", spf.rfftfreq(8, 0.1))

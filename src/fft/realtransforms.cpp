@@ -1,5 +1,15 @@
-// Discrete cosine/sine transforms (types I-IV, norm=None) via direct summation,
-// applied along a selectable axis. idct/idst use the inverse-type relations.
+// Discrete cosine/sine transforms (types I-IV) via direct summation, applied
+// along selectable axes. The unnormalized ("backward") line kernels match
+// scipy.fft; normalization and the orthogonalized variant are layered on top so
+// norm in {"backward", "ortho", "forward"} reproduce scipy.fft bit-for-bit.
+//
+// norm semantics (scipy.fft): map norm -> inorm code (backward=0, ortho=1,
+// forward=2). A forward transform applies that code; an inverse applies
+// (2 - code) and swaps DCT/DST type 2<->3. inorm scales the whole line by 1
+// (0), sqrt(1/S) (1) or 1/S (2), where S is the type's "logical" factor
+// (2(N-1) for DCT-I, 2(N+1) for DST-I, otherwise 2N). When norm=="ortho" the
+// transform is also orthogonalized: boundary samples are scaled by sqrt(2) so
+// the coefficient matrix becomes orthonormal.
 #include "scypp/fft/fft.hpp"
 
 #include <cmath>
@@ -83,7 +93,16 @@ std::vector<double> dst_line(const std::vector<double>& x, int type) {
   return y;
 }
 
-int inverse_type(int type) {  // 1<->1, 2<->3, 4<->4
+// Map a norm string to scipy's inorm code (0 backward, 1 ortho, 2 forward).
+int norm_code(const std::string& norm) {
+  if (norm == "backward") return 0;
+  if (norm == "ortho") return 1;
+  if (norm == "forward") return 2;
+  throw scypp::value_error("dct/dst: norm must be \"backward\", \"ortho\" or \"forward\"");
+}
+
+// Inverse swaps DCT/DST type 2<->3 (1 and 4 are their own inverse type).
+int inverse_type(int type) {
   switch (type) {
     case 1: return 1;
     case 2: return 3;
@@ -93,18 +112,35 @@ int inverse_type(int type) {  // 1<->1, 2<->3, 4<->4
   }
 }
 
-std::vector<double> idct_line(const std::vector<double>& x, int type) {
+// Full normalized line transform: input-boundary orthogonalization, unnormalized
+// kernel, output-boundary orthogonalization, then the inorm scale factor.
+std::vector<double> r2r_line(std::vector<double> x, int type, int inorm, bool ortho, bool is_dst) {
   int N = static_cast<int>(x.size());
-  double scale = (type == 1) ? (2.0 * (N - 1)) : (2.0 * N);
-  std::vector<double> y = dct_line(x, inverse_type(type));
-  for (double& v : y) v /= scale;
-  return y;
-}
-std::vector<double> idst_line(const std::vector<double>& x, int type) {
-  int N = static_cast<int>(x.size());
-  double scale = (type == 1) ? (2.0 * (N + 1)) : (2.0 * N);
-  std::vector<double> y = dst_line(x, inverse_type(type));
-  for (double& v : y) v /= scale;
+  const double s2 = std::sqrt(2.0);
+  if (ortho && N > 1) {
+    if (!is_dst) {
+      if (type == 1) { x[0] *= s2; x[N - 1] *= s2; }
+      else if (type == 3) { x[0] *= s2; }
+    } else {
+      if (type == 3) { x[N - 1] *= s2; }
+    }
+  }
+  std::vector<double> y = is_dst ? dst_line(x, type) : dct_line(x, type);
+  if (ortho && N > 1) {
+    if (!is_dst) {
+      if (type == 1) { y[0] /= s2; y[N - 1] /= s2; }
+      else if (type == 2) { y[0] /= s2; }
+    } else {
+      if (type == 2) { y[N - 1] /= s2; }
+    }
+  }
+  if (inorm != 0) {
+    double S;
+    if (!is_dst) S = (type == 1) ? 2.0 * (N - 1) : 2.0 * N;
+    else         S = (type == 1) ? 2.0 * (N + 1) : 2.0 * N;
+    double f = (inorm == 1) ? std::sqrt(1.0 / S) : (1.0 / S);
+    for (double& v : y) v *= f;
+  }
   return y;
 }
 
@@ -117,7 +153,7 @@ std::vector<int64_t> c_strides(const Shape& sh) {
 
 // Apply a 1-D real transform along `axis` of `a`, preserving shape.
 template <class LineFn>
-ndarray apply_axis(const ndarray& a, int64_t axis, int type, LineFn fn) {
+ndarray apply_axis(const ndarray& a, int64_t axis, LineFn fn) {
   ndarray ac = a.astype(numpp::kFloat64).ascontiguousarray();
   Shape sh = ac.shape();
   int nd = static_cast<int>(sh.size());
@@ -141,34 +177,83 @@ ndarray apply_axis(const ndarray& a, int64_t axis, int type, LineFn fn) {
       rem /= dimsz;
     }
     for (int64_t l = 0; l < L; ++l) line[l] = in[base + l * stride];
-    std::vector<double> r = fn(line, type);
+    std::vector<double> r = fn(line);
     for (int64_t l = 0; l < L; ++l) o[base + l * stride] = r[l];
   }
   return out;
 }
 
-void check_norm(const std::string& norm) {
-  if (norm != "backward")
-    throw scypp::not_implemented_error("dct/dst: only norm=\"backward\" is implemented");
+// Resolve the axis list for an N-D transform (default: every axis, in order).
+std::vector<int64_t> resolve_axes(const ndarray& a, const std::optional<std::vector<int64_t>>& axes) {
+  int nd = static_cast<int>(a.shape().size());
+  if (!axes) {
+    std::vector<int64_t> all(nd);
+    for (int i = 0; i < nd; ++i) all[i] = i;
+    return all;
+  }
+  std::vector<int64_t> out;
+  for (int64_t ax : *axes) {
+    int64_t a2 = ax < 0 ? ax + nd : ax;
+    if (a2 < 0 || a2 >= nd) throw scypp::value_error("axis out of range");
+    out.push_back(a2);
+  }
+  return out;
+}
+
+// One forward/inverse 1-D transform, applied along a single axis.
+ndarray r2r(const ndarray& a, int type, int64_t axis, int inorm, bool ortho, bool is_dst) {
+  return apply_axis(a, axis, [&](const std::vector<double>& line) {
+    return r2r_line(line, type, inorm, ortho, is_dst);
+  });
+}
+
+// One forward/inverse 1-D transform, applied successively over several axes.
+ndarray r2rn(const ndarray& a, int type, const std::optional<std::vector<int64_t>>& axes,
+             int inorm, bool ortho, bool is_dst) {
+  std::vector<int64_t> ax = resolve_axes(a, axes);
+  ndarray out = a.astype(numpp::kFloat64).ascontiguousarray();
+  for (int64_t axis : ax) out = r2r(out, type, axis, inorm, ortho, is_dst);
+  return out;
 }
 
 }  // namespace
 
 ndarray dct(const ndarray& a, int type, int64_t axis, const std::string& norm) {
-  check_norm(norm);
-  return apply_axis(a, axis, type, dct_line);
+  int code = norm_code(norm);
+  return r2r(a, type, axis, code, code == 1, /*is_dst=*/false);
 }
 ndarray idct(const ndarray& a, int type, int64_t axis, const std::string& norm) {
-  check_norm(norm);
-  return apply_axis(a, axis, type, idct_line);
+  int code = norm_code(norm);
+  return r2r(a, inverse_type(type), axis, 2 - code, code == 1, /*is_dst=*/false);
 }
 ndarray dst(const ndarray& a, int type, int64_t axis, const std::string& norm) {
-  check_norm(norm);
-  return apply_axis(a, axis, type, dst_line);
+  int code = norm_code(norm);
+  return r2r(a, type, axis, code, code == 1, /*is_dst=*/true);
 }
 ndarray idst(const ndarray& a, int type, int64_t axis, const std::string& norm) {
-  check_norm(norm);
-  return apply_axis(a, axis, type, idst_line);
+  int code = norm_code(norm);
+  return r2r(a, inverse_type(type), axis, 2 - code, code == 1, /*is_dst=*/true);
+}
+
+ndarray dctn(const ndarray& a, int type, std::optional<std::vector<int64_t>> axes,
+             const std::string& norm) {
+  int code = norm_code(norm);
+  return r2rn(a, type, axes, code, code == 1, /*is_dst=*/false);
+}
+ndarray idctn(const ndarray& a, int type, std::optional<std::vector<int64_t>> axes,
+              const std::string& norm) {
+  int code = norm_code(norm);
+  return r2rn(a, inverse_type(type), axes, 2 - code, code == 1, /*is_dst=*/false);
+}
+ndarray dstn(const ndarray& a, int type, std::optional<std::vector<int64_t>> axes,
+             const std::string& norm) {
+  int code = norm_code(norm);
+  return r2rn(a, type, axes, code, code == 1, /*is_dst=*/true);
+}
+ndarray idstn(const ndarray& a, int type, std::optional<std::vector<int64_t>> axes,
+              const std::string& norm) {
+  int code = norm_code(norm);
+  return r2rn(a, inverse_type(type), axes, 2 - code, code == 1, /*is_dst=*/true);
 }
 
 }  // namespace scypp::fft

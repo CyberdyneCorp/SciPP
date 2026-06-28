@@ -6,6 +6,7 @@
 #include "numpp/core/dtype.hpp"
 #include "numpp/core/ndarray.hpp"
 #include "numpp/umath/ufunc.hpp"  // numpp::real / numpp::imag
+#include "scypp/error.hpp"
 #include "scypp/fft/fft.hpp"
 #include "scypp_test.hpp"
 
@@ -76,6 +77,67 @@ TEST_CASE("DCT / DST inverses round-trip") {
     check_vec(ff::idct(ff::dct(x, t), t), V(fft_x), 1e-9, 1e-10);
     check_vec(ff::idst(ff::dst(x, t), t), V(fft_x), 1e-9, 1e-10);
   }
+}
+
+TEST_CASE("DCT / DST norm=ortho and forward match SciPy") {
+  auto x = vec(V(fft_x));
+  check_vec(ff::dct(x, 1, -1, "ortho"), V(dct1_ortho), 1e-9, 1e-10);
+  check_vec(ff::dct(x, 2, -1, "ortho"), V(dct2_ortho), 1e-9, 1e-10);
+  check_vec(ff::dct(x, 3, -1, "ortho"), V(dct3_ortho), 1e-9, 1e-10);
+  check_vec(ff::dct(x, 4, -1, "ortho"), V(dct4_ortho), 1e-9, 1e-10);
+  check_vec(ff::dst(x, 1, -1, "ortho"), V(dst1_ortho), 1e-9, 1e-10);
+  check_vec(ff::dst(x, 2, -1, "ortho"), V(dst2_ortho), 1e-9, 1e-10);
+  check_vec(ff::dst(x, 3, -1, "ortho"), V(dst3_ortho), 1e-9, 1e-10);
+  check_vec(ff::dst(x, 4, -1, "ortho"), V(dst4_ortho), 1e-9, 1e-10);
+  check_vec(ff::dct(x, 1, -1, "forward"), V(dct1_fwd), 1e-9, 1e-10);
+  check_vec(ff::dct(x, 2, -1, "forward"), V(dct2_fwd), 1e-9, 1e-10);
+  check_vec(ff::dct(x, 3, -1, "forward"), V(dct3_fwd), 1e-9, 1e-10);
+  check_vec(ff::dct(x, 4, -1, "forward"), V(dct4_fwd), 1e-9, 1e-10);
+  check_vec(ff::dst(x, 1, -1, "forward"), V(dst1_fwd), 1e-9, 1e-10);
+  check_vec(ff::dst(x, 2, -1, "forward"), V(dst2_fwd), 1e-9, 1e-10);
+  check_vec(ff::dst(x, 3, -1, "forward"), V(dst3_fwd), 1e-9, 1e-10);
+  check_vec(ff::dst(x, 4, -1, "forward"), V(dst4_fwd), 1e-9, 1e-10);
+  // inverse transforms under both norms
+  check_vec(ff::idct(x, 2, -1, "ortho"), V(idct2_ortho), 1e-9, 1e-10);
+  check_vec(ff::idst(x, 2, -1, "ortho"), V(idst2_ortho), 1e-9, 1e-10);
+  check_vec(ff::idct(x, 3, -1, "forward"), V(idct3_fwd), 1e-9, 1e-10);
+  check_vec(ff::idst(x, 3, -1, "forward"), V(idst3_fwd), 1e-9, 1e-10);
+}
+
+TEST_CASE("DCT / DST round-trip under every norm") {
+  auto x = vec(V(fft_x));
+  for (const char* nm : {"backward", "ortho", "forward"}) {
+    for (int t = 1; t <= 4; ++t) {
+      check_vec(ff::idct(ff::dct(x, t, -1, nm), t, -1, nm), V(fft_x), 1e-9, 1e-10);
+      check_vec(ff::idst(ff::dst(x, t, -1, nm), t, -1, nm), V(fft_x), 1e-9, 1e-10);
+    }
+  }
+}
+
+TEST_CASE("dct/dst reject an unknown norm") {
+  auto x = vec(V(fft_x));
+  CHECK_THROWS_AS(ff::dct(x, 2, -1, "bogus"), scypp::value_error);
+}
+
+TEST_CASE("dctn / dstn over all axes match SciPy") {
+  auto X3 = [] {
+    numpp::ndarray a(numpp::Shape{golden::fft_X3_r, golden::fft_X3_c}, numpp::kFloat64);
+    double* p = a.typed_data<double>();
+    for (int i = 0; i < golden::fft_X3_r * golden::fft_X3_c; ++i) p[i] = golden::fft_X3_d[i];
+    return a;
+  }();
+  auto check_mat = [](const numpp::ndarray& got, const double* exp, int n) {
+    auto g = contig(got);
+    for (int i = 0; i < n; ++i) CHECK_CLOSE(g[i], exp[i], 1e-9, 1e-10);
+  };
+  int n = golden::fft_X3_r * golden::fft_X3_c;
+  check_mat(ff::dctn(X3, 2), golden::fft_dctn2_d, n);
+  check_mat(ff::dctn(X3, 2, std::nullopt, "ortho"), golden::fft_dctn2_ortho_d, n);
+  check_mat(ff::dstn(X3, 3), golden::fft_dstn3_d, n);
+  // round-trip over both axes
+  check_mat(ff::idctn(ff::dctn(X3, 2)), golden::fft_X3_d, n);
+  check_mat(ff::idstn(ff::dstn(X3, 2, std::nullopt, "ortho"), 2, std::nullopt, "ortho"),
+            golden::fft_X3_d, n);
 }
 
 TEST_CASE("DCT along an axis") {

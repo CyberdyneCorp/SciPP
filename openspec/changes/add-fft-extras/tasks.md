@@ -2,8 +2,8 @@
 
 > Tracking artifact. Each item graduates into real implementation when picked up.
 
-- [ ] DCT/DST `ortho` and `forward` normalizations (types I–IV)
-- [ ] `dctn`, `idctn`, `dstn`, `idstn` (N-D over selectable axes)
+- [x] DCT/DST `ortho` and `forward` normalizations (types I–IV) — delivered via add-fft-dct-dst
+- [x] `dctn`, `idctn`, `dstn`, `idstn` (N-D over selectable axes) — delivered via add-fft-dct-dst
 - [ ] `fht`, `ifht` (Hankel transform)
 - [ ] `czt`, `zoom_fft`, `CZT` (chirp-z)
 - [ ] oracle tests for each
