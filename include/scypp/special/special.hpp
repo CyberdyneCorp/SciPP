@@ -87,6 +87,23 @@ ndarray i1(const ndarray& x);
 ndarray k0(const ndarray& x);
 ndarray k1(const ndarray& x);
 
+// ---- spherical Bessel functions -------------------------------------------
+// Integer order n >= 0 via the half-integer relation to the cylindrical
+// kernels: spherical_jn(n,x) = sqrt(pi/(2x)) jv(n+1/2, x) (yv/iv/kv likewise).
+// x = 0 limits and negative-argument continuations match SciPy.
+double spherical_jn(int n, double x);
+double spherical_yn(int n, double x);
+double spherical_in(int n, double x);
+double spherical_kn(int n, double x);
+
+// ---- sine / cosine integrals ----------------------------------------------
+// sici(x)   returns (Si, Ci): Si(x)=int_0^x sin t/t dt, Ci its cosine analogue.
+// shichi(x) returns (Shi, Chi): the hyperbolic sine/cosine integrals.
+struct sici_t { double Si, Ci; };
+struct shichi_t { double Shi, Chi; };
+sici_t sici(double x);
+shichi_t shichi(double x);
+
 // ---- Airy functions -------------------------------------------------------
 // Ai, Ai', Bi, Bi' evaluated together (SciPy returns a 4-tuple). `airye`
 // returns the exponentially-scaled variants: for x >= 0,

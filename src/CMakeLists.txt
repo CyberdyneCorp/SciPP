@@ -4,6 +4,8 @@ add_library(scypp
   special/erf_extras.cpp
   special/expint.cpp
   special/bessel.cpp
+  special/spherical_bessel.cpp
+  special/sici.cpp
   special/airy.cpp
   special/elliptic.cpp
   special/orthogonal.cpp

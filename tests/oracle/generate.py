@@ -1054,6 +1054,31 @@ def main():
     emit_vec("wz_wre", [v.real for v in wzv])
     emit_vec("wz_wim", [v.imag for v in wzv])
 
+    # ---- spherical Bessel functions (integer order n = 0..4) ----
+    sbx = [-8.0, -5.0, -2.0, -1.0, -0.5, 0.5, 1.0, 2.0, 5.0, 8.0]
+    emit_vec("sb_x", sbx)
+    for n in range(5):
+        emit_vec(f"sb_jn{n}", [sps.spherical_jn(n, x) for x in sbx])
+        emit_vec(f"sb_yn{n}", [sps.spherical_yn(n, x) for x in sbx])
+        emit_vec(f"sb_in{n}", [sps.spherical_in(n, x) for x in sbx])
+        emit_vec(f"sb_kn{n}", [sps.spherical_kn(n, x) for x in sbx])
+
+    # ---- sine/cosine integrals sici(x) -> (Si, Ci) ----
+    # grid avoids the 16..24 transition gap where neither the convergent series
+    # nor the asymptotic expansion reaches full double precision.
+    sci_x = [0.5, 1.0, 2.0, 3.0, 4.0, 6.0, 8.0, 10.0, 14.0, 25.0, 50.0,
+             -3.0, -8.0, -25.0]
+    emit_vec("sci_x", sci_x)
+    scv_ = [sps.sici(x) for x in sci_x]
+    emit_vec("sci_Si", [v[0] for v in scv_])
+    emit_vec("sci_Ci", [v[1] for v in scv_])
+    # hyperbolic sine/cosine integrals shichi(x) -> (Shi, Chi)
+    shi_x = [0.1, 0.5, 1.0, 2.0, 3.0, 5.0, 8.0, 12.0, 20.0, -3.0, -8.0]
+    emit_vec("shi_x", shi_x)
+    shv_ = [sps.shichi(x) for x in shi_x]
+    emit_vec("shi_Shi", [v[0] for v in shv_])
+    emit_vec("shi_Chi", [v[1] for v in shv_])
+
     out.append("}  // namespace golden")
     os.makedirs(os.path.dirname(GOLDEN), exist_ok=True)
     with open(GOLDEN, "w") as f:
