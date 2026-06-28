@@ -49,6 +49,7 @@ add_library(scypp
   signal/resample.cpp
   signal/peaks.cpp
   signal/lti.cpp
+  signal/dlti.cpp
   signal/spectral2.cpp
   signal/design2.cpp
   sparse/formats.cpp

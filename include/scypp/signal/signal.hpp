@@ -106,6 +106,20 @@ TimeResponse lsim(const TransferFunction& sys, const ndarray& u, const ndarray& 
 TimeResponse step(const TransferFunction& sys, const ndarray& t);
 TimeResponse impulse(const TransferFunction& sys, const ndarray& t);
 
+// ---- discrete-time LTI systems ----
+struct DiscreteStateSpace { ndarray A, B, C, D; double dt; };
+// Convert a continuous (A,B,C,D) state-space to discrete. method: "zoh"
+// (matrix-exponential), "bilinear" (Tustin), or "euler" (forward difference).
+DiscreteStateSpace cont2discrete(const StateSpace& sys, double dt,
+                                 const std::string& method = "zoh");
+DiscreteStateSpace cont2discrete(const TransferFunction& sys, double dt,
+                                 const std::string& method = "zoh");
+TimeResponse dstep(const DiscreteStateSpace& sys, int64_t n);
+TimeResponse dimpulse(const DiscreteStateSpace& sys, int64_t n);
+TimeResponse dlsim(const DiscreteStateSpace& sys, const ndarray& u, const ndarray& t = ndarray());
+FreqRespResult dfreqresp(const DiscreteStateSpace& sys, const ndarray& w);
+BodeResult dbode(const DiscreteStateSpace& sys, const ndarray& w);
+
 // ---- resampling ----
 ndarray resample(const ndarray& x, int64_t num);
 ndarray upfirdn(const ndarray& h, const ndarray& x, int up = 1, int down = 1);

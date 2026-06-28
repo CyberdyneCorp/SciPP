@@ -550,6 +550,32 @@ def main():
     _, ly, _ = ssg.lsim((num, den), U=lu, T=lt)
     emit_vec("se_lsim", ly)
 
+    # ---- discrete-time LTI ----
+    dA, dB, dC, dD = ssg.tf2ss(num, den)
+    ddt = 0.1
+    dAd, dBd, dCd, dDd, _ = ssg.cont2discrete((dA, dB, dC, dD), ddt, method="zoh")
+    emit_mat(out, "se_d_Ad", dAd); emit_vec("se_d_Bd", dBd.ravel())
+    emit_vec("se_d_Cd", dCd.ravel()); emit_vec("se_d_Dd", dDd.ravel())
+    bAd, bBd, bCd, bDd, _ = ssg.cont2discrete((dA, dB, dC, dD), ddt, method="bilinear")
+    emit_mat(out, "se_db_Ad", bAd); emit_vec("se_db_Bd", bBd.ravel())
+    emit_vec("se_db_Cd", bCd.ravel()); emit_vec("se_db_Dd", bDd.ravel())
+    eAd, eBd, eCd, eDd, _ = ssg.cont2discrete((dA, dB, dC, dD), ddt, method="euler")
+    emit_mat(out, "se_de_Ad", eAd); emit_vec("se_de_Bd", eBd.ravel())
+    nstep = 30
+    _, dys = ssg.dstep((dAd, dBd, dCd, dDd, ddt), n=nstep)
+    emit_vec("se_dstep", np.asarray(dys[0]).ravel())
+    _, dyi = ssg.dimpulse((dAd, dBd, dCd, dDd, ddt), n=nstep)
+    emit_vec("se_dimpulse", np.asarray(dyi[0]).ravel())
+    du = np.sin(np.arange(nstep) * ddt)
+    emit_vec("se_du", du)
+    _, dyl, _ = ssg.dlsim((dAd, dBd, dCd, dDd, ddt), du)
+    emit_vec("se_dlsim", np.asarray(dyl).ravel())
+    dw = np.logspace(-2, np.log10(np.pi), 32)
+    _, dh = ssg.dfreqresp((dAd, dBd, dCd, dDd, ddt), w=dw)
+    emit_vec("se_dw", dw); emit_vec("se_dfr_re", dh.real); emit_vec("se_dfr_im", dh.imag)
+    _, dmag, dph = ssg.dbode((dAd, dBd, dCd, dDd, ddt), w=dw)
+    emit_vec("se_dbode_mag", dmag); emit_vec("se_dbode_ph", dph)
+
     # resampling
     emit_vec("se_resample", ssg.resample(se_sig, 96))
     emit_vec("se_resample_poly", ssg.resample_poly(se_sig, 3, 2))

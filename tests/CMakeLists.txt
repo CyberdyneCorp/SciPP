@@ -10,6 +10,7 @@ add_executable(scypp_tests
   test_stats.cpp
   test_signal.cpp
   test_signal_extras.cpp
+  test_signal_discrete.cpp
   test_sparse.cpp
   test_spatial.cpp
   test_ndimage.cpp
