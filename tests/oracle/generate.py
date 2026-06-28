@@ -759,6 +759,21 @@ def main():
     emit_mat(out, "nnls_A2", nnls_A2); emit_vec("nnls_b2", nnls_b2)
     emit_vec("nnls_x2", nx2); emit_scalar(out, "nnls_rnorm2", float(nr2))
 
+    # ---- griddata (scattered 2-D interpolation) ----
+    gpts = np.array([[0.0, 0.0], [2.0, 0.0], [2.0, 2.0], [0.0, 2.0],
+                     [1.0, 1.0], [0.5, 1.5], [1.6, 0.4], [1.3, 1.7]])
+    # Linear field: linear interpolation is exact and triangulation-independent.
+    gval_lin = 2.0 * gpts[:, 0] + 3.0 * gpts[:, 1] + 1.0
+    # Nonlinear field for the nearest-neighbour case.
+    gval_nl = gpts[:, 0] ** 2 + gpts[:, 1]
+    gxi = np.array([[0.8, 0.8], [1.2, 1.0], [1.0, 1.2], [0.6, 0.6], [5.0, 5.0]])
+    emit_mat(out, "gd_pts", gpts)
+    emit_vec("gd_val_lin", gval_lin)
+    emit_vec("gd_val_nl", gval_nl)
+    emit_mat(out, "gd_xi", gxi)
+    emit_vec("gd_linear", spn.griddata(gpts, gval_lin, gxi, method="linear"))
+    emit_vec("gd_nearest", spn.griddata(gpts, gval_nl, gxi, method="nearest"))
+
     out.append("}  // namespace golden")
     os.makedirs(os.path.dirname(GOLDEN), exist_ok=True)
     with open(GOLDEN, "w") as f:

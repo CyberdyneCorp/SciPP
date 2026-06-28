@@ -4,6 +4,6 @@
 
 - [ ] `BSpline`, `make_interp_spline`, `splrep`/`splev`, `splint`/`sproot`
 - [ ] `UnivariateSpline`, `InterpolatedUnivariateSpline`, `LSQUnivariateSpline`, `splprep`
-- [ ] `griddata` (linear/cubic), `LinearNDInterpolator`, `NearestNDInterpolator`, `CloughTocher2DInterpolator` (needs spatial Delaunay)
+- [x] `griddata` (2-D nearest/linear) — delivered via `add-interpolate-griddata`; cubic/Clough-Tocher and N-D `LinearNDInterpolator`/`NearestNDInterpolator` still pending
 - [ ] `BarycentricInterpolator`, `KroghInterpolator`, makima, spline antiderivative/integral
 - [ ] oracle tests for each

@@ -27,6 +27,7 @@ add_library(scypp
   interpolate/splines.cpp
   interpolate/regular_grid.cpp
   interpolate/rbf.cpp
+  interpolate/griddata.cpp
   stats/special_inc.cpp
   stats/distributions.cpp
   stats/descriptive.cpp

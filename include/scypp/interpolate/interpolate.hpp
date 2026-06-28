@@ -2,6 +2,7 @@
 // scypp::interpolate — port of scipy.interpolate (Phase 6 subset). Interpolators
 // are stateful callables: construct from samples, then evaluate at query points.
 
+#include <limits>
 #include <optional>
 #include <string>
 #include <vector>
@@ -69,6 +70,14 @@ class RegularGridInterpolator {
 
 ndarray interpn(std::vector<ndarray> points, const ndarray& values, const ndarray& xi,
                 std::string method = "linear");
+
+// Interpolate scattered 2-D data onto query points. `points` is (n, 2), `values`
+// is (n,), `xi` is (m, 2). method = "nearest" | "linear". Query points outside the
+// convex hull get `fill_value` (NaN by default), matching
+// scipy.interpolate.griddata. "nearest" uses the value of the closest sample.
+ndarray griddata(const ndarray& points, const ndarray& values, const ndarray& xi,
+                 std::string method = "linear",
+                 double fill_value = std::numeric_limits<double>::quiet_NaN());
 
 // Scattered radial-basis-function interpolation.
 class RBFInterpolator {
