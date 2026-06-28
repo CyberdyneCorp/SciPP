@@ -756,6 +756,15 @@ def main():
     emit_mat(out, "ni_sobel1", sni.sobel(I, axis=1))
     emit_mat(out, "ni_laplace", sni.laplace(I))
     emit_vec("ni_corr1d", sni.correlate1d(I[0], np.array([1., 2., 1.])))
+    # correlate1d across boundary modes (asymmetric weights + origin shift) to
+    # regression-test the NumPP-delegated separable correlation path.
+    c1d_sig = np.array([1., 2., 3., 4., 5., 4., 3.])
+    c1d_w = np.array([0.25, 0.5, -0.25])
+    for m in ["reflect", "nearest", "mirror", "wrap", "constant"]:
+        emit_vec(f"ni_c1d_{m}", sni.correlate1d(c1d_sig, c1d_w, mode=m, cval=2.0))
+    emit_vec("ni_c1d_origin", sni.correlate1d(c1d_sig, c1d_w, mode="reflect", origin=1))
+    emit_vec("ni_c1d_sig", c1d_sig)
+    emit_vec("ni_c1d_wts", c1d_w)
 
     # morphology
     B = np.array([[0., 0., 0., 0., 0.], [0., 1., 1., 1., 0.], [0., 1., 1., 1., 0.],

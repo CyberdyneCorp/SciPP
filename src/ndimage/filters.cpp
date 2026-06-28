@@ -37,14 +37,34 @@ d::Img corr1d(const d::Img& im, const std::vector<double>& w, int axis, const st
   return out;
 }
 int real_axis(int axis, int /*ndim*/) { return axis < 0 ? 1 : axis; }
+
+// Map SciPP's mode string to NumPP's FilterMode (scipy.ndimage semantics).
+numpp::FilterMode to_filter_mode(const std::string& mode) {
+  if (mode == "constant") return numpp::FilterMode::Constant;
+  if (mode == "nearest") return numpp::FilterMode::Nearest;
+  if (mode == "mirror") return numpp::FilterMode::Mirror;
+  if (mode == "wrap") return numpp::FilterMode::Wrap;
+  return numpp::FilterMode::Reflect;  // default / "reflect"
+}
+// NumPP exposes a richer backend enum; collapse it to ndimage's {Cpu, Device}.
+// Locally NumPP is CPU-only so this yields Cpu; on a GPU build it reports Device.
+Backend from_numpp(numpp::Backend b) {
+  return (b == numpp::Backend::Cpu || b == numpp::Backend::Blas) ? Backend::Cpu : Backend::Device;
+}
 }  // namespace
 
 Backend last_backend() { return g_last; }
 
 ndarray correlate1d(const ndarray& input, const ndarray& weights, int axis, const std::string& mode,
                     double cval, int origin) {
-  d::Img im = d::to_img(input);
-  return d::to_nd(corr1d(im, ld::to_vec(weights), real_axis(axis, 2), mode, cval, origin));
+  // Delegate to NumPP's device-accelerable separable correlation. NumPP resolves
+  // negative axes itself and matches scipy.ndimage's boundary semantics, so the
+  // result is numerically identical to the old hand-rolled CPU loop while real
+  // device offload becomes possible. last_backend() reflects NumPP's choice.
+  ndarray out = numpp::correlate1d(input, weights, static_cast<int64_t>(axis),
+                                   static_cast<int64_t>(origin), to_filter_mode(mode), cval);
+  g_last = from_numpp(numpp::last_backend());
+  return out;
 }
 ndarray convolve1d(const ndarray& input, const ndarray& weights, int axis, const std::string& mode,
                    double cval, int origin) {

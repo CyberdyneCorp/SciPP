@@ -60,6 +60,24 @@ TEST_CASE("filters across modes") {
   for (size_t i = 0; i < a.size(); ++i) CHECK_CLOSE(a[i], b[i], 1e-12, 1e-12);
 }
 
+// Regression: correlate1d now delegates to numpp::correlate1d. Verify it still
+// matches scipy.ndimage.correlate1d across every boundary mode (asymmetric
+// weights + origin shift) and that last_backend() is reported. NumPP is CPU-only
+// locally so last_backend() == Cpu here; on a GPU build the same call offloads
+// and reports Device while producing identical numerics.
+TEST_CASE("correlate1d delegates to numpp across modes") {
+  auto sig = vec(golden::ni_c1d_sig, golden::ni_c1d_sig_n);
+  auto w = vec(golden::ni_c1d_wts, golden::ni_c1d_wts_n);
+  cv(ni::correlate1d(sig, w, -1, "reflect"), G(ni_c1d_reflect));
+  cv(ni::correlate1d(sig, w, -1, "nearest"), G(ni_c1d_nearest));
+  cv(ni::correlate1d(sig, w, -1, "mirror"), G(ni_c1d_mirror));
+  cv(ni::correlate1d(sig, w, -1, "wrap"), G(ni_c1d_wrap));
+  cv(ni::correlate1d(sig, w, -1, "constant", 2.0), G(ni_c1d_constant));
+  cv(ni::correlate1d(sig, w, -1, "reflect", 0.0, 1), G(ni_c1d_origin));
+  // last_backend() reflects NumPP's dispatch choice (Cpu in this CPU-only build).
+  CHECK(ni::last_backend() == ni::Backend::Cpu);
+}
+
 TEST_CASE("morphology") {
   auto B = M(ni_B);
   cv(ni::binary_erosion(B), golden::ni_erosion_d, MN(ni_erosion));
