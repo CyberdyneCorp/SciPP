@@ -257,6 +257,19 @@ def main():
     bf = spo.minimize(quad, [0.0, 0.0], method="BFGS")
     emit_mat(out, "opt_bfgs_quad", np.asarray(bf.x).reshape(-1, 1))
 
+    # additional minimize methods: Powell, CG, L-BFGS-B (Rosenbrock + shifted quadratic)
+    for tag, meth in [("powell", "Powell"), ("cg", "CG"), ("lbfgsb", "L-BFGS-B")]:
+        rr = spo.minimize(rosen, [-1.2, 1.0], method=meth)
+        emit_mat(out, f"opt_{tag}_rosen", np.asarray(rr.x).reshape(-1, 1))
+        emit_scalar(out, f"opt_{tag}_rosen_f", rr.fun)
+        qr = spo.minimize(quad, [0.0, 0.0], method=meth)
+        emit_mat(out, f"opt_{tag}_quad", np.asarray(qr.x).reshape(-1, 1))
+        emit_scalar(out, f"opt_{tag}_quad_f", qr.fun)
+    # L-BFGS-B with box bounds whose interior excludes the unconstrained min (3, -1)
+    br = spo.minimize(quad, [0.0, 0.0], method="L-BFGS-B", bounds=[(0.0, 2.0), (0.0, 5.0)])
+    emit_mat(out, "opt_lbfgsb_bnd", np.asarray(br.x).reshape(-1, 1))
+    emit_scalar(out, "opt_lbfgsb_bnd_f", br.fun)
+
     # curve_fit: a*exp(-b*x)+c, noise-free
     cf_x = np.linspace(0.0, 4.0, 20)
     cf_true = np.array([2.5, 1.3, 0.5])

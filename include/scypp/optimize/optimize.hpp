@@ -7,6 +7,7 @@
 #include <optional>
 #include <string>
 #include <utility>
+#include <vector>
 
 #include "numpp/core/ndarray.hpp"
 
@@ -68,8 +69,13 @@ ScalarMinResult minimize_scalar(const ScalarFn& f, const std::string& method = "
                                 double xtol = 1.48e-8, int maxiter = 500);
 
 // ---- multivariate minimization ----
+// Box bounds for L-BFGS-B: one (lo, hi) pair per coordinate. Use -inf / +inf
+// (or std::nullopt for the whole vector) to leave a side unbounded.
+using Bounds = std::vector<std::pair<double, double>>;
+
 OptimizeResult minimize(const ObjFn& f, const ndarray& x0, const std::string& method = "BFGS",
-                        double tol = 1e-8, int maxiter = 1000);
+                        double tol = 1e-8, int maxiter = 1000,
+                        std::optional<Bounds> bounds = std::nullopt);
 
 // ---- least squares / roots ----
 LeastSquaresResult least_squares(const VecFn& residual, const ndarray& x0,

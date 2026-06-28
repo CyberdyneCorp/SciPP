@@ -69,6 +69,58 @@ TEST_CASE("multivariate minimization") {
   CHECK_CLOSE(bf.fun, 0.0, 1e-8, 1e-8);
 }
 
+TEST_CASE("minimize methods: Powell, CG, L-BFGS-B") {
+  auto rosen = [](const numpp::ndarray& p) {
+    auto v = tov(p);
+    return (1 - v[0]) * (1 - v[0]) + 100.0 * (v[1] - v[0] * v[0]) * (v[1] - v[0] * v[0]);
+  };
+  auto quad = [](const numpp::ndarray& p) {
+    auto v = tov(p);
+    return (v[0] - 3.0) * (v[0] - 3.0) + (v[1] + 1.0) * (v[1] + 1.0);
+  };
+
+  // Powell (derivative-free direction set)
+  auto pw = op::minimize(rosen, vec({-1.2, 1.0}), "Powell");
+  CHECK(pw.success);
+  CHECK_CLOSE(at(pw.x, 0), golden::opt_powell_rosen_d[0], 1e-4, 1e-4);
+  CHECK_CLOSE(at(pw.x, 1), golden::opt_powell_rosen_d[1], 1e-4, 1e-4);
+  CHECK_CLOSE(pw.fun, golden::opt_powell_rosen_f, 1e-6, 1e-6);
+  auto pwq = op::minimize(quad, vec({0.0, 0.0}), "Powell");
+  CHECK_CLOSE(at(pwq.x, 0), golden::opt_powell_quad_d[0], 1e-4, 1e-4);
+  CHECK_CLOSE(at(pwq.x, 1), golden::opt_powell_quad_d[1], 1e-4, 1e-4);
+  CHECK_CLOSE(pwq.fun, golden::opt_powell_quad_f, 1e-6, 1e-8);
+
+  // CG (Polak-Ribiere+, numerical gradient)
+  auto cg = op::minimize(rosen, vec({-1.2, 1.0}), "CG");
+  CHECK(cg.success);
+  CHECK_CLOSE(at(cg.x, 0), golden::opt_cg_rosen_d[0], 1e-4, 1e-4);
+  CHECK_CLOSE(at(cg.x, 1), golden::opt_cg_rosen_d[1], 1e-4, 1e-4);
+  CHECK_CLOSE(cg.fun, golden::opt_cg_rosen_f, 1e-6, 1e-6);
+  auto cgq = op::minimize(quad, vec({0.0, 0.0}), "CG");
+  CHECK_CLOSE(at(cgq.x, 0), golden::opt_cg_quad_d[0], 1e-4, 1e-4);
+  CHECK_CLOSE(at(cgq.x, 1), golden::opt_cg_quad_d[1], 1e-4, 1e-4);
+  CHECK_CLOSE(cgq.fun, golden::opt_cg_quad_f, 1e-6, 1e-6);
+
+  // L-BFGS-B (unbounded)
+  auto lb = op::minimize(rosen, vec({-1.2, 1.0}), "L-BFGS-B");
+  CHECK(lb.success);
+  CHECK_CLOSE(at(lb.x, 0), golden::opt_lbfgsb_rosen_d[0], 1e-4, 1e-4);
+  CHECK_CLOSE(at(lb.x, 1), golden::opt_lbfgsb_rosen_d[1], 1e-4, 1e-4);
+  CHECK_CLOSE(lb.fun, golden::opt_lbfgsb_rosen_f, 1e-6, 1e-6);
+  auto lbq = op::minimize(quad, vec({0.0, 0.0}), "L-BFGS-B");
+  CHECK_CLOSE(at(lbq.x, 0), golden::opt_lbfgsb_quad_d[0], 1e-4, 1e-4);
+  CHECK_CLOSE(at(lbq.x, 1), golden::opt_lbfgsb_quad_d[1], 1e-4, 1e-4);
+  CHECK_CLOSE(lbq.fun, golden::opt_lbfgsb_quad_f, 1e-6, 1e-6);
+
+  // L-BFGS-B with box bounds whose interior excludes the unconstrained min (3, -1)
+  op::Bounds box = {{0.0, 2.0}, {0.0, 5.0}};
+  auto bnd = op::minimize(quad, vec({0.0, 0.0}), "L-BFGS-B", 1e-8, 1000, box);
+  CHECK(bnd.success);
+  CHECK_CLOSE(at(bnd.x, 0), golden::opt_lbfgsb_bnd_d[0], 1e-4, 1e-4);
+  CHECK_CLOSE(at(bnd.x, 1), golden::opt_lbfgsb_bnd_d[1], 1e-4, 1e-4);
+  CHECK_CLOSE(bnd.fun, golden::opt_lbfgsb_bnd_f, 1e-6, 1e-6);
+}
+
 TEST_CASE("curve_fit recovers parameters") {
   auto model = [](const numpp::ndarray& x, const numpp::ndarray& p) {
     auto xv = tov(x); auto pv = tov(p);
